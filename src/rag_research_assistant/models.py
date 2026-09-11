@@ -1,7 +1,7 @@
 """Data passed between the extraction and chunking stages."""
 
 from dataclasses import asdict, dataclass
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 
 @dataclass(frozen=True)
@@ -37,3 +37,23 @@ class SearchResult:
 
     score: float
     chunk: Chunk
+
+
+@dataclass(frozen=True)
+class CitationSource:
+    """Display metadata connecting a prompt citation to a retrieved chunk."""
+
+    citation_number: int
+    score: float
+    document: str
+    page_number: int
+    chunk_id: str
+
+
+@dataclass(frozen=True)
+class GroundedAnswer:
+    """A generated answer and the evidence available to the generator."""
+
+    text: str
+    sources: List[CitationSource]
+    retrieved: List[SearchResult]

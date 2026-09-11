@@ -12,6 +12,7 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.cache/
 .coverage
 htmlcov/
 .venv*/
@@ -29,6 +30,8 @@ data/papers/*
 data/processed/*
 !data/processed/.gitkeep
 *.pdf
+.ollama/
+*.gguf
 
 # Build output
 build/
