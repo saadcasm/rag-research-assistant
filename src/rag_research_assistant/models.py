@@ -30,3 +30,10 @@ class Chunk:
 
         return asdict(self)
 
+
+@dataclass(frozen=True)
+class SearchResult:
+    """One chunk returned by semantic search, paired with its score."""
+
+    score: float
+    chunk: Chunk

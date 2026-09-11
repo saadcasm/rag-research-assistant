@@ -14,7 +14,7 @@ __pycache__/
 .ruff_cache/
 .coverage
 htmlcov/
-.venv/
+.venv*/
 venv/
 env/
 
@@ -33,4 +33,3 @@ data/processed/*
 # Build output
 build/
 dist/
-
