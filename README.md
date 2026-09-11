@@ -1,14 +1,14 @@
 # RAG Research Assistant
 
 A portfolio project for learning retrieval-augmented generation by implementing
-its fundamental components directly. The project currently covers ingestion and
-local semantic retrieval:
+its fundamental components directly. The project currently covers ingestion,
+local semantic retrieval, and grounded local answer generation:
 
 ```text
-PDF -> extracted pages -> chunks + metadata -> embeddings -> cosine search
+PDF -> pages -> chunks -> embeddings -> retrieval -> context -> local LLM -> cited answer
 ```
 
-No RAG framework, vector database, LLM, agent, or web UI is used yet.
+No RAG framework, vector database, cloud LLM API, agent, or web UI is used.
 
 ## Phase 1 features
 
@@ -31,6 +31,17 @@ No RAG framework, vector database, LLM, agent, or web UI is used yet.
 - Calculates cosine similarity directly with NumPy and returns the top-k rows.
 - Displays score, filename, page, chunk ID, and a text preview.
 
+## Phase 3 features
+
+- Retrieves evidence before generation; the LLM never performs retrieval.
+- Formats ranked chunks as numbered, source-labelled context.
+- Builds an explicit prompt that restricts answers to supplied evidence.
+- Uses a configurable model through a locally running Ollama server.
+- Defaults to `qwen3.5:4b` and a conservative temperature of `0.1`.
+- Maps answer citations back to filenames, page numbers, and chunk IDs.
+- Optionally shows retrieved chunks before generation with `--show-context`.
+- Reports missing Ollama and missing models with actionable commands.
+
 ## Setup
 
 Python 3.10 or newer is required. The first install includes PyTorch and Sentence
@@ -44,6 +55,24 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
+```
+
+Phase 3 also requires Ollama. On macOS 14 or later, use the official installer:
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+Open the Ollama app, or start its local server from a terminal:
+
+```bash
+ollama serve
+```
+
+Download only the default Phase 3 generation model:
+
+```bash
+ollama pull qwen3.5:4b
 ```
 
 ## Use Phase 1
@@ -125,6 +154,38 @@ data/processed/embedding_index/
 Both files are generated and ignored by Git. Re-run `embed` whenever ingestion
 changes `chunks.jsonl`; search refuses to use a stale index.
 
+## Use Phase 3
+
+Once Ollama is running, the model is pulled, and the embedding index exists:
+
+```bash
+rag-research-assistant ask \
+  "How does retrieval augmented generation reduce hallucinations?" \
+  --top-k 5
+```
+
+Inspect the retrieved chunks before the LLM runs:
+
+```bash
+rag-research-assistant ask \
+  "How does retrieval augmented generation reduce hallucinations?" \
+  --top-k 5 \
+  --show-context
+```
+
+The generation model and temperature are configurable without changing the RAG
+pipeline:
+
+```bash
+rag-research-assistant ask \
+  "How does RAG work?" \
+  --model qwen3.5:4b \
+  --temperature 0.1
+```
+
+To use another local Ollama model, pull exactly that model and pass its name to
+`--model`. The embedding model does not change when the generation model changes.
+
 ## How the pipeline works
 
 `pdf.py` produces a `PageText` object for every physical PDF page. `chunking.py`
@@ -140,6 +201,29 @@ chunk construction traceable.
 
 See [the architecture note](docs/architecture.md) for the component boundaries
 and tradeoffs.
+
+## How grounded generation works
+
+Retrieval and generation remain separate. `retrieval.py` selects chunks using
+the Phase 2A embedding model and cosine similarity. `context.py` labels those
+chunks as `[1]`, `[2]`, and so on. `prompting.py` combines that evidence with the
+question and rules against unsupported claims. Only then does `generation.py`
+send one prompt to Ollama's local `/api/generate` endpoint. `rag.py` coordinates
+the stages but does not implement any of them.
+
+The local LLM receives the grounding rules, the complete formatted text of the
+retrieved chunks, their citation identifiers and metadata, and the question. It
+does not receive the embedding matrix, similarity algorithm, entire PDF files,
+or any unretrieved chunks.
+
+Ollama is the local model runtime: it manages downloaded model weights, loads
+them into memory, applies the model's prompt template, and performs inference.
+Qwen is the generation model that predicts the answer text. Sentence
+Transformers is a different model with a different job: it converts the question
+and chunks into vectors for retrieval.
+
+See [the Phase 3 learning guide](docs/phase-3-grounded-generation.md) for context
+windows, grounding, temperature, and failure-mode details.
 
 ## How semantic retrieval works
 
@@ -188,6 +272,26 @@ limitations.
   passage answers a question.
 - NumPy search scans every row. This is deliberately understandable and adequate
   for a learning corpus, but it is not an approximate index for large datasets.
+- Retrieval can select related but non-answering chunks. A grounded prompt cannot
+  repair missing evidence.
+- A local LLM can ignore instructions, misuse citations, or hallucinate despite
+  grounding. Citations must still be checked against the displayed sources.
+- Increasing top-k adds evidence but also consumes context-window space and can
+  introduce distracting passages.
+
+## Common Phase 3 failures
+
+- **Ollama missing:** install it with the command in Setup.
+- **Server unavailable:** open Ollama or run `ollama serve`.
+- **Model missing:** run `ollama pull qwen3.5:4b`, or pull the exact name passed
+  to `--model`.
+- **Embedding model cache missing:** run `rag-research-assistant embed` while
+  online once; query-time embedding loading is intentionally cache-only.
+- **Stale index:** rerun `rag-research-assistant embed` after ingestion changes.
+- **Weak answer with valid generation:** inspect `--show-context`. If the needed
+  evidence is absent, this is primarily a retrieval failure.
+- **Timeout, empty response, or Ollama HTTP error:** this is a generation/runtime
+  failure after retrieval has succeeded.
 
 ## Tests
 
@@ -205,12 +309,16 @@ rag-research-assistant/
 ├── docs/                # architecture notes
 ├── src/rag_research_assistant/
 │   ├── chunking.py      # normalization and chunk construction
-│   ├── cli.py           # ingest, inspect, embed, and search commands
+│   ├── cli.py           # ingest, inspect, embed, search, and ask commands
+│   ├── context.py       # source-labelled context and citation mapping
 │   ├── embeddings.py    # local Sentence Transformers adapter
+│   ├── generation.py    # generic generator interface and Ollama adapter
 │   ├── index.py         # NumPy persistence and integrity checks
 │   ├── models.py        # explicit pipeline data contracts
 │   ├── pdf.py           # PDF discovery and page extraction
 │   ├── pipeline.py      # ingestion orchestration and JSONL persistence
+│   ├── prompting.py     # grounded prompt construction
+│   ├── rag.py           # answer orchestration
 │   └── retrieval.py     # manual cosine similarity and top-k ranking
 ├── tests/
 ├── .env.example
@@ -220,6 +328,7 @@ rag-research-assistant/
 
 ## Roadmap
 
-Phase 2A stops at retrieval. A later phase can evaluate retrieval quality and
-only then introduce an LLM answering layer. Vector databases and RAG frameworks
-remain intentionally out of scope until the underlying mechanics are understood.
+Phase 3 completes a first local RAG loop but deliberately omits memory, chat
+history, web search, hybrid search, reranking, vector databases, and frameworks.
+The next useful step is evaluation: measure retrieval relevance, citation
+correctness, faithfulness, and answer quality before adding infrastructure.

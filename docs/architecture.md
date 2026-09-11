@@ -1,4 +1,4 @@
-# Phase 1 and Phase 2A architecture
+# Phase 1 through Phase 3 architecture
 
 ```text
 data/papers/*.pdf
@@ -36,7 +36,19 @@ same local embedding model     row-aligned chunk vectors
           NumPy cosine similarity (retrieval.py)
                        |
                        v
-          top-k Chunk + score results
+          top-k Chunk + score results (retrieval.py)
+                       |
+                       v
+       numbered source context (context.py)
+                       |
+                       v
+        grounded prompt (prompting.py)
+                       |
+                       v
+       local Ollama generator (generation.py)
+                       |
+                       v
+       cited answer + source mapping (rag.py)
 ```
 
 The page is the metadata boundary in Phase 1. A chunk never crosses pages, so a
@@ -80,3 +92,38 @@ approximate-nearest-neighbor index is introduced.
 The embedding model is deliberately stored in the manifest. A vector coordinate
 has meaning only within the model that learned that vector space, so a query from
 a different model must never be compared with the persisted document matrix.
+
+## Phase 3 component boundaries
+
+`context.py` transforms ranked `SearchResult` records into evidence blocks. Each
+block includes its citation number, filename, page, chunk ID, and full chunk
+text. It separately returns `CitationSource` records for display after generation.
+The citation map is therefore deterministic; the LLM does not invent the map.
+
+`prompting.py` receives only a question and formatted context. It states that the
+context is quoted data rather than instructions, restricts the answer to that
+evidence, requires numbered citations, and defines the insufficient-evidence
+behavior. Keeping this pure makes the exact LLM input easy to inspect and test.
+
+`generation.py` defines the small `TextGenerator` protocol. `OllamaGenerator` is
+one implementation that checks `GET /api/tags` for local availability and sends
+a non-streaming request to `POST /api/generate`. It knows nothing about chunks,
+embeddings, or retrieval. Another local runtime can implement the same protocol
+without changing context construction or answer orchestration.
+
+`rag.py` owns stage ordering:
+
+```text
+search -> optional debug callback -> context -> prompt -> generate -> GroundedAnswer
+```
+
+The debug callback runs after retrieval and before generation, which makes
+`--show-context` an honest view of the evidence the generator is about to see.
+If no chunks are retrieved, orchestration returns a deterministic
+insufficient-context response without calling the LLM.
+
+This separation exposes two fundamentally different failure classes. Retrieval
+failure means the right evidence was not selected; prompt wording or a larger LLM
+cannot recover evidence it never received. Generation failure means useful
+evidence was present but the runtime failed or the model produced an unsupported,
+incorrect, or poorly cited answer.
