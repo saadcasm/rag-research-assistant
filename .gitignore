@@ -29,6 +29,8 @@ data/papers/*
 !data/papers/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+data/evaluation/results/*
+!data/evaluation/results/.gitkeep
 *.pdf
 .ollama/
 *.gguf
