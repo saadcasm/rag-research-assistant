@@ -2,10 +2,13 @@
 
 A portfolio project for learning retrieval-augmented generation by implementing
 its fundamental components directly. The project currently covers ingestion,
-local semantic retrieval, and grounded local answer generation:
+local semantic retrieval, grounded local answer generation, and systematic
+evaluation:
 
 ```text
 PDF -> pages -> chunks -> embeddings -> retrieval -> context -> local LLM -> cited answer
+                                      |
+evaluation questions ----------------+-> metrics + diagnostic report
 ```
 
 No RAG framework, vector database, cloud LLM API, agent, or web UI is used.
@@ -41,6 +44,21 @@ No RAG framework, vector database, cloud LLM API, agent, or web UI is used.
 - Maps answer citations back to filenames, page numbers, and chunk IDs.
 - Optionally shows retrieved chunks before generation with `--show-context`.
 - Reports missing Ollama and missing models with actionable commands.
+
+## Phase 4 features
+
+- Tracks a manually curated JSONL dataset of 20 questions over the three local papers.
+- Separates fast retrieval evaluation from optional local generation evaluation.
+- Calculates Hit@1, Hit@3, Hit@5, first-correct rank, and expected-source recall.
+- Matches expected evidence by filename and optional page/chunk labels.
+- Excludes unanswerable questions from retrieval Hit@k rather than treating the
+  retriever's inevitable results as evidence.
+- Records every ranked chunk, score, source label, and full text for diagnosis.
+- Detects common refusal phrases with a small, documented heuristic.
+- Extracts numeric citations and rejects references to context items that were
+  never supplied.
+- Writes an ignored machine-readable report and a concise terminal summary.
+- Uses fakes in tests, so CI needs no PDFs, embedding download, Ollama, or Qwen.
 
 ## Setup
 
@@ -186,6 +204,53 @@ rag-research-assistant ask \
 To use another local Ollama model, pull exactly that model and pass its name to
 `--model`. The embedding model does not change when the generation model changes.
 
+## Use Phase 4
+
+The tracked dataset is `data/evaluation/questions.jsonl`. Retrieval-only
+evaluation is the default and does not contact Ollama:
+
+```bash
+rag-research-assistant evaluate
+```
+
+It evaluates 16 answerable or partially answerable questions at three cutoffs
+and reports the 4 unanswerable questions separately. Use `--verbose` to see the
+ranked filename/page results for every question:
+
+```bash
+rag-research-assistant evaluate --top-k 5 --verbose
+```
+
+`--top-k` is the maximum retrieval depth and must be at least 5 because Phase 4
+always calculates Hit@1, Hit@3, and Hit@5. The default machine report is written
+to `data/evaluation/results/latest.json`; generated reports are ignored by Git.
+
+Run the slower end-to-end evaluation only when Ollama and the selected model are
+available:
+
+```bash
+rag-research-assistant evaluate \
+  --with-generation \
+  --model qwen3.5:4b \
+  --temperature 0.1 \
+  --verbose
+```
+
+The generation report adds each answer, detected citation numbers, resolved
+source mappings, invalid references, refusal detection, and per-question errors.
+It does not assign a fabricated groundedness score or use an LLM as a judge.
+
+To add a question, append one JSON object on one line:
+
+```json
+{"id":"unique_id","question":"What does the paper claim?","answerability":"answerable","expected_sources":[{"document":"paper.pdf","page_number":3}],"notes":"Why this label is justified."}
+```
+
+Allowed answerability values are `answerable`, `partially_answerable`, and
+`unanswerable`. Unanswerable examples must have an empty `expected_sources`
+list. `page_number` may be omitted when only the document is known; `chunk_id`
+may be added when that exact chunk is intentionally part of the label.
+
 ## How the pipeline works
 
 `pdf.py` produces a `PageText` object for every physical PDF page. `chunking.py`
@@ -224,6 +289,28 @@ and chunks into vectors for retrieval.
 
 See [the Phase 3 learning guide](docs/phase-3-grounded-generation.md) for context
 windows, grounding, temperature, and failure-mode details.
+
+## How evaluation works
+
+`evaluation.py` runs the existing `search` function for each curated question.
+For answerable and partially answerable questions, a result matches an expected
+source when its filename and every supplied optional label (page and chunk ID)
+match. Hit@k is true when at least one expected source appears among the first
+`k` results. First-correct rank is the earliest such position. When several
+sources are expected, recall@k reports the fraction of distinct expected sources
+seen by that cutoff.
+
+Unanswerable questions are not assigned Hit@k. Cosine similarity always provides
+an ordering, even when every passage is irrelevant, so merely receiving five
+chunks does not prove that an answer exists. In generation mode, these examples
+instead test whether the model explicitly reports insufficient evidence.
+
+Citation validity only means a cited number maps to one of the supplied context
+blocks. It does not mean that block supports the associated claim. The report
+therefore preserves full retrieved text and generated answers for manual review.
+
+See [the Phase 4 evaluation guide](docs/phase-4-evaluation.md) for metric
+definitions, interpretation, limitations, and the measured baseline.
 
 ## How semantic retrieval works
 
@@ -278,6 +365,16 @@ limitations.
   grounding. Citations must still be checked against the displayed sources.
 - Increasing top-k adds evidence but also consumes context-window space and can
   introduce distracting passages.
+- Hit@k measures retrieval of manually labelled pages, not complete system
+  accuracy or answer quality.
+- Page-level labels can mark a retrieved chunk as a hit even when another chunk
+  on the same page contains the strongest wording.
+- Refusal detection is phrase matching and can miss a valid refusal or classify
+  unrelated cautious wording as a refusal.
+- Citation-reference validation checks numbering only, not whether a citation
+  semantically supports the claim.
+- The 20-question set is small, English-only, and tied to three papers. Its main
+  value is repeatable comparison, not a universal quality estimate.
 
 ## Common Phase 3 failures
 
@@ -304,14 +401,16 @@ pytest
 ```text
 rag-research-assistant/
 ├── data/
+│   ├── evaluation/      # tracked questions; ignored result reports
 │   ├── papers/          # private local PDFs (ignored)
-│   └── processed/       # generated chunks (ignored)
+│   └── processed/       # generated chunks and embeddings (ignored)
 ├── docs/                # architecture notes
 ├── src/rag_research_assistant/
 │   ├── chunking.py      # normalization and chunk construction
-│   ├── cli.py           # ingest, inspect, embed, search, and ask commands
+│   ├── cli.py           # ingest, inspect, embed, search, ask, and evaluate
 │   ├── context.py       # source-labelled context and citation mapping
 │   ├── embeddings.py    # local Sentence Transformers adapter
+│   ├── evaluation.py    # dataset, metrics, heuristics, and reports
 │   ├── generation.py    # generic generator interface and Ollama adapter
 │   ├── index.py         # NumPy persistence and integrity checks
 │   ├── models.py        # explicit pipeline data contracts
@@ -328,7 +427,7 @@ rag-research-assistant/
 
 ## Roadmap
 
-Phase 3 completes a first local RAG loop but deliberately omits memory, chat
-history, web search, hybrid search, reranking, vector databases, and frameworks.
-The next useful step is evaluation: measure retrieval relevance, citation
-correctness, faithfulness, and answer quality before adding infrastructure.
+Phase 4 establishes a reproducible local baseline but deliberately omits RAGAS,
+LLM judges, hybrid retrieval, reranking, vector databases, and frameworks. The
+next phase can improve one component at a time and compare it against the same
+questions instead of relying on impressions.

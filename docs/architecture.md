@@ -1,4 +1,4 @@
-# Phase 1 through Phase 3 architecture
+# Phase 1 through Phase 4 architecture
 
 ```text
 data/papers/*.pdf
@@ -49,6 +49,19 @@ same local embedding model     row-aligned chunk vectors
                        |
                        v
        cited answer + source mapping (rag.py)
+
+curated questions.jsonl
+        |
+        +------> existing semantic search
+                       |
+                       v
+ expected sources <-> ranked sources
+                       |
+                       v
+       Hit@k + first-correct rank
+                       |
+                       v
+       JSON report + terminal summary
 ```
 
 The page is the metadata boundary in Phase 1. A chunk never crosses pages, so a
@@ -127,3 +140,46 @@ failure means the right evidence was not selected; prompt wording or a larger LL
 cannot recover evidence it never received. Generation failure means useful
 evidence was present but the runtime failed or the model produced an unsupported,
 incorrect, or poorly cited answer.
+
+## Phase 4 component boundaries
+
+`evaluation.py` sits beside the production RAG path rather than inside it. It
+loads human labels, calls the existing `search` function, compares ranked chunks
+with expected sources, optionally invokes the existing prompt/generator
+components, and produces typed diagnostics. It does not reimplement embedding,
+cosine similarity, prompting, or Ollama access.
+
+The JSONL dataset is source-control input. Each line has a stable ID, question,
+answerability category, expected source list, and explanatory notes. A source
+requires an exact filename match. Page and chunk ID become additional exact
+constraints only when present. This supports page-level labels today without
+preventing more precise chunk labels later.
+
+Retrieval metrics are calculated only for `answerable` and
+`partially_answerable` examples. For each question, evaluation retrieves at least
+five chunks once, then derives Hit@1, Hit@3, and Hit@5 from prefixes of that same
+ranking. This avoids three embedding calls and ensures the cutoff comparison is
+internally consistent. Multiple labels use "any expected source" for Hit@k and
+"distinct expected sources found / expected sources" for recall@k.
+
+`unanswerable` examples deliberately keep their top-k results in the report but
+have null retrieval metrics. A dense retriever always ranks the available rows;
+there is no built-in "none of these passages answers the question" state.
+Refusal behavior therefore belongs to optional generation evaluation.
+
+Generation evaluation uses the same `build_context`, `build_grounded_prompt`,
+and `TextGenerator` boundary as Phase 3. Numeric bracket citations are extracted
+and resolved deterministically. Out-of-range numbers are invalid. This proves
+only that a cited context item exists—not that it entails the generated claim.
+The refusal detector is likewise a transparent phrase heuristic, not a
+factuality metric.
+
+Reports include embedding model, dimension, indexed chunk count, retrieval
+depth, optional generation settings, aggregate metrics, and full per-question
+context. Retrieval scores are reproducible when the dataset, chunks, model, and
+index are unchanged. The creation timestamp varies, and local LLM text may vary
+even at low temperature.
+
+Generated reports remain outside version control. Tests construct fake vectors
+and generators so CI validates orchestration and mathematics without private
+PDFs, network access, model downloads, or Ollama.
