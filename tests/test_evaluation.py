@@ -338,8 +338,9 @@ def test_report_serialization_contains_per_question_diagnostics(tmp_path: Path) 
     write_evaluation_report(report, output)
     value = json.loads(output.read_text())
 
-    assert value["schema_version"] == 2
+    assert value["schema_version"] == 3
     assert value["retrieval_strategy"] == "dense"
+    assert value["dense_backend"] == "numpy"
     assert value["retrieval_score_type"] == "cosine"
     assert value["dataset_path"] == "questions.jsonl"
     assert value["summary"]["hit_at_1"] == 1.0

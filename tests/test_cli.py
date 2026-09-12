@@ -1,4 +1,5 @@
 import numpy as np
+from pathlib import Path
 from types import SimpleNamespace
 
 from rag_research_assistant import cli
@@ -12,6 +13,7 @@ from rag_research_assistant.retrievers import (
     HybridRetriever,
     RerankingRetriever,
 )
+from rag_research_assistant.qdrant_store import QdrantIndexInfo
 
 
 class FakeQueryEmbedder:
@@ -114,6 +116,7 @@ def test_retriever_modes_construct_expected_strategy(monkeypatch) -> None:
         model_name="test/model",
     )
     monkeypatch.setattr(cli, "load_index", lambda chunks, path: index)
+    monkeypatch.setattr(cli, "read_jsonl", lambda path: [chunk])
     monkeypatch.setattr(cli, "SentenceTransformerEmbedder", lambda **kwargs: FakeQueryEmbedder())
 
     def args(strategy, rerank=False):
@@ -125,6 +128,10 @@ def test_retriever_modes_construct_expected_strategy(monkeypatch) -> None:
             chunks="chunks.jsonl",
             index="index",
             device=None,
+            dense_backend="numpy",
+            qdrant_path="qdrant",
+            collection="chunks",
+            document=None,
         )
 
     assert isinstance(cli._load_retriever(args("dense"))[2], DenseRetriever)
@@ -147,3 +154,68 @@ def test_cli_rejects_reranking_without_hybrid(monkeypatch, capsys) -> None:
 
     assert cli.main(["search", "question", "--retriever", "dense", "--rerank"]) == 2
     assert "--rerank requires --retriever hybrid" in capsys.readouterr().err
+
+
+def test_cli_rejects_document_filter_outside_qdrant_dense(capsys) -> None:
+    assert cli.main(["search", "question", "--document", "paper.pdf"]) == 2
+    assert "--document currently requires" in capsys.readouterr().err
+
+
+def test_qdrant_backend_selection_constructs_qdrant_dense_retriever(
+    monkeypatch,
+) -> None:
+    chunk = Chunk("one", "paper.pdf", 1, 1, 0, 8, "Evidence")
+    info = QdrantIndexInfo(
+        "chunks", Path("qdrant"), 1, 2, "Cosine", "test/model", "hash", 1
+    )
+    monkeypatch.setattr(cli, "read_jsonl", lambda path: [chunk])
+    monkeypatch.setattr(cli, "inspect_qdrant_index", lambda *args, **kwargs: info)
+    monkeypatch.setattr(
+        cli, "SentenceTransformerEmbedder", lambda **kwargs: FakeQueryEmbedder()
+    )
+    sentinel = SimpleNamespace(
+        name="dense", score_name="cosine", backend_name="qdrant"
+    )
+    monkeypatch.setattr(cli, "QdrantDenseRetriever", lambda *args, **kwargs: sentinel)
+    args = SimpleNamespace(
+        retriever="dense",
+        rerank=False,
+        candidate_depth=20,
+        reranker_model="fake/reranker",
+        chunks=Path("chunks.jsonl"),
+        index=Path("index"),
+        device=None,
+        dense_backend="qdrant",
+        qdrant_path=Path("qdrant"),
+        collection="chunks",
+        document="paper.pdf",
+    )
+
+    index, _, retriever, metadata = cli._load_retriever(args)
+
+    assert index is None
+    assert retriever is sentinel
+    assert metadata.embedding_model == "test/model"
+
+
+def test_qdrant_build_and_info_commands_report_collection(monkeypatch, capsys) -> None:
+    index = EmbeddingIndex(
+        embeddings=np.asarray([[1.0, 0.0]], dtype=np.float32),
+        chunks=[Chunk("one", "paper.pdf", 1, 1, 0, 8, "Evidence")],
+        model_name="test/model",
+    )
+    info = QdrantIndexInfo(
+        "chunks", Path("db"), 1, 2, "Cosine", "test/model", "hash", 1
+    )
+    monkeypatch.setattr(cli, "load_index", lambda *args: index)
+    monkeypatch.setattr(cli, "build_qdrant_index", lambda *args, **kwargs: info)
+
+    assert cli.main(["qdrant-build"]) == 0
+    assert "Stored 1 chunk vector(s)" in capsys.readouterr().out
+
+    monkeypatch.setattr(cli, "inspect_qdrant_index", lambda *args, **kwargs: info)
+    assert cli.main(["qdrant-info"]) == 0
+    output = capsys.readouterr().out
+    assert "Collection: chunks" in output
+    assert "Vector dimension: 2" in output
+    assert "Distance: Cosine" in output

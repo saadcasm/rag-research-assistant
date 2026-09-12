@@ -21,9 +21,17 @@ from .generation import (
     OllamaGenerator,
 )
 from .index import EmbeddingIndex, InvalidIndexError, build_index, load_index
-from .models import SearchResult
+from .models import CorpusIndexMetadata, SearchResult
 from .pdf import discover_pdfs
 from .pipeline import build_chunks, read_jsonl, write_jsonl
+from .qdrant_store import (
+    DEFAULT_COLLECTION_NAME,
+    DEFAULT_QDRANT_PATH,
+    InvalidQdrantIndexError,
+    QdrantDenseRetriever,
+    build_qdrant_index,
+    inspect_qdrant_index,
+)
 from .rag import answer_question
 from .reranking import DEFAULT_RERANKER_MODEL, CrossEncoderReranker
 from .retrievers import (
@@ -50,6 +58,14 @@ def _add_strategy_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--rerank", action="store_true")
     parser.add_argument("--candidate-depth", type=int, default=20)
     parser.add_argument("--reranker-model", default=DEFAULT_RERANKER_MODEL)
+    parser.add_argument(
+        "--dense-backend", choices=("numpy", "qdrant"), default="numpy"
+    )
+    parser.add_argument("--qdrant-path", type=Path, default=DEFAULT_QDRANT_PATH)
+    parser.add_argument("--collection", default=DEFAULT_COLLECTION_NAME)
+    parser.add_argument(
+        "--document", help="Qdrant dense-only filter for one exact filename"
+    )
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -86,6 +102,23 @@ def _parser() -> argparse.ArgumentParser:
     reranker_download.add_argument(
         "--device", help="Optional model device, e.g. cpu or mps"
     )
+
+    qdrant_build = subparsers.add_parser(
+        "qdrant-build", help="Persist the current NumPy vectors in local Qdrant"
+    )
+    qdrant_build.add_argument("--chunks", type=Path, default=DEFAULT_OUTPUT)
+    qdrant_build.add_argument("--index", type=Path, default=DEFAULT_INDEX)
+    qdrant_build.add_argument("--qdrant-path", type=Path, default=DEFAULT_QDRANT_PATH)
+    qdrant_build.add_argument("--collection", default=DEFAULT_COLLECTION_NAME)
+    qdrant_build.add_argument("--batch-size", type=int, default=64)
+    qdrant_build.add_argument("--recreate", action="store_true")
+
+    qdrant_info = subparsers.add_parser(
+        "qdrant-info", help="Inspect and validate the local Qdrant collection"
+    )
+    qdrant_info.add_argument("--chunks", type=Path, default=DEFAULT_OUTPUT)
+    qdrant_info.add_argument("--qdrant-path", type=Path, default=DEFAULT_QDRANT_PATH)
+    qdrant_info.add_argument("--collection", default=DEFAULT_COLLECTION_NAME)
 
     search_parser = subparsers.add_parser(
         "search", help="Search indexed chunks semantically"
@@ -150,6 +183,11 @@ def _parser() -> argparse.ArgumentParser:
     compare.add_argument("--candidate-depth", type=int, default=20)
     compare.add_argument("--reranker-model", default=DEFAULT_RERANKER_MODEL)
     compare.add_argument("--output", type=Path, default=DEFAULT_COMPARISON_OUTPUT)
+    compare.add_argument(
+        "--dense-backend", choices=("numpy", "qdrant"), default="numpy"
+    )
+    compare.add_argument("--qdrant-path", type=Path, default=DEFAULT_QDRANT_PATH)
+    compare.add_argument("--collection", default=DEFAULT_COLLECTION_NAME)
     return parser
 
 
@@ -181,7 +219,11 @@ def _print_evaluation(report: EvaluationReport, verbose: bool) -> None:
     print(f"Questions evaluated: {summary.questions_evaluated}")
     print(f"Retrieval questions: {summary.retrieval_questions}")
     print(f"Unanswerable questions: {summary.unanswerable_questions}")
-    print(f"Strategy: {report.retrieval_strategy} ({report.retrieval_score_type} score)")
+    backend = f", {report.dense_backend} dense backend" if report.dense_backend else ""
+    print(
+        f"Strategy: {report.retrieval_strategy} "
+        f"({report.retrieval_score_type} score{backend})"
+    )
     print("\nRetrieval")
     print(f"Hit@1: {_percentage(summary.hit_at_1)}")
     print(f"Hit@3: {_percentage(summary.hit_at_3)}")
@@ -238,24 +280,60 @@ def _print_evaluation(report: EvaluationReport, verbose: bool) -> None:
 
 def _load_retriever(
     args,
-) -> Tuple[EmbeddingIndex, Optional[Embedder], Retriever]:
+) -> Tuple[
+    Optional[EmbeddingIndex],
+    Optional[Embedder],
+    Retriever,
+    CorpusIndexMetadata,
+]:
     """Load shared corpus state and construct the requested ranking strategy."""
 
     if args.rerank and args.retriever != "hybrid":
         raise ValueError("--rerank requires --retriever hybrid")
     if args.candidate_depth <= 0:
         raise ValueError("candidate_depth must be positive")
-    index = load_index(args.chunks, args.index)
-    bm25 = BM25Retriever(BM25Index(index.chunks))
+    if args.document and (
+        args.dense_backend != "qdrant" or args.retriever != "dense"
+    ):
+        raise ValueError(
+            "--document currently requires --retriever dense --dense-backend qdrant"
+        )
+    chunks = read_jsonl(args.chunks)
+    bm25 = BM25Retriever(BM25Index(chunks))
+    index = None
     embedder = None
     dense = None
+    if args.dense_backend == "numpy":
+        index = load_index(args.chunks, args.index)
+        metadata = CorpusIndexMetadata(
+            index.model_name, index.dimension, len(index.chunks)
+        )
+    else:
+        qdrant_info = inspect_qdrant_index(
+            args.chunks,
+            args.qdrant_path,
+            collection_name=args.collection,
+        )
+        metadata = CorpusIndexMetadata(
+            qdrant_info.model_name, qdrant_info.dimension, qdrant_info.point_count
+        )
     if args.retriever != "bm25":
         embedder = SentenceTransformerEmbedder(
-            model_name=index.model_name,
+            model_name=metadata.embedding_model,
             device=args.device,
             local_files_only=True,
         )
-        dense = DenseRetriever(index, embedder)
+        if args.dense_backend == "numpy":
+            assert index is not None
+            dense = DenseRetriever(index, embedder)
+        else:
+            dense = QdrantDenseRetriever(
+                args.chunks,
+                args.qdrant_path,
+                embedder,
+                collection_name=args.collection,
+                document=args.document,
+            )
     selected: Retriever
     if args.retriever == "dense":
         assert dense is not None
@@ -276,21 +354,24 @@ def _load_retriever(
         selected = RerankingRetriever(
             selected, reranker, candidate_depth=args.candidate_depth
         )
-    return index, embedder, selected
+    return index, embedder, selected, metadata
 
 
 def _print_comparison(report) -> None:
     print("\nRetrieval strategy comparison")
-    print("Strategy          Hit@1   Hit@3   Hit@5   Mean first rank")
-    print("----------------  ------  ------  ------  ---------------")
+    print("Strategy                  Hit@1   Hit@3   Hit@5   Mean first rank")
+    print("------------------------  ------  ------  ------  ---------------")
     for metrics in report.strategies:
+        strategy_label = metrics.strategy
+        if metrics.dense_backend:
+            strategy_label += f":{metrics.dense_backend}"
         mean_rank = (
             "n/a"
             if metrics.mean_first_correct_rank is None
             else f"{metrics.mean_first_correct_rank:.2f}"
         )
         print(
-            f"{metrics.strategy:<16}"
+            f"{strategy_label:<24}"
             f"{_percentage(metrics.hit_at_1):>8}"
             f"{_percentage(metrics.hit_at_3):>8}"
             f"{_percentage(metrics.hit_at_5):>8}"
@@ -356,6 +437,51 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print(f"Cached local reranker: {args.model}")
         return 0
 
+    if args.command == "qdrant-build":
+        try:
+            index = load_index(args.chunks, args.index)
+            info = build_qdrant_index(
+                args.chunks,
+                args.qdrant_path,
+                index,
+                collection_name=args.collection,
+                recreate=args.recreate,
+                batch_size=args.batch_size,
+            )
+        except (
+            FileNotFoundError,
+            InvalidIndexError,
+            InvalidQdrantIndexError,
+            OSError,
+            ValueError,
+        ) as exc:
+            print(f"Error: Qdrant build failed: {exc}", file=sys.stderr)
+            return 2
+        print(
+            f"Stored {info.point_count} chunk vector(s) in {info.collection_name!r} "
+            f"at {info.storage_path} ({info.dimension}D, {info.distance})"
+        )
+        return 0
+
+    if args.command == "qdrant-info":
+        try:
+            info = inspect_qdrant_index(
+                args.chunks,
+                args.qdrant_path,
+                collection_name=args.collection,
+            )
+        except (InvalidQdrantIndexError, OSError, ValueError) as exc:
+            print(f"Error: Qdrant inspection failed: {exc}", file=sys.stderr)
+            return 2
+        print(f"Collection: {info.collection_name}")
+        print(f"Persisted path: {info.storage_path}")
+        print(f"Points: {info.point_count}")
+        print(f"Vector dimension: {info.dimension}")
+        print(f"Distance: {info.distance}")
+        print(f"Embedding model: {info.model_name}")
+        print(f"Search mode: {info.search_mode}")
+        return 0
+
     if args.command == "evaluate":
         if args.top_k < 5:
             print("Error: top_k must be at least 5 to calculate Hit@5", file=sys.stderr)
@@ -374,7 +500,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 return 2
         try:
             examples = load_evaluation_dataset(args.dataset)
-            index, embedder, retriever = _load_retriever(args)
+            index, embedder, retriever, metadata = _load_retriever(args)
             report = run_evaluation(
                 examples,
                 index,
@@ -384,9 +510,16 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 temperature=args.temperature,
                 dataset_path=str(args.dataset),
                 retriever=retriever,
+                corpus_metadata=metadata,
             )
             write_evaluation_report(report, args.output)
-        except (FileNotFoundError, InvalidIndexError, OSError, ValueError) as exc:
+        except (
+            FileNotFoundError,
+            InvalidIndexError,
+            InvalidQdrantIndexError,
+            OSError,
+            ValueError,
+        ) as exc:
             print(f"Error: evaluation failed: {exc}", file=sys.stderr)
             return 2
 
@@ -403,14 +536,40 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             return 2
         try:
             examples = load_evaluation_dataset(args.dataset)
-            index = load_index(args.chunks, args.index)
+            chunks = read_jsonl(args.chunks)
+            index = None
+            if args.dense_backend == "numpy":
+                index = load_index(args.chunks, args.index)
+                metadata = CorpusIndexMetadata(
+                    index.model_name, index.dimension, len(index.chunks)
+                )
+            else:
+                qdrant_info = inspect_qdrant_index(
+                    args.chunks,
+                    args.qdrant_path,
+                    collection_name=args.collection,
+                )
+                metadata = CorpusIndexMetadata(
+                    qdrant_info.model_name,
+                    qdrant_info.dimension,
+                    qdrant_info.point_count,
+                )
             embedder = SentenceTransformerEmbedder(
-                model_name=index.model_name,
+                model_name=metadata.embedding_model,
                 device=args.device,
                 local_files_only=True,
             )
-            dense = DenseRetriever(index, embedder)
-            bm25 = BM25Retriever(BM25Index(index.chunks))
+            if args.dense_backend == "numpy":
+                assert index is not None
+                dense: Retriever = DenseRetriever(index, embedder)
+            else:
+                dense = QdrantDenseRetriever(
+                    args.chunks,
+                    args.qdrant_path,
+                    embedder,
+                    collection_name=args.collection,
+                )
+            bm25 = BM25Retriever(BM25Index(chunks))
             hybrid = HybridRetriever(
                 dense, bm25, candidate_depth=args.candidate_depth, rrf_k=60
             )
@@ -431,12 +590,19 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                     retrieval_depth=args.top_k,
                     dataset_path=str(args.dataset),
                     retriever=retriever,
+                    corpus_metadata=metadata,
                 )
                 for retriever in (dense, bm25, hybrid, reranked)
             ]
             comparison = compare_reports(reports)
             write_comparison_report(comparison, args.output)
-        except (FileNotFoundError, InvalidIndexError, OSError, ValueError) as exc:
+        except (
+            FileNotFoundError,
+            InvalidIndexError,
+            InvalidQdrantIndexError,
+            OSError,
+            ValueError,
+        ) as exc:
             print(f"Error: comparison failed: {exc}", file=sys.stderr)
             return 2
         _print_comparison(comparison)
@@ -461,9 +627,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             return 2
 
         try:
-            index, embedder, retriever = _load_retriever(args)
-        except (FileNotFoundError, InvalidIndexError, OSError, ValueError) as exc:
-            print(f"Error: could not load the embedding index: {exc}", file=sys.stderr)
+            index, embedder, retriever, _ = _load_retriever(args)
+        except (
+            FileNotFoundError,
+            InvalidIndexError,
+            InvalidQdrantIndexError,
+            OSError,
+            ValueError,
+        ) as exc:
+            print(f"Error: could not load retrieval storage: {exc}", file=sys.stderr)
             return 2
         debug_callback = None
         if args.show_context:
@@ -503,9 +675,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print("Error: preview_chars must be positive", file=sys.stderr)
         return 2
     try:
-        _, _, retriever = _load_retriever(args)
+        _, _, retriever, _ = _load_retriever(args)
         results = retriever.search(args.query, top_k=args.top_k)
-    except (FileNotFoundError, InvalidIndexError, OSError, ValueError) as exc:
+    except (
+        FileNotFoundError,
+        InvalidIndexError,
+        InvalidQdrantIndexError,
+        OSError,
+        ValueError,
+    ) as exc:
         print(f"Error: search failed: {exc}", file=sys.stderr)
         return 2
     _print_retrieval(results, args.preview_chars, retriever.score_name)

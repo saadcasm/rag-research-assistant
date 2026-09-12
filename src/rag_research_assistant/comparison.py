@@ -11,6 +11,7 @@ from .evaluation import EvaluationReport
 @dataclass(frozen=True)
 class StrategyMetrics:
     strategy: str
+    dense_backend: str | None
     hit_at_1: float | None
     hit_at_3: float | None
     hit_at_5: float | None
@@ -81,6 +82,7 @@ def compare_reports(reports: Sequence[EvaluationReport]) -> ComparisonReport:
     metrics = [
         StrategyMetrics(
             report.retrieval_strategy,
+            report.dense_backend,
             report.summary.hit_at_1,
             report.summary.hit_at_3,
             report.summary.hit_at_5,

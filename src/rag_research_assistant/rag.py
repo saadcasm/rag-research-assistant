@@ -18,7 +18,7 @@ INSUFFICIENT_CONTEXT_ANSWER = (
 
 def answer_question(
     question: str,
-    index: EmbeddingIndex,
+    index: Optional[EmbeddingIndex],
     embedder: Optional[Embedder],
     generator: TextGenerator,
     top_k: int = 5,
@@ -33,8 +33,10 @@ def answer_question(
     if retriever is not None:
         selected_retriever = retriever
     else:
-        if embedder is None:
-            raise ValueError("embedder is required when no retriever is supplied")
+        if embedder is None or index is None:
+            raise ValueError(
+                "index and embedder are required when no retriever is supplied"
+            )
         selected_retriever = DenseRetriever(index, embedder)
     results = selected_retriever.search(question, top_k=top_k)
     if on_retrieved is not None:

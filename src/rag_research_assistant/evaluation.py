@@ -11,7 +11,7 @@ from .context import build_context
 from .embeddings import Embedder
 from .generation import DEFAULT_TEMPERATURE, GenerationError, TextGenerator
 from .index import EmbeddingIndex
-from .models import SearchResult
+from .models import CorpusIndexMetadata, SearchResult
 from .prompting import build_grounded_prompt
 from .retrievers import DenseRetriever, Retriever
 
@@ -151,6 +151,7 @@ class EvaluationReport:
     embedding_dimension: int
     indexed_chunks: int
     retrieval_strategy: str
+    dense_backend: Optional[str]
     retrieval_score_type: str
     reranker_model: Optional[str]
     generation_model: Optional[str]
@@ -478,7 +479,7 @@ def _summarize(results: Sequence[QuestionEvaluation]) -> EvaluationSummary:
 
 def evaluate(
     examples: Sequence[EvaluationExample],
-    index: EmbeddingIndex,
+    index: Optional[EmbeddingIndex],
     embedder: Optional[Embedder],
     *,
     retrieval_depth: int = 5,
@@ -486,6 +487,7 @@ def evaluate(
     temperature: float = DEFAULT_TEMPERATURE,
     dataset_path: str = "",
     retriever: Optional[Retriever] = None,
+    corpus_metadata: Optional[CorpusIndexMetadata] = None,
 ) -> EvaluationReport:
     """Run deterministic retrieval evaluation and optional local generation."""
 
@@ -499,9 +501,17 @@ def evaluate(
     if retriever is not None:
         selected_retriever = retriever
     else:
-        if embedder is None:
-            raise ValueError("embedder is required when no retriever is supplied")
+        if embedder is None or index is None:
+            raise ValueError(
+                "index and embedder are required when no retriever is supplied"
+            )
         selected_retriever = DenseRetriever(index, embedder)
+    if corpus_metadata is None:
+        if index is None:
+            raise ValueError("corpus_metadata is required without a NumPy index")
+        corpus_metadata = CorpusIndexMetadata(
+            index.model_name, index.dimension, len(index.chunks)
+        )
     question_results = [
         _evaluate_question(
             example,
@@ -512,12 +522,13 @@ def evaluate(
         for example in examples
     ]
     return EvaluationReport(
-        schema_version=2,
+        schema_version=3,
         created_at=datetime.now(timezone.utc).isoformat(),
-        embedding_model=index.model_name,
-        embedding_dimension=index.dimension,
-        indexed_chunks=len(index.chunks),
+        embedding_model=corpus_metadata.embedding_model,
+        embedding_dimension=corpus_metadata.embedding_dimension,
+        indexed_chunks=corpus_metadata.chunk_count,
         retrieval_strategy=selected_retriever.name,
+        dense_backend=getattr(selected_retriever, "backend_name", None),
         retrieval_score_type=selected_retriever.score_name,
         reranker_model=getattr(selected_retriever, "reranker_model", None),
         generation_model=generator.model_name if generator is not None else None,

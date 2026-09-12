@@ -40,6 +40,15 @@ class SearchResult:
 
 
 @dataclass(frozen=True)
+class CorpusIndexMetadata:
+    """Backend-neutral facts recorded with an evaluation report."""
+
+    embedding_model: str
+    embedding_dimension: int
+    chunk_count: int
+
+
+@dataclass(frozen=True)
 class CitationSource:
     """Display metadata connecting a prompt citation to a retrieved chunk."""
 

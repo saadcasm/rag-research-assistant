@@ -23,6 +23,7 @@ class Retriever(Protocol):
 class DenseRetriever:
     name = "dense"
     score_name = "cosine"
+    backend_name = "numpy"
 
     def __init__(self, index: EmbeddingIndex, embedder: Embedder) -> None:
         self.index = index
@@ -35,6 +36,7 @@ class DenseRetriever:
 class BM25Retriever:
     name = "bm25"
     score_name = "bm25"
+    backend_name = None
 
     def __init__(self, index: BM25Index) -> None:
         self.index = index
@@ -61,6 +63,7 @@ class HybridRetriever:
         self.lexical = lexical
         self.candidate_depth = candidate_depth
         self.rrf_k = rrf_k
+        self.backend_name = getattr(dense, "backend_name", None)
 
     def search(self, query: str, top_k: int = 5) -> List[SearchResult]:
         depth = max(top_k, self.candidate_depth)
@@ -84,6 +87,7 @@ class RerankingRetriever:
         self.reranker = reranker
         self.reranker_model = reranker.model_name
         self.candidate_depth = candidate_depth
+        self.backend_name = getattr(base, "backend_name", None)
 
     def search(self, query: str, top_k: int = 5) -> List[SearchResult]:
         candidates = self.base.search(query, top_k=max(top_k, self.candidate_depth))

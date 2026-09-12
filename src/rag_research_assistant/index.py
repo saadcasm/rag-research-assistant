@@ -36,7 +36,9 @@ class EmbeddingIndex:
         return int(self.embeddings.shape[1])
 
 
-def _file_sha256(path: Path) -> str:
+def file_sha256(path: Path) -> str:
+    """Fingerprint a file so derived indexes can detect stale source data."""
+
     digest = hashlib.sha256()
     with path.open("rb") as source:
         for block in iter(lambda: source.read(64 * 1024), b""):
@@ -79,7 +81,7 @@ def build_index(chunks_path: Path, index_dir: Path, embedder: Embedder) -> Embed
         "model_name": embedder.model_name,
         "chunk_count": len(chunks),
         "embedding_dimension": int(matrix.shape[1]),
-        "chunks_sha256": _file_sha256(chunks_path),
+        "chunks_sha256": file_sha256(chunks_path),
         "row_to_chunk_id": [chunk.chunk_id for chunk in chunks],
     }
     with (index_dir / MANIFEST_FILENAME).open("w", encoding="utf-8") as output:
@@ -104,7 +106,7 @@ def load_index(chunks_path: Path, index_dir: Path) -> EmbeddingIndex:
 
     if manifest.get("schema_version") != SCHEMA_VERSION:
         raise InvalidIndexError("unsupported embedding index schema; rebuild the index")
-    if manifest.get("chunks_sha256") != _file_sha256(chunks_path):
+    if manifest.get("chunks_sha256") != file_sha256(chunks_path):
         raise InvalidIndexError("chunks.jsonl changed after embedding; rebuild the index")
 
     chunks = read_jsonl(chunks_path)
