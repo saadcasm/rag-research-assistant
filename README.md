@@ -6,13 +6,13 @@ local semantic retrieval, grounded local answer generation, and systematic
 evaluation:
 
 ```text
-PDF -> pages -> chunks -> dense + BM25 -> RRF -> optional reranker -> context
-                                                              |
-                                                              v
-evaluation questions -> metrics + comparison             local LLM -> cited answer
+PDF -> pages -> chunks -> NumPy or Qdrant dense + BM25 -> RRF -> reranker
+                                                                  |
+                                                                  v
+evaluation questions -> metrics + comparison                context -> local LLM
 ```
 
-No RAG framework, vector database, cloud LLM API, agent, or web UI is used.
+No RAG framework, cloud service, cloud LLM API, agent, or web UI is used.
 
 ## Phase 1 features
 
@@ -71,6 +71,17 @@ No RAG framework, vector database, cloud LLM API, agent, or web UI is used.
 - Adds `compare` for the same-dataset four-strategy benchmark and rank deltas.
 - Labels cosine, BM25, RRF, and cross-encoder scores by type in terminal output.
 - Preserves dense retrieval as the default and all Phase 1–4 behavior.
+
+## Phase 6 features
+
+- Adds Qdrant as an optional, locally persisted dense-vector backend.
+- Keeps the transparent NumPy implementation as the default baseline.
+- Reuses the exact NumPy vectors for an apples-to-apples backend comparison.
+- Stores complete Chunk metadata as Qdrant point payload.
+- Detects stale chunks, model mismatch, dimensions, counts, and corrupt metadata.
+- Uses stable UUIDv5 point IDs so repeated builds do not create duplicates.
+- Supports exact document-filename filtering through Qdrant payload.
+- Keeps BM25, RRF, reranking, evaluation, and generation backend-independent.
 
 ## Setup
 
@@ -331,6 +342,72 @@ See [the Phase 5 learning guide](docs/phase-5-hybrid-retrieval.md) for the BM25
 formula, RRF, candidate retrieval, bi-encoder versus cross-encoder behavior,
 score interpretation, performance, and complete measured comparison.
 
+## Use Phase 6
+
+Build Qdrant from the existing validated NumPy index. This copies the exact
+vectors rather than embedding the corpus again:
+
+```bash
+rag-research-assistant qdrant-build
+rag-research-assistant qdrant-info
+```
+
+An existing compatible collection is updated with stable point IDs, so running
+the build twice does not create duplicates. If its model, dimension, source
+fingerprint, or schema differs, the command stops. Recreate it explicitly:
+
+```bash
+rag-research-assistant qdrant-build --recreate
+```
+
+NumPy remains the default. Select Qdrant on the existing commands:
+
+```bash
+rag-research-assistant search "What is RAG?" \
+  --retriever dense --dense-backend qdrant
+
+rag-research-assistant evaluate \
+  --retriever hybrid --dense-backend qdrant --rerank
+
+rag-research-assistant compare --dense-backend qdrant
+```
+
+Restrict a Qdrant dense search to one exact filename:
+
+```bash
+rag-research-assistant search "How does DPR compare with BM25?" \
+  --retriever dense \
+  --dense-backend qdrant \
+  --document dense-passage-retrieval.pdf
+```
+
+The default collection is `rag_research_chunks` under
+`data/processed/qdrant/`. That directory is generated, persistent, private, and
+ignored by Git.
+
+### Measured Phase 6 results
+
+| Strategy | Hit@1 | Hit@3 | Hit@5 | Mean first-correct rank |
+| --- | ---: | ---: | ---: | ---: |
+| Dense NumPy | 56.2% | 68.8% | 100.0% | 2.12 |
+| Dense Qdrant | 56.2% | 68.8% | 100.0% | 2.12 |
+| Qdrant hybrid + reranker | 75.0% | 100.0% | 100.0% | 1.38 |
+
+Across all 20 evaluation queries, NumPy and Qdrant returned identical top-five
+chunk orderings. Their largest observed cosine-score difference was about
+`9.3e-8`, caused by floating-point normalization: Qdrant normalizes cosine
+vectors on upload and implements cosine as a dot product.
+
+Single-process timings on this laptop were about 6.0 seconds for NumPy dense,
+4.7 seconds for Qdrant dense, and 10.5 seconds for Qdrant hybrid + reranking.
+Model and database startup dominate this tiny corpus, so these runs do not prove
+Qdrant is faster. The infrastructure value is persistence, payload filtering,
+validation, and a path toward scalable indexing.
+
+See [the Phase 6 learning guide](docs/phase-6-qdrant.md) for collections,
+points, payloads, cosine storage, exact search, HNSW, filtering, and the complete
+backend comparison.
+
 ## How the pipeline works
 
 `pdf.py` produces a `PageText` object for every physical PDF page. `chunking.py`
@@ -349,12 +426,13 @@ and tradeoffs.
 
 ## How grounded generation works
 
-Retrieval and generation remain separate. `retrieval.py` selects chunks using
-the Phase 2A embedding model and cosine similarity. `context.py` labels those
-chunks as `[1]`, `[2]`, and so on. `prompting.py` combines that evidence with the
-question and rules against unsupported claims. Only then does `generation.py`
-send one prompt to Ollama's local `/api/generate` endpoint. `rag.py` coordinates
-the stages but does not implement any of them.
+Retrieval and generation remain separate. The selected retriever returns the
+same `SearchResult` contract whether dense vectors came from NumPy or Qdrant.
+`context.py` labels those chunks as `[1]`, `[2]`, and so on. `prompting.py`
+combines that evidence with the question and rules against unsupported claims.
+Only then does `generation.py` send one prompt to Ollama's local
+`/api/generate` endpoint. `rag.py` coordinates the stages but does not implement
+any of them.
 
 The local LLM receives the grounding rules, the complete formatted text of the
 retrieved chunks, their citation identifiers and metadata, and the question. It
@@ -447,6 +525,11 @@ limitations.
   judged imperfectly.
 - NumPy search scans every row. This is deliberately understandable and adequate
   for a learning corpus, but it is not an approximate index for large datasets.
+- Local Qdrant adds database and serialization overhead that is unnecessary for
+  209 vectors. Its benefit is the production-style storage boundary, payloads,
+  filtering, persistence, and future scalable indexing—not automatic quality.
+- The single filename filter is intentionally narrow and has no payload index at
+  this corpus size. Larger collections should index commonly filtered fields.
 - Retrieval can select related but non-answering chunks. A grounded prompt cannot
   repair missing evidence.
 - A local LLM can ignore instructions, misuse citations, or hallucinate despite
@@ -474,6 +557,8 @@ limitations.
   online once; query-time embedding loading is intentionally cache-only.
 - **Reranker cache missing:** run `rag-research-assistant reranker-download`
   while online once; retrieval-time reranker loading is cache-only.
+- **Qdrant missing, stale, or incompatible:** run `qdrant-info` for the exact
+  reason, then use `qdrant-build --recreate` when replacement is intentional.
 - **Stale index:** rerun `rag-research-assistant embed` after ingestion changes.
 - **Weak answer with valid generation:** inspect `--show-context`. If the needed
   evidence is absent, this is primarily a retrieval failure.
@@ -510,6 +595,7 @@ rag-research-assistant/
 │   ├── pdf.py           # PDF discovery and page extraction
 │   ├── pipeline.py      # ingestion orchestration and JSONL persistence
 │   ├── prompting.py     # grounded prompt construction
+│   ├── qdrant_store.py  # persistent Qdrant collection and dense retriever
 │   ├── rag.py           # answer orchestration
 │   ├── reranking.py     # optional local cross-encoder adapter
 │   ├── retrieval.py     # manual cosine similarity and top-k ranking
@@ -522,7 +608,7 @@ rag-research-assistant/
 
 ## Roadmap
 
-Phase 5 establishes a measured hybrid-and-reranking pipeline but deliberately
-omits RAG frameworks, vector databases, query rewriting, web search, LLM judges,
-servers, and UI. A later phase can improve one component at a time against the
-same fixed questions instead of relying on impressions.
+Phase 6 adds one local vector database while deliberately omitting Docker,
+Qdrant Cloud, RAG frameworks, query rewriting, web search, LLM judges, servers,
+and UI. NumPy remains available so later changes can still be compared with the
+most transparent baseline.

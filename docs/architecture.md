@@ -228,3 +228,44 @@ artifacts excluded by `.gitignore`.
 
 See [the Phase 5 guide](phase-5-hybrid-retrieval.md) for formulas, score
 semantics, commands, performance tradeoffs, and the measured comparison.
+
+## Phase 6 component boundaries
+
+`qdrant_store.py` is the only component that understands Qdrant collections,
+points, UUID mapping, payload filters, or local persistence. It converts Qdrant
+responses back to the same `SearchResult` and `Chunk` contracts consumed by all
+later phases.
+
+```text
+                        +-> embeddings.npy -> DenseRetriever ------+
+chunks.jsonl -> vectors |                                       |
+                        +-> local Qdrant -> QdrantDenseRetriever --+
+                                                                |
+                                        common dense ranking <---+
+                                                |
+                                                +-> BM25 -> RRF
+                                                            |
+                                                    cross-encoder
+                                                            |
+                                                   context -> Qwen
+```
+
+The `--dense-backend` decision is made once in CLI construction. Hybrid fusion,
+reranking, evaluation, and `rag.py` depend on the `Retriever` protocol and have
+no backend conditionals. Programmatic callers that omit a retriever retain the
+original NumPy behavior.
+
+The collection metadata is the Qdrant equivalent of the NumPy manifest: model,
+dimension, chunk fingerprint, count, and schema version travel with the stored
+vectors. Each point payload contains the seven fields required to reconstruct a
+Chunk. Arbitrary logical chunk IDs become deterministic UUIDv5 point IDs, so
+upsert is idempotent without changing application identity.
+
+Embedded local Qdrant persists under `data/processed/qdrant/` and performs an
+exact full scan for this small collection. NumPy and Qdrant therefore share the
+same correctness model today. At larger scale, a server deployment could use
+Qdrant's HNSW graph and payload indexes without changing downstream retrieval
+contracts.
+
+See [the Phase 6 guide](phase-6-qdrant.md) for the storage model, safety checks,
+CLI, exact-versus-approximate search, filtering, and measured equivalence.
