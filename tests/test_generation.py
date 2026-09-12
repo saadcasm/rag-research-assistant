@@ -59,5 +59,6 @@ def test_generate_sends_model_prompt_and_temperature(monkeypatch) -> None:
         "model": "local:test",
         "prompt": "grounded prompt",
         "stream": False,
+        "think": False,
         "options": {"temperature": 0.1},
     }

@@ -120,6 +120,7 @@ class OllamaGenerator:
                 "model": self.model_name,
                 "prompt": prompt,
                 "stream": False,
+                "think": False,
                 "options": {"temperature": temperature},
             },
         )
