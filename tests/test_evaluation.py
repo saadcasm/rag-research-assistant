@@ -235,6 +235,36 @@ def test_evaluation_calculates_hit_ranks_recall_and_unanswerable_handling() -> N
     assert report.summary.retrieval_failure_ids == ["missing"]
 
 
+def test_evaluation_uses_supplied_retrieval_strategy_without_changing_metrics() -> None:
+    class FixedRetriever:
+        name = "bm25"
+        score_name = "bm25"
+
+        def __init__(self) -> None:
+            self.calls = []
+
+        def search(self, query: str, top_k: int = 5):
+            self.calls.append((query, top_k))
+            return [SearchResult(4.2, _chunk(1, "first.pdf", 1))]
+
+    example = _question("one", [ExpectedSource("first.pdf", 1)])
+    retriever = FixedRetriever()
+    embedder = RankedFakeEmbedder({})
+
+    report = evaluate(
+        [example],
+        _fixture_index(),
+        embedder,
+        retrieval_depth=5,
+        retriever=retriever,
+    )
+
+    assert retriever.calls == [("one", 5)]
+    assert report.retrieval_strategy == "bm25"
+    assert report.retrieval_score_type == "bm25"
+    assert report.summary.hit_at_1 == 1.0
+
+
 def test_generation_evaluation_records_refusals_and_validates_citations() -> None:
     query_vector = np.asarray([0.9, 0.8, 0.7, 0.6, 0.5, 0.4], dtype=np.float32)
     examples = [
@@ -262,6 +292,7 @@ def test_generation_evaluation_records_refusals_and_validates_citations() -> Non
     assert unanswerable is not None and unanswerable.refusal_detected is True
     assert report.summary.unanswerable_refusal_accuracy == 1.0
     assert report.summary.invalid_citation_references == 1
+    assert report.summary.invalid_citation_question_ids == ["answerable"]
 
 
 def test_citation_and_refusal_helpers_are_explicit_heuristics() -> None:
@@ -307,7 +338,9 @@ def test_report_serialization_contains_per_question_diagnostics(tmp_path: Path) 
     write_evaluation_report(report, output)
     value = json.loads(output.read_text())
 
-    assert value["schema_version"] == 1
+    assert value["schema_version"] == 2
+    assert value["retrieval_strategy"] == "dense"
+    assert value["retrieval_score_type"] == "cosine"
     assert value["dataset_path"] == "questions.jsonl"
     assert value["summary"]["hit_at_1"] == 1.0
     assert value["questions"][0]["retrieved_sources"][0]["chunk_id"] == "chunk-1"

@@ -8,7 +8,7 @@ from .generation import DEFAULT_TEMPERATURE, TextGenerator
 from .index import EmbeddingIndex
 from .models import GroundedAnswer, SearchResult
 from .prompting import build_grounded_prompt
-from .retrieval import search
+from .retrievers import DenseRetriever, Retriever
 
 
 INSUFFICIENT_CONTEXT_ANSWER = (
@@ -19,17 +19,24 @@ INSUFFICIENT_CONTEXT_ANSWER = (
 def answer_question(
     question: str,
     index: EmbeddingIndex,
-    embedder: Embedder,
+    embedder: Optional[Embedder],
     generator: TextGenerator,
     top_k: int = 5,
     temperature: float = DEFAULT_TEMPERATURE,
     on_retrieved: Optional[Callable[[List[SearchResult]], None]] = None,
+    retriever: Optional[Retriever] = None,
 ) -> GroundedAnswer:
     """Retrieve evidence, build a grounded prompt, and invoke generation."""
 
     if not 0.0 <= temperature <= 2.0:
         raise ValueError("temperature must be between 0 and 2")
-    results = search(question, index, embedder, top_k=top_k)
+    if retriever is not None:
+        selected_retriever = retriever
+    else:
+        if embedder is None:
+            raise ValueError("embedder is required when no retriever is supplied")
+        selected_retriever = DenseRetriever(index, embedder)
+    results = selected_retriever.search(question, top_k=top_k)
     if on_retrieved is not None:
         on_retrieved(results)
     if not results:

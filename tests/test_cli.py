@@ -1,10 +1,17 @@
 import numpy as np
+from types import SimpleNamespace
 
 from rag_research_assistant import cli
 from rag_research_assistant.generation import OllamaUnavailableError
 from rag_research_assistant.index import EmbeddingIndex
 from rag_research_assistant.evaluation import EvaluationExample, ExpectedSource
 from rag_research_assistant.models import Chunk
+from rag_research_assistant.retrievers import (
+    BM25Retriever,
+    DenseRetriever,
+    HybridRetriever,
+    RerankingRetriever,
+)
 
 
 class FakeQueryEmbedder:
@@ -97,3 +104,46 @@ def test_retrieval_only_evaluate_command_does_not_construct_ollama(
     assert "Hit@1: 100.0%" in captured.out
     assert "Not run (use --with-generation)" in captured.out
     assert output.exists()
+
+
+def test_retriever_modes_construct_expected_strategy(monkeypatch) -> None:
+    chunk = Chunk("one", "paper.pdf", 1, 1, 0, 8, "Evidence")
+    index = EmbeddingIndex(
+        embeddings=np.asarray([[1.0, 0.0]], dtype=np.float32),
+        chunks=[chunk],
+        model_name="test/model",
+    )
+    monkeypatch.setattr(cli, "load_index", lambda chunks, path: index)
+    monkeypatch.setattr(cli, "SentenceTransformerEmbedder", lambda **kwargs: FakeQueryEmbedder())
+
+    def args(strategy, rerank=False):
+        return SimpleNamespace(
+            retriever=strategy,
+            rerank=rerank,
+            candidate_depth=20,
+            reranker_model="fake/reranker",
+            chunks="chunks.jsonl",
+            index="index",
+            device=None,
+        )
+
+    assert isinstance(cli._load_retriever(args("dense"))[2], DenseRetriever)
+    assert isinstance(cli._load_retriever(args("bm25"))[2], BM25Retriever)
+    assert isinstance(cli._load_retriever(args("hybrid"))[2], HybridRetriever)
+
+    fake_reranker = SimpleNamespace(model_name="fake/reranker", rerank=lambda *a: [])
+    monkeypatch.setattr(cli, "CrossEncoderReranker", lambda **kwargs: fake_reranker)
+    assert isinstance(
+        cli._load_retriever(args("hybrid", rerank=True))[2], RerankingRetriever
+    )
+
+
+def test_cli_rejects_reranking_without_hybrid(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(
+        cli,
+        "load_index",
+        lambda *args: (_ for _ in ()).throw(AssertionError("must validate first")),
+    )
+
+    assert cli.main(["search", "question", "--retriever", "dense", "--rerank"]) == 2
+    assert "--rerank requires --retriever hybrid" in capsys.readouterr().err

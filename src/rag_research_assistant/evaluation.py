@@ -13,7 +13,7 @@ from .generation import DEFAULT_TEMPERATURE, GenerationError, TextGenerator
 from .index import EmbeddingIndex
 from .models import SearchResult
 from .prompting import build_grounded_prompt
-from .retrieval import search
+from .retrievers import DenseRetriever, Retriever
 
 
 ANSWERABILITY_CATEGORIES = {
@@ -135,6 +135,7 @@ class EvaluationSummary:
     unanswerable_refusals: int
     unanswerable_refusal_accuracy: Optional[float]
     invalid_citation_references: int
+    invalid_citation_question_ids: List[str]
     retrieval_failure_ids: List[str]
     unanswerable_non_refusal_ids: List[str]
     generation_error_ids: List[str]
@@ -149,6 +150,9 @@ class EvaluationReport:
     embedding_model: str
     embedding_dimension: int
     indexed_chunks: int
+    retrieval_strategy: str
+    retrieval_score_type: str
+    reranker_model: Optional[str]
     generation_model: Optional[str]
     generation_temperature: Optional[float]
     retrieval_depth: int
@@ -453,6 +457,11 @@ def _summarize(results: Sequence[QuestionEvaluation]) -> EvaluationSummary:
             else None
         ),
         invalid_citation_references=invalid_count,
+        invalid_citation_question_ids=[
+            r.id
+            for r in generated
+            if r.generation is not None and r.generation.invalid_citations
+        ],
         retrieval_failure_ids=[r.id for r in retrieval_results if r.hit_at_5 is False],
         unanswerable_non_refusal_ids=[
             r.id
@@ -470,12 +479,13 @@ def _summarize(results: Sequence[QuestionEvaluation]) -> EvaluationSummary:
 def evaluate(
     examples: Sequence[EvaluationExample],
     index: EmbeddingIndex,
-    embedder: Embedder,
+    embedder: Optional[Embedder],
     *,
     retrieval_depth: int = 5,
     generator: Optional[TextGenerator] = None,
     temperature: float = DEFAULT_TEMPERATURE,
     dataset_path: str = "",
+    retriever: Optional[Retriever] = None,
 ) -> EvaluationReport:
     """Run deterministic retrieval evaluation and optional local generation."""
 
@@ -486,21 +496,30 @@ def evaluate(
     if not 0.0 <= temperature <= 2.0:
         raise ValueError("temperature must be between 0 and 2")
 
+    if retriever is not None:
+        selected_retriever = retriever
+    else:
+        if embedder is None:
+            raise ValueError("embedder is required when no retriever is supplied")
+        selected_retriever = DenseRetriever(index, embedder)
     question_results = [
         _evaluate_question(
             example,
-            search(example.question, index, embedder, top_k=retrieval_depth),
+            selected_retriever.search(example.question, top_k=retrieval_depth),
             generator,
             temperature,
         )
         for example in examples
     ]
     return EvaluationReport(
-        schema_version=1,
+        schema_version=2,
         created_at=datetime.now(timezone.utc).isoformat(),
         embedding_model=index.model_name,
         embedding_dimension=index.dimension,
         indexed_chunks=len(index.chunks),
+        retrieval_strategy=selected_retriever.name,
+        retrieval_score_type=selected_retriever.score_name,
+        reranker_model=getattr(selected_retriever, "reranker_model", None),
         generation_model=generator.model_name if generator is not None else None,
         generation_temperature=temperature if generator is not None else None,
         retrieval_depth=retrieval_depth,
