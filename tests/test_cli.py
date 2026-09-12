@@ -31,6 +31,7 @@ def test_search_command_displays_score_and_chunk_metadata(monkeypatch, capsys) -
         model_name="test/model",
     )
     monkeypatch.setattr(cli, "load_index", lambda chunks_path, index_dir: index)
+    monkeypatch.setattr(cli, "read_jsonl", lambda path: [chunk])
     monkeypatch.setattr(
         cli,
         "SentenceTransformerEmbedder",
@@ -88,6 +89,7 @@ def test_retrieval_only_evaluate_command_does_not_construct_ollama(
     )
     monkeypatch.setattr(cli, "load_evaluation_dataset", lambda path: [example])
     monkeypatch.setattr(cli, "load_index", lambda chunks_path, index_dir: index)
+    monkeypatch.setattr(cli, "read_jsonl", lambda path: [chunk])
     monkeypatch.setattr(
         cli,
         "SentenceTransformerEmbedder",
