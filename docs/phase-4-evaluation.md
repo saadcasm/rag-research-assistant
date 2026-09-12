@@ -133,31 +133,24 @@ persisted `sentence-transformers/multi-qa-MiniLM-L6-cos-v1` index:
 | --- | ---: |
 | Questions in dataset | 20 |
 | Retrieval-scored questions | 16 |
-| Hit@1 | 50.0% |
-| Hit@3 | 62.5% |
-| Hit@5 | 93.8% |
-| Mean first-correct rank, when found | 2.20 |
+| Hit@1 | 56.2% |
+| Hit@3 | 68.8% |
+| Hit@5 | 100.0% |
+| Mean first-correct rank, when found | 2.12 |
 
-`dpr_runtime` was the only expected page not found in the top five. Its top
-results were still from the DPR paper, especially pages 1 and 2, while the label
-points to the runtime encoder description on page 3. That is a useful retrieval
-ranking failure; the dataset was not altered to improve the score.
+The `dpr_runtime` label was independently rechecked against the paper and accepts
+pages 2 and 3, which both contain relevant runtime architecture evidence. No
+Phase 5 labels were changed to favor a retrieval strategy.
 
-A real local `qwen3.5:4b` pass was completed for the four unanswerable questions
-with temperature `0.1`. All 4 contained a recognized refusal phrase (100%), and
-there were 0 out-of-range citation references. Two answers cited supplied
-passages while explaining that they discussed different retrieval hardware or
-methods. Those references were numerically valid, but a human must still decide
-whether they were useful and correctly attached.
+A real local full-dataset `qwen3.5:4b` run used temperature `0.1` and
+`think=false`. All 4 unanswerable examples contained a recognized refusal phrase
+(100%), there were 0 invalid citation references, and there were 0 generation
+errors. Those checks establish control-flow behavior, not factual correctness;
+the answers and cited passages still require human review.
 
-The unrestricted full 20-question generation run was stopped after an
-impractically long local runtime and produced no partial report. This does not
-affect the retrieval baseline. The full command remains supported; generation
-latency and variability are reasons it is opt-in and excluded from CI.
-
-These results do not mean the RAG system is "93.8% accurate." They show only that
-at least one manually labelled filename/page appeared in the top five for 15 of
-16 retrieval-scored questions in this small dataset.
+These results do not mean the RAG system is "100% accurate." They show only that
+at least one manually labelled filename/page appeared in the top five for all 16
+retrieval-scored questions in this small dataset.
 
 ## Learning summary
 

@@ -1,4 +1,4 @@
-# Phase 1 through Phase 4 architecture
+# Phase 1 through Phase 5 architecture
 
 ```text
 data/papers/*.pdf
@@ -33,10 +33,17 @@ same local embedding model     row-aligned chunk vectors
         |                              |
         +--------------+---------------+
                        v
-          NumPy cosine similarity (retrieval.py)
-                       |
-                       v
-          top-k Chunk + score results (retrieval.py)
+          NumPy cosine similarity (retrieval.py) ----+
+                                                     |
+chunks.jsonl -> tokenization + BM25 (bm25.py) -------+
+                                                     v
+                                  rank fusion (hybrid.py)
+                                                     |
+                                                     v
+                          optional cross-encoder (reranking.py)
+                                                     |
+                                                     v
+                                  top-k Chunk + typed score
                        |
                        v
        numbered source context (context.py)
@@ -183,3 +190,41 @@ even at low temperature.
 Generated reports remain outside version control. Tests construct fake vectors
 and generators so CI validates orchestration and mathematics without private
 PDFs, network access, model downloads, or Ollama.
+
+## Phase 5 component boundaries
+
+`bm25.py` owns lexical tokenization and corpus statistics. `BM25Index` is built
+once per command and reused for every query, so document frequencies and lengths
+are not recalculated inside evaluation. The implementation is explicit Python
+over roughly 209 chunks; no search server or hidden NLP pipeline is justified at
+this scale.
+
+`hybrid.py` knows only ranked `SearchResult` lists. It merges duplicate chunk IDs
+and calculates Reciprocal Rank Fusion with `rrf_k=60`. It never sees cosine or
+BM25 internals and therefore cannot accidentally treat unlike raw scores as
+comparable.
+
+`reranking.py` owns the optional Sentence Transformers cross-encoder adapter.
+It jointly scores only the 20 candidate question/chunk pairs and returns new
+`SearchResult` values whose score is explicitly labelled cross-encoder. Its
+small protocol permits deterministic fake scorers in tests.
+
+`retrievers.py` is the shared strategy boundary:
+
+```text
+Retriever.search(query, top_k) -> ordered SearchResult records
+```
+
+`DenseRetriever`, `BM25Retriever`, `HybridRetriever`, and
+`RerankingRetriever` compose the specialized modules. `rag.py` and
+`evaluation.py` receive this abstraction rather than selecting algorithms or
+duplicating them. When none is supplied programmatically, both preserve the
+Phase 2 dense default.
+
+The production reranker path loads the Hugging Face cache with
+`local_files_only=True`. The separate `reranker-download` command performs the
+one authorized download. Cache files and generated comparison reports are local
+artifacts excluded by `.gitignore`.
+
+See [the Phase 5 guide](phase-5-hybrid-retrieval.md) for formulas, score
+semantics, commands, performance tradeoffs, and the measured comparison.

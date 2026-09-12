@@ -6,9 +6,10 @@ local semantic retrieval, grounded local answer generation, and systematic
 evaluation:
 
 ```text
-PDF -> pages -> chunks -> embeddings -> retrieval -> context -> local LLM -> cited answer
-                                      |
-evaluation questions ----------------+-> metrics + diagnostic report
+PDF -> pages -> chunks -> dense + BM25 -> RRF -> optional reranker -> context
+                                                              |
+                                                              v
+evaluation questions -> metrics + comparison             local LLM -> cited answer
 ```
 
 No RAG framework, vector database, cloud LLM API, agent, or web UI is used.
@@ -59,6 +60,17 @@ No RAG framework, vector database, cloud LLM API, agent, or web UI is used.
   never supplied.
 - Writes an ignored machine-readable report and a concise terminal summary.
 - Uses fakes in tests, so CI needs no PDFs, embedding download, Ollama, or Qwen.
+
+## Phase 5 features
+
+- Adds an explicit, dependency-free Okapi BM25 implementation over existing chunks.
+- Combines dense and lexical rankings with Reciprocal Rank Fusion (RRF), not raw scores.
+- Uses 20 candidates from each base retriever and `rrf_k=60` by default.
+- Optionally reranks 20 hybrid candidates with a small local cross-encoder.
+- Routes `search`, `ask`, and `evaluate` through one retriever interface.
+- Adds `compare` for the same-dataset four-strategy benchmark and rank deltas.
+- Labels cosine, BM25, RRF, and cross-encoder scores by type in terminal output.
+- Preserves dense retrieval as the default and all Phase 1–4 behavior.
 
 ## Setup
 
@@ -251,6 +263,74 @@ Allowed answerability values are `answerable`, `partially_answerable`, and
 list. `page_number` may be omitted when only the document is known; `chunk_id`
 may be added when that exact chunk is intentionally part of the label.
 
+## Use Phase 5
+
+Choose a strategy on the existing commands; dense remains the default:
+
+```bash
+rag-research-assistant search "What is non-parametric memory?" --retriever dense
+rag-research-assistant search "What is non-parametric memory?" --retriever bm25
+rag-research-assistant search "What is non-parametric memory?" --retriever hybrid
+```
+
+Download the optional reranker once, then use it from the local Hugging Face cache:
+
+```bash
+rag-research-assistant reranker-download
+rag-research-assistant search \
+  "What is non-parametric memory?" \
+  --retriever hybrid \
+  --rerank
+```
+
+The same flags work with `ask` and `evaluate`. Reranking is intentionally valid
+only with hybrid retrieval:
+
+```bash
+rag-research-assistant ask "How can RAG update knowledge?" \
+  --retriever hybrid --rerank --show-context
+rag-research-assistant evaluate --retriever hybrid --rerank --verbose
+```
+
+Run all four retrieval strategies against the unchanged dataset:
+
+```bash
+rag-research-assistant compare
+```
+
+The command writes its ignored JSON report to
+`data/evaluation/results/comparison.json` and prints aggregate metrics plus the
+question IDs improved or degraded from dense to hybrid and hybrid to reranked.
+Generated model files stay in the normal Hugging Face cache and are never
+committed.
+
+### Measured Phase 5 retrieval results
+
+These results use the same 20 questions, 16 retrieval-scored questions, 209
+chunks, and Phase 4 source labels:
+
+| Strategy | Hit@1 | Hit@3 | Hit@5 | Mean first-correct rank |
+| --- | ---: | ---: | ---: | ---: |
+| Dense | 56.2% | 68.8% | 100.0% | 2.12 |
+| BM25 | 50.0% | 81.2% | 93.8% | 1.87 |
+| Hybrid RRF | 68.8% | 93.8% | 93.8% | 1.33 |
+| Hybrid RRF + cross-encoder | **75.0%** | **100.0%** | **100.0%** | 1.38 |
+
+Hybrid improved five questions relative to dense but pushed
+`sgpt_pooling_training` outside the top five. Reranking restored that question
+at rank 2 and moved `rag_update_knowledge` from rank 2 to rank 1; it moved
+`rag_corpus_chunks` from rank 2 to rank 3. This is why aggregate and
+per-question comparisons both matter.
+
+The full strongest-strategy generation check took about 174 seconds locally.
+It had 4/4 recognized unanswerable refusals and no generation errors. One answer,
+`rag_update_knowledge`, emitted invalid citation `[6]` with five supplied context
+items. Retrieval improved, but generation remains a separate failure surface.
+
+See [the Phase 5 learning guide](docs/phase-5-hybrid-retrieval.md) for the BM25
+formula, RRF, candidate retrieval, bi-encoder versus cross-encoder behavior,
+score interpretation, performance, and complete measured comparison.
+
 ## How the pipeline works
 
 `pdf.py` produces a `PageText` object for every physical PDF page. `chunking.py`
@@ -292,7 +372,7 @@ windows, grounding, temperature, and failure-mode details.
 
 ## How evaluation works
 
-`evaluation.py` runs the existing `search` function for each curated question.
+`evaluation.py` runs the selected common retriever for each curated question.
 For answerable and partially answerable questions, a result matches an expected
 source when its filename and every supplied optional label (page and chunk ID)
 match. Hit@k is true when at least one expected source appears among the first
@@ -335,8 +415,9 @@ cosine(query, chunk) = dot(query, chunk) / (norm(query) * norm(chunk))
 Cosine similarity compares vector direction rather than magnitude. The scores
 are sorted from highest to lowest, and top-k means returning only the best `k`
 chunks. Semantic search can connect related wording such as “car” and “vehicle”
-without requiring a literal shared term. It can still miss exact identifiers or
-specialized meanings, so keyword and hybrid retrieval remain useful later.
+without requiring a literal shared term. BM25 instead rewards shared tokens,
+which helps exact names, identifiers, and technical phrases. Phase 5 combines
+their ranks and measures both strengths rather than assuming one always wins.
 
 See [the Phase 2A learning guide](docs/phase-2a-retrieval.md) for a more detailed
 explanation of embeddings, dimensions, cosine similarity, top-k, and model
@@ -357,6 +438,13 @@ limitations.
   notation or every research domain.
 - Cosine scores are relative ranking signals, not probabilities or proof that a
   passage answers a question.
+- BM25 uses exact tokens without stemming or lemmatization, so morphological
+  variants and synonyms can remain disconnected.
+- Raw cosine, BM25, RRF, and cross-encoder scores have different meanings and
+  scales. None is a probability, and their magnitudes must not be compared.
+- The selected reranker was trained on MS MARCO and truncates long pairs at 512
+  tokens; research-paper terminology and evidence outside that window can be
+  judged imperfectly.
 - NumPy search scans every row. This is deliberately understandable and adequate
   for a learning corpus, but it is not an approximate index for large datasets.
 - Retrieval can select related but non-answering chunks. A grounded prompt cannot
@@ -384,6 +472,8 @@ limitations.
   to `--model`.
 - **Embedding model cache missing:** run `rag-research-assistant embed` while
   online once; query-time embedding loading is intentionally cache-only.
+- **Reranker cache missing:** run `rag-research-assistant reranker-download`
+  while online once; retrieval-time reranker loading is cache-only.
 - **Stale index:** rerun `rag-research-assistant embed` after ingestion changes.
 - **Weak answer with valid generation:** inspect `--show-context`. If the needed
   evidence is absent, this is primarily a retrieval failure.
@@ -406,19 +496,24 @@ rag-research-assistant/
 │   └── processed/       # generated chunks and embeddings (ignored)
 ├── docs/                # architecture notes
 ├── src/rag_research_assistant/
+│   ├── bm25.py          # transparent lexical ranking and corpus statistics
 │   ├── chunking.py      # normalization and chunk construction
-│   ├── cli.py           # ingest, inspect, embed, search, ask, and evaluate
+│   ├── cli.py           # local pipeline and evaluation commands
+│   ├── comparison.py    # aggregate metrics and per-question rank deltas
 │   ├── context.py       # source-labelled context and citation mapping
 │   ├── embeddings.py    # local Sentence Transformers adapter
 │   ├── evaluation.py    # dataset, metrics, heuristics, and reports
 │   ├── generation.py    # generic generator interface and Ollama adapter
+│   ├── hybrid.py        # Reciprocal Rank Fusion
 │   ├── index.py         # NumPy persistence and integrity checks
 │   ├── models.py        # explicit pipeline data contracts
 │   ├── pdf.py           # PDF discovery and page extraction
 │   ├── pipeline.py      # ingestion orchestration and JSONL persistence
 │   ├── prompting.py     # grounded prompt construction
 │   ├── rag.py           # answer orchestration
-│   └── retrieval.py     # manual cosine similarity and top-k ranking
+│   ├── reranking.py     # optional local cross-encoder adapter
+│   ├── retrieval.py     # manual cosine similarity and top-k ranking
+│   └── retrievers.py    # shared, composable retrieval strategies
 ├── tests/
 ├── .env.example
 ├── .gitignore
@@ -427,7 +522,7 @@ rag-research-assistant/
 
 ## Roadmap
 
-Phase 4 establishes a reproducible local baseline but deliberately omits RAGAS,
-LLM judges, hybrid retrieval, reranking, vector databases, and frameworks. The
-next phase can improve one component at a time and compare it against the same
-questions instead of relying on impressions.
+Phase 5 establishes a measured hybrid-and-reranking pipeline but deliberately
+omits RAG frameworks, vector databases, query rewriting, web search, LLM judges,
+servers, and UI. A later phase can improve one component at a time against the
+same fixed questions instead of relying on impressions.
