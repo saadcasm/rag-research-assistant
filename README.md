@@ -46,6 +46,11 @@ records extraction health and comparable legacy, boundary, structural, and
 semantic ingestion statistics. The existing `ingest --input` option accepts the
 new corpus directory directly; no ingestion defaults were changed.
 
+The separate [Phase 7.5 evaluation dataset](docs/phase-7.5-evaluation-dataset.md)
+contains 100 verified questions: 90 grounded answerable questions covering all
+52 PDFs and 10 domain-plausible unanswerable questions. The original 20-question
+benchmark remains unchanged; the expanded benchmark has not yet been run.
+
 A portfolio project for learning retrieval-augmented generation by implementing
 its fundamental components directly. The project currently covers ingestion,
 local semantic retrieval, grounded local answer generation, and systematic
