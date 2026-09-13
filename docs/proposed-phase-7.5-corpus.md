@@ -9,7 +9,7 @@ seven non-arXiv items, the listed venue or author source was checked separately.
 
 ## Selection principles
 
-This is a 56-paper *retrieval systems* corpus, not a general AI reading list.
+This is a 57-paper *retrieval systems* corpus, not a general AI reading list.
 It mixes foundation papers with near-neighbour alternatives: dense versus sparse,
 single-vector versus late interaction, query expansion versus rewriting, and
 RAG versus long-context. That deliberate overlap makes natural-language queries
@@ -51,7 +51,7 @@ records and five held records.
 | self_rag | Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection | Akari Asai et al. | 2023 | [arXiv:2310.11511](https://arxiv.org/pdf/2310.11511) | RAG | Adds adaptive retrieval/critique; overlaps corrective and advanced RAG. | high |
 | corrective_rag | Corrective Retrieval Augmented Generation | Shi-Qi Yan et al. | 2024 | [arXiv:2401.15884](https://arxiv.org/pdf/2401.15884) | RAG | Useful distractor for “when should retrieval be corrected?” questions. | high |
 | raptor | RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval | Parth Sarthi et al. | 2024 | [arXiv:2401.18059](https://arxiv.org/pdf/2401.18059) | RAG | Hierarchical retrieval overlaps chunking, long context, and multi-hop evidence. | high |
-| dpr_karpukhin_2020 *(existing)* | Dense Passage Retrieval for Open-Domain Question Answering | Vladimir Karpukhin et al. | 2020 | [arXiv:2004.04906](https://arxiv.org/pdf/2004.04906) | Dense retrieval | Core bi-encoder baseline; overlaps ANCE, RocketQA, Contriever, and ColBERT. | high |
+| dpr_karpukhin_2020 *(existing)* | Dense Passage Retrieval for Open-Domain Question Answering | Vladimir Karpukhin et al. | 2020 | [arXiv:2004.04906](https://arxiv.org/pdf/2004.04906) | Dense retrieval | Core bi-encoder baseline; overlaps ANCE, RocketQAv2, Contriever, and ColBERT. | high |
 | ance | Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval | Lee Xiong et al. | 2020 | [arXiv:2007.00808](https://arxiv.org/pdf/2007.00808) | Dense retrieval | Hard negatives and ANN refresh make it a close DPR training distractor. | high |
 | rocketqav2 | RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Re-ranking | Ruiyang Ren, Yingqi Qu, Jing Liu, Wayne Xin Zhao, Qiaoqiao She, Hua Wu, Haifeng Wang, Ji-Rong Wen | 2021 | [arXiv:2110.07367](https://arxiv.org/pdf/2110.07367) | Dense retrieval | Couples retriever and reranker; intentionally spans two pipeline stages. Corrected from the distinct RocketQA paper (arXiv:2010.08191). | high |
 | contriever | Unsupervised Dense Information Retrieval with Contrastive Learning | Gautier Izacard et al. | 2021 | [arXiv:2112.09118](https://arxiv.org/pdf/2112.09118) | Dense retrieval | Contrasts supervised DPR with unsupervised contrastive retrieval. | high |
@@ -63,7 +63,7 @@ records and five held records.
 | deepct | Context-Aware Term Weighting For First Stage Passage Retrieval | Zhuyun Dai, Jamie Callan | 2020 | [SIGIR DOI](https://doi.org/10.1145/3397271.3401204) | Sparse / lexical | Learns term weights while retaining an inverted-index retrieval shape. The prior arXiv ID was unrelated; no safely verified public PDF yet. | high |
 | doct5query | Document Expansion by Query Prediction | Rodrigo Nogueira et al. | 2019 | [arXiv:1904.08375](https://arxiv.org/pdf/1904.08375) | Sparse / lexical | Blurs sparse retrieval and generative expansion; overlaps query2doc. | high |
 | coil | COIL: Revisit Exact Lexical Match in Information Retrieval with Contextualized Inverted List | Luyu Gao, Zhuyun Dai, Jamie Callan | 2021 | [arXiv:2104.07186](https://arxiv.org/pdf/2104.07186) | Sparse / lexical | Replaces the unverified uniCOIL placeholder with a verified contextualized-inverted-list paper. | high |
-| splade | SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking | Thibault Formal et al. | 2021 | [arXiv:2107.05720](https://arxiv.org/pdf/2107.05720) | Sparse / lexical | Important learned sparse expansion family; overlaps uniCOIL and DeepImpact. | high |
+| splade | SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking | Thibault Formal et al. | 2021 | [arXiv:2107.05720](https://arxiv.org/pdf/2107.05720) | Sparse / lexical | Important learned sparse expansion family; overlaps COIL and DeepImpact. | high |
 | deepimpact | Learning Passage Impacts for Inverted Indexes | Antonio Mallia, Omar Khattab, Nicola Tonellotto, Torsten Suel | 2021 | [arXiv:2104.12016](https://arxiv.org/pdf/2104.12016) | Sparse / lexical | DeepImpact is the method name; the official paper title is corrected. | high |
 | rrf | Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods | Gordon Cormack, Charles Clarke, Stefan Buettcher | 2009 | [SIGIR canonical record](https://dl.acm.org/doi/10.1145/1571941.1572114) | Hybrid retrieval | The exact fusion idea used by this project; overlaps hybrid and ranking evaluation. PDF availability to verify. | high |
 | hyrr | HYRR: Hybrid Infused Reranking for Passage Retrieval | Jing Lu et al. | 2022 | [arXiv:2212.10528](https://arxiv.org/pdf/2212.10528) | Hybrid retrieval | Directly tests hybrid candidate pools and reranker robustness. | high |
@@ -92,9 +92,9 @@ records and five held records.
 | lost_in_middle | Lost in the Middle: How Language Models Use Long Contexts | Nelson F. Liu et al. | 2023 | [arXiv:2307.03172](https://arxiv.org/pdf/2307.03172) | Long-context vs retrieval | Direct challenge to the claim that a longer context replaces retrieval. | high |
 | longbench | LongBench: A Bilingual, Multitask Benchmark for Long Context Understanding | Yushi Bai et al. | 2023 | [arXiv:2308.14508](https://arxiv.org/pdf/2308.14508) | Long-context vs retrieval | Broad long-context benchmark with retrieval-adjacent tasks. | medium |
 | ruler | RULER: What's the Real Context Size of Your Long-Context Language Models? | Hsieh et al. | 2024 | [arXiv:2404.06654](https://arxiv.org/pdf/2404.06654) | Long-context vs retrieval | Synthetic long-context stress tests create useful contrast to real retrieval. | high |
-| query2doc | Query2doc: Query Expansion with Large Language Models | Liang Wang et al. | 2023 | [arXiv:2303.07678](https://arxiv.org/pdf/2303.07678) | Query rewriting / multi-query | Deliberately overlaps docT5query and HyDE but expands the query side. | high |
-| generative_rf | Generative Relevance Feedback with Large Language Models | Iain Mackie et al. | 2023 | [arXiv:2304.13157](https://arxiv.org/pdf/2304.13157) | Query rewriting / multi-query | Separates feedback expansion from rewriting and hypothetical documents. | high |
-| rewrite_retrieve_read | Query Rewriting for Retrieval-Augmented Large Language Models | Xinbei Ma, Yeyun Gong, Pengcheng He, Hai Zhao, Nan Duan | 2023 | [arXiv:2305.14283](https://arxiv.org/pdf/2305.14283) | Query transformation / multi-query | “Rewrite-Retrieve-Read” is the framework name in this paper, not its official title. | high |
+| query2doc | Query2doc: Query Expansion with Large Language Models | Liang Wang et al. | 2023 | [arXiv:2303.07678](https://arxiv.org/pdf/2303.07678) | Query transformation / multi-query | Deliberately overlaps docT5query and HyDE but expands the query side. | high |
+| generative_rf | Generative Relevance Feedback with Large Language Models | Iain Mackie et al. | 2023 | [arXiv:2304.13157](https://arxiv.org/pdf/2304.13157) | Query transformation / multi-query | Separates feedback expansion from rewriting and hypothetical documents. | high |
+| query_rewriting_rag | Query Rewriting for Retrieval-Augmented Large Language Models | Xinbei Ma, Yeyun Gong, Pengcheng He, Hai Zhao, Nan Duan | 2023 | [arXiv:2305.14283](https://arxiv.org/pdf/2305.14283) | Query transformation / multi-query | “Rewrite-Retrieve-Read” is the framework name in this paper, not its official title. | high |
 | multihop_rag | MultiHop-RAG: Benchmarking Retrieval-Augmented Generation for Multi-Hop Queries | Yixuan Tang, Yi Yang | 2024 | [arXiv:2401.15391](https://arxiv.org/pdf/2401.15391) | Advanced retrieval | Corrected author list; brings compositional evidence needs that a single chunk cannot satisfy. | high |
 | graphrag | From Local to Global: A Graph RAG Approach to Query-Focused Summarization | Darren Edge et al. | 2024 | [arXiv:2404.16130](https://arxiv.org/pdf/2404.16130) | Advanced retrieval | Introduces graph/global-local terminology without adding it to the application. | high |
 | m3_embedding | M3-Embedding: Multi-Linguality, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation | Jianlv Chen, Shitao Xiao, Peitian Zhang, Kun Luo, Defu Lian, Zheng Liu | 2024 | [arXiv:2402.03216](https://arxiv.org/pdf/2402.03216) | Advanced retrieval | Corrected author list; one paper covering dense, sparse, and multi-vector embeddings. | high |
@@ -145,11 +145,12 @@ papers harder to distinguish, not obsolete filler.
 
 ### Deliberate retrieval difficulties
 
-- **Dense-training ambiguity:** DPR, ANCE, RocketQA, Contriever, GTR, CoCondenser,
+- **Dense-training ambiguity:** DPR, ANCE, RocketQAv2, Contriever, GTR, CoCondenser,
   ColBERT, and ColBERTv2 all discuss negatives, encoders, passages, and retrieval,
   but make different architectural/training claims.
-- **Sparse/hybrid ambiguity:** BM25, DeepCT, uniCOIL, SPLADE, DeepImpact, RRF,
-  HYRR, and HyDE force lexical, learned-sparse, fusion, and expansion distinctions.
+- **Sparse/hybrid ambiguity:** BM25, DeepCT, COIL, SPLADE, DeepImpact, RRF, and
+  HYRR force lexical, learned-sparse, and rank-fusion distinctions; HyDE belongs
+  with query transformation rather than rank fusion.
 - **Embedding/reranker ambiguity:** SBERT, SimCSE, E5, INSTRUCTOR, BGE, SGPT,
   BERT reranking, MonoT5, RankT5, and RankGPT reuse representation/ranking terms
   while operating at different stages.
@@ -173,8 +174,9 @@ Potentially redundant pairs/groups to review before downloading are:
   sequence-to-sequence scoring from ranking losses.
 - **SBERT, SimCSE, E5, INSTRUCTOR, BGE, SGPT:** high-value overlap, but six
   embedding papers can dominate corpus vocabulary. Keep all only intentionally.
-- **Query2doc, generative relevance feedback, HyDE, and Rewrite-Retrieve-Read:**
-  strong controlled family for query transformation; retain together for that reason.
+- **Query2doc, generative relevance feedback, HyDE, and Query Rewriting for RAG
+  (the Rewrite-Retrieve-Read framework):** a strong controlled family for query
+  transformation; retain together for that reason.
 
 PDF availability is uncertain for the five held records above, including `deepct`
 whose former arXiv ID was shown to be unrelated. Prefer a legal author, ACL
