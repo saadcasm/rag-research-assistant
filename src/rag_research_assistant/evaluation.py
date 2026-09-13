@@ -261,12 +261,14 @@ def load_evaluation_dataset(path: Path) -> List[EvaluationExample]:
 
 
 def expected_source_matches(expected: ExpectedSource, result: SearchResult) -> bool:
-    """Match document, optional page, and optional chunk labels exactly."""
+    """Match a labelled page when it falls anywhere in a chunk's page span."""
 
     chunk = result.chunk
     if expected.document != chunk.document:
         return False
-    if expected.page_number is not None and expected.page_number != chunk.page_number:
+    if expected.page_number is not None and not (
+        chunk.start_page <= expected.page_number <= chunk.end_page
+    ):
         return False
     if expected.chunk_id is not None and expected.chunk_id != chunk.chunk_id:
         return False

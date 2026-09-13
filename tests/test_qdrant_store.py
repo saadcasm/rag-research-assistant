@@ -74,6 +74,10 @@ def test_build_persists_collection_dimension_payload_and_metadata(tmp_path: Path
             "char_start",
             "char_end",
             "text",
+            "start_page",
+            "end_page",
+            "section_title",
+            "chunking_strategy",
         }
         assert chunk_from_payload(points[0].payload) in index.chunks
     finally:

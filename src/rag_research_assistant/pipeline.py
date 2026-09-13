@@ -2,19 +2,35 @@
 
 import json
 from pathlib import Path
-from typing import Iterable, List
+from typing import Callable, Iterable, List, Optional
 
-from .chunking import chunk_page
-from .models import Chunk
+from .chunking import CHUNKING_STRATEGIES, chunk_pages
+from .models import Chunk, PageText
 from .pdf import extract_directory
 
 
-def build_chunks(input_dir: Path, chunk_size: int = 1_200, overlap: int = 200) -> List[Chunk]:
+def build_chunks(
+    input_dir: Path,
+    chunk_size: int = 1_200,
+    overlap: int = 200,
+    strategy: str = "legacy",
+    sentence_embedder: Optional[Callable[[List[str]], object]] = None,
+) -> List[Chunk]:
     """Extract and chunk every PDF in a directory."""
 
-    chunks: List[Chunk] = []
+    if strategy not in CHUNKING_STRATEGIES:
+        raise ValueError(f"unknown chunking strategy: {strategy}")
+    by_document: dict[str, List[PageText]] = {}
     for page in extract_directory(input_dir):
-        chunks.extend(chunk_page(page, chunk_size=chunk_size, overlap=overlap))
+        by_document.setdefault(page.document, []).append(page)
+    chunks: List[Chunk] = []
+    for pages in by_document.values():
+        chunks.extend(
+            chunk_pages(
+                pages, chunk_size=chunk_size, overlap=overlap,
+                strategy=strategy, sentence_embedder=sentence_embedder,
+            )
+        )
     return chunks
 
 
@@ -35,4 +51,3 @@ def read_jsonl(input_path: Path) -> List[Chunk]:
 
     with input_path.open(encoding="utf-8") as input_file:
         return [Chunk(**json.loads(line)) for line in input_file if line.strip()]
-

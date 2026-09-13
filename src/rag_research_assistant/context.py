@@ -5,6 +5,12 @@ from typing import List, Sequence, Tuple
 from .models import CitationSource, SearchResult
 
 
+def page_display(start_page: int, end_page: int) -> str:
+    """Return an honest, concise human-readable page reference."""
+
+    return str(start_page) if start_page == end_page else f"pages {start_page}–{end_page}"
+
+
 def build_context(
     results: Sequence[SearchResult],
 ) -> Tuple[str, List[CitationSource]]:
@@ -19,7 +25,8 @@ def build_context(
                 [
                     f"SOURCE [{citation_number}]",
                     f"filename: {chunk.document}",
-                    f"page: {chunk.page_number}",
+                    f"page: {page_display(chunk.start_page, chunk.end_page)}",
+                    f"section: {chunk.section_title or 'not detected'}",
                     f"chunk_id: {chunk.chunk_id}",
                     "text:",
                     chunk.text,
@@ -33,6 +40,7 @@ def build_context(
                 document=chunk.document,
                 page_number=chunk.page_number,
                 chunk_id=chunk.chunk_id,
+                end_page=chunk.end_page,
             )
         )
 

@@ -16,7 +16,7 @@ from .pipeline import read_jsonl
 
 DEFAULT_QDRANT_PATH = Path("data/processed/qdrant")
 DEFAULT_COLLECTION_NAME = "rag_research_chunks"
-QDRANT_SCHEMA_VERSION = 1
+QDRANT_SCHEMA_VERSION = 2
 _PAYLOAD_FIELDS = (
     "chunk_id",
     "document",
@@ -25,6 +25,10 @@ _PAYLOAD_FIELDS = (
     "char_start",
     "char_end",
     "text",
+    "start_page",
+    "end_page",
+    "section_title",
+    "chunking_strategy",
 )
 
 
@@ -72,15 +76,19 @@ def chunk_from_payload(payload: Optional[Mapping[str, Any]]) -> Chunk:
             raise InvalidQdrantIndexError(
                 f"Qdrant chunk payload has invalid {field!r}"
             )
-    for field in ("page_number", "chunk_index", "char_start", "char_end"):
+    for field in ("page_number", "chunk_index", "char_start", "char_end", "start_page", "end_page"):
         if isinstance(payload[field], bool) or not isinstance(payload[field], int):
             raise InvalidQdrantIndexError(
                 f"Qdrant chunk payload has invalid {field!r}"
             )
-    if payload["page_number"] <= 0 or payload["chunk_index"] <= 0:
+    if payload["page_number"] <= 0 or payload["chunk_index"] <= 0 or payload["start_page"] <= 0 or payload["end_page"] < payload["start_page"]:
         raise InvalidQdrantIndexError("Qdrant page and chunk indexes must be positive")
     if payload["char_start"] < 0 or payload["char_end"] < payload["char_start"]:
         raise InvalidQdrantIndexError("Qdrant chunk character offsets are invalid")
+    if payload["section_title"] is not None and not isinstance(payload["section_title"], str):
+        raise InvalidQdrantIndexError("Qdrant chunk payload has invalid section_title")
+    if not isinstance(payload["chunking_strategy"], str) or not payload["chunking_strategy"]:
+        raise InvalidQdrantIndexError("Qdrant chunk payload has invalid chunking_strategy")
     return Chunk(**{field: payload[field] for field in _PAYLOAD_FIELDS})
 
 

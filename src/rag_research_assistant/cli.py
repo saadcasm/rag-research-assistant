@@ -23,6 +23,7 @@ from .generation import (
 from .index import EmbeddingIndex, InvalidIndexError, build_index, load_index
 from .models import CorpusIndexMetadata, SearchResult
 from .pdf import discover_pdfs
+from .chunking import CHUNKING_STRATEGIES, chunk_statistics
 from .pipeline import build_chunks, read_jsonl, write_jsonl
 from .qdrant_store import (
     DEFAULT_COLLECTION_NAME,
@@ -79,10 +80,24 @@ def _parser() -> argparse.ArgumentParser:
     ingest.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     ingest.add_argument("--chunk-size", type=int, default=1_200)
     ingest.add_argument("--overlap", type=int, default=200)
+    ingest.add_argument("--chunking-strategy", choices=CHUNKING_STRATEGIES, default="legacy")
+    ingest.add_argument("--semantic-model", default=DEFAULT_MODEL)
+    ingest.add_argument("--device", help="Optional embedding device for semantic chunking")
 
     inspect = subparsers.add_parser("inspect", help="Print sample chunks")
     inspect.add_argument("--input", type=Path, default=DEFAULT_OUTPUT)
     inspect.add_argument("--limit", type=int, default=3)
+    inspect.add_argument("--document")
+    inspect.add_argument("--page", type=int)
+    inspect.add_argument("--section")
+    inspect.add_argument("--chunk-id")
+    inspect.add_argument("--strategy", choices=CHUNKING_STRATEGIES)
+
+    compare_chunks = subparsers.add_parser("compare-chunks", help="Compare chunking strategies for one document region")
+    compare_chunks.add_argument("--input-dir", type=Path, default=Path("data/processed"))
+    compare_chunks.add_argument("--document", required=True)
+    compare_chunks.add_argument("--page", type=int, required=True)
+    compare_chunks.add_argument("--limit", type=int, default=10)
 
     embed = subparsers.add_parser(
         "embed", help="Build a persistent local embedding index"
@@ -202,9 +217,8 @@ def _print_retrieval(
         if len(preview) < len(preview_text):
             preview += "..."
         print(f"\n{rank}. {score_name}_score={result.score:.4f}")
-        print(
-            f"   source={chunk.document} page={chunk.page_number} chunk={chunk.chunk_id}"
-        )
+        page_label = f"page={chunk.start_page}" if chunk.start_page == chunk.end_page else f"pages={chunk.start_page}–{chunk.end_page}"
+        print(f"   source={chunk.document} {page_label} chunk={chunk.chunk_id}")
         print(f"   {preview}")
 
 
@@ -399,22 +413,45 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if not pdfs:
             print(f"No PDF files found in {args.input}")
             return 0
-        chunks = build_chunks(
-            args.input, chunk_size=args.chunk_size, overlap=args.overlap
-        )
+        sentence_embedder = None
+        if args.chunking_strategy == "semantic":
+            semantic_embedder = SentenceTransformerEmbedder(model_name=args.semantic_model, device=args.device, local_files_only=True)
+            sentence_embedder = semantic_embedder.embed_documents
+        chunks = build_chunks(args.input, chunk_size=args.chunk_size, overlap=args.overlap,
+                              strategy=args.chunking_strategy, sentence_embedder=sentence_embedder)
         count = write_jsonl(chunks, args.output)
-        print(f"Processed {len(pdfs)} PDF(s) into {count} chunk(s): {args.output}")
+        print(f"Processed {len(pdfs)} PDF(s) into {count} {args.chunking_strategy} chunk(s): {args.output}")
+        print(f"Statistics: {chunk_statistics(chunks)}")
         return 0
 
     if args.command == "inspect":
         chunks = read_jsonl(args.input)
+        chunks = [chunk for chunk in chunks if (not args.document or chunk.document == args.document)
+                  and (args.page is None or chunk.start_page <= args.page <= chunk.end_page)
+                  and (not args.section or chunk.section_title == args.section)
+                  and (not args.chunk_id or chunk.chunk_id == args.chunk_id)
+                  and (not args.strategy or chunk.chunking_strategy == args.strategy)]
         for chunk in chunks[: max(0, args.limit)]:
-            print(f"\n[{chunk.chunk_id}] {chunk.document}, page {chunk.page_number}")
+            pages = str(chunk.start_page) if chunk.start_page == chunk.end_page else f"{chunk.start_page}–{chunk.end_page}"
+            print(f"\n[{chunk.chunk_id}] {chunk.document}, pages {pages}, strategy={chunk.chunking_strategy}")
+            print(f"section: {chunk.section_title or 'not detected'}")
             print(f"characters {chunk.char_start}:{chunk.char_end}")
             print(chunk.text)
         print(
             f"\nShowing {min(max(0, args.limit), len(chunks))} of {len(chunks)} chunk(s)."
         )
+        return 0
+
+    if args.command == "compare-chunks":
+        for strategy in CHUNKING_STRATEGIES:
+            path = args.input_dir / f"chunks-{strategy}.jsonl"
+            if not path.exists():
+                print(f"\n{strategy}: missing {path}")
+                continue
+            matching = [c for c in read_jsonl(path) if c.document == args.document and c.start_page <= args.page <= c.end_page]
+            print(f"\n{strategy.upper()} ({len(matching)} matching chunks)")
+            for chunk in matching[:args.limit]:
+                print(f"[{chunk.chunk_id}] pages {chunk.start_page}–{chunk.end_page}; {chunk.text[:300]}")
         return 0
 
     if args.command == "embed":
@@ -665,7 +702,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             print("No sources retrieved.")
         for source in grounded_answer.sources:
             print(
-                f"[{source.citation_number}] {source.document}, page {source.page_number}, "
+                f"[{source.citation_number}] {source.document}, "
+                f"{'page' if source.page_number == source.end_page else 'pages'} "
+                f"{source.page_number}{'' if source.page_number == source.end_page else f'–{source.end_page}'}, "
                 f"chunk {source.chunk_id} "
                 f"({retriever.score_name}_score={source.score:.4f})"
             )

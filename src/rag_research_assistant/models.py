@@ -1,7 +1,7 @@
 """Data passed between the extraction and chunking stages."""
 
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 
 @dataclass(frozen=True)
@@ -24,6 +24,21 @@ class Chunk:
     char_start: int
     char_end: int
     text: str
+    # `page_number` is retained for Phase 1--6 compatibility and is always the
+    # first physical page represented by this chunk. New code should use the
+    # explicit page span when presenting provenance.
+    start_page: Optional[int] = None
+    end_page: Optional[int] = None
+    section_title: Optional[str] = None
+    chunking_strategy: str = "legacy"
+
+    def __post_init__(self) -> None:
+        start_page = self.page_number if self.start_page is None else self.start_page
+        end_page = start_page if self.end_page is None else self.end_page
+        if start_page <= 0 or end_page < start_page:
+            raise ValueError("chunk page span must be positive and ordered")
+        object.__setattr__(self, "start_page", start_page)
+        object.__setattr__(self, "end_page", end_page)
 
     def to_dict(self) -> Dict[str, Any]:
         """Return a JSON-serializable representation."""
@@ -57,6 +72,7 @@ class CitationSource:
     document: str
     page_number: int
     chunk_id: str
+    end_page: Optional[int] = None
 
 
 @dataclass(frozen=True)
