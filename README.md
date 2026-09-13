@@ -41,6 +41,11 @@ redownloading them. See [the acquisition guide](docs/phase-7.5-corpus-acquisitio
 for validation rules and recovery from download failures. PDFs themselves are
 intentionally ignored by Git; the manifest is the auditable, versioned record.
 
+The completed [52-paper extraction sanity check](docs/phase-7.5-corpus-sanity-check.md)
+records extraction health and comparable legacy, boundary, structural, and
+semantic ingestion statistics. The existing `ingest --input` option accepts the
+new corpus directory directly; no ingestion defaults were changed.
+
 A portfolio project for learning retrieval-augmented generation by implementing
 its fundamental components directly. The project currently covers ingestion,
 local semantic retrieval, grounded local answer generation, and systematic
