@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from rag_research_assistant.chunking import chunk_pages, detect_heading
+from rag_research_assistant.chunking import chunk_pages, chunk_statistics, detect_heading
 from rag_research_assistant.context import build_context
 from rag_research_assistant.evaluation import ExpectedSource, expected_source_matches
 from rag_research_assistant.models import PageText, SearchResult
@@ -56,3 +56,8 @@ def test_page_span_is_honest_for_evaluation_and_citation() -> None:
     context, sources = build_context([result])
     assert "pages 1–2" in context
     assert sources[0].end_page == 2
+
+
+def test_chunk_statistics_reports_sentence_average() -> None:
+    chunks = chunk_pages(_pages(), chunk_size=120, overlap=0, strategy="boundary")
+    assert chunk_statistics(chunks)["average_sentences_per_chunk"] > 0

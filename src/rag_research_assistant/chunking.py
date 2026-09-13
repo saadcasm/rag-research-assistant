@@ -224,8 +224,10 @@ def chunk_pages(pages: Sequence[PageText], *, chunk_size: int = 1200, overlap: i
 def chunk_statistics(chunks: Sequence[Chunk]) -> dict[str, object]:
     """Small, serializable facts for fair strategy comparisons."""
     sizes = [len(chunk.text) for chunk in chunks]
+    sentence_counts = [len([part for part in _SENTENCE_RE.split(chunk.text) if part.strip()]) for chunk in chunks]
     return {"total_chunks": len(chunks), "average_characters": sum(sizes) / len(sizes) if sizes else 0,
             "median_characters": median(sizes) if sizes else 0, "min_characters": min(sizes) if sizes else 0,
             "max_characters": max(sizes) if sizes else 0,
             "cross_page_chunks": sum(chunk.start_page != chunk.end_page for chunk in chunks),
-            "chunks_with_section": sum(chunk.section_title is not None for chunk in chunks)}
+            "chunks_with_section": sum(chunk.section_title is not None for chunk in chunks),
+            "average_sentences_per_chunk": sum(sentence_counts) / len(sentence_counts) if sentence_counts else 0}

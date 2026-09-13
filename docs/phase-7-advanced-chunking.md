@@ -70,12 +70,12 @@ strongest established pipeline: local Qdrant dense retrieval + BM25 + RRF +
 cross-encoder reranking. Times are approximate wall-clock ingestion times on the
 development Mac; semantic includes local sentence embedding.
 
-| strategy | chunks | avg chars | cross-page | sections | ingest | Hit@1 / @3 / @5 | mean rank | recall@1 / @3 / @5 |
-|---|---:|---:|---:|---:|---:|---|---:|---|
-| legacy | 209 | 1004 | 0 | 0 | 1.8s | 75.0 / 100 / 100% | 1.38 | 59.4 / 90.6 / 90.6% |
-| boundary | 196 | 1003 | 0 | 0 | 1.7s | 68.8 / 93.8 / 100% | 1.69 | 56.2 / 84.4 / 90.6% |
-| structural | 167 | 1106 | 46 | 167 | 1.7s | 62.5 / 75.0 / 81.2% | 1.38 | 53.1 / 71.9 / 78.1% |
-| semantic | 301 | 546 | 51 | 301 | 10.8s | 62.5 / 81.2 / 87.5% | 1.43 | 56.2 / 71.9 / 78.1% |
+| strategy | chunks | avg chars | avg sentences | cross-page | sections | ingest | Hit@1 / @3 / @5 | mean rank | recall@1 / @3 / @5 |
+|---|---:|---:|---:|---:|---:|---:|---|---:|---|
+| legacy | 209 | 1004 | — | 0 | 0 | 1.8s | 75.0 / 100 / 100% | 1.38 | 59.4 / 90.6 / 90.6% |
+| boundary | 196 | 1003 | — | 0 | 0 | 1.7s | 68.8 / 93.8 / 100% | 1.69 | 56.2 / 84.4 / 90.6% |
+| structural | 167 | 1106 | — | 46 | 167 | 1.7s | 62.5 / 75.0 / 81.2% | 1.38 | 53.1 / 71.9 / 78.1% |
+| semantic | 301 | 546 | 5.91 | 51 | 301 | 10.8s | 62.5 / 81.2 / 87.5% | 1.43 | 56.2 / 71.9 / 78.1% |
 
 Legacy is retained as the selected default. First-correct ranks below make every
 answerable question visible (`—` means no matching page-span chunk in top five).
