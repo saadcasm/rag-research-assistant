@@ -1,0 +1,1143 @@
+{
+  "schema_version": 1,
+  "experiment": "phase-7.5-four-strategy-chunking",
+  "created_at": "2026-09-13T18:01:48.236976+00:00",
+  "dataset": "data/evaluation/questions-phase-7.5.jsonl",
+  "dataset_sha256": "36e9707071d722e327ff1987118caff1fc71d646dbeef77d139b32aa1445fcbe",
+  "corpus_pdf_count": 52,
+  "retrieval_questions": 90,
+  "unanswerable_questions": 10,
+  "settings": {
+    "dense_backend": "qdrant",
+    "dense_search_mode": "exact",
+    "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
+    "embedding_dimension": 384,
+    "embedding_device": "cpu",
+    "embedding_batch_size": 32,
+    "lexical_retriever": "BM25",
+    "candidate_depth_per_base_retriever": 20,
+    "fusion": "reciprocal_rank_fusion",
+    "rrf_k": 60,
+    "reranker_model": "cross-encoder/ms-marco-MiniLM-L6-v2",
+    "reranker_max_length": 512,
+    "top_k": 5,
+    "generation": false
+  },
+  "shared_startup_seconds": {
+    "embedding_model": 4.270415167000465,
+    "reranker_model": 0.05427912500090315
+  },
+  "strategies": {
+    "legacy": {
+      "chunk_count": 3793,
+      "embedding_build_seconds": 64.43044141599967,
+      "qdrant_build_seconds": 2.555534125000122,
+      "qdrant_storage_bytes": 19837709,
+      "bm25_build_seconds": 0.16744479100088938,
+      "evaluation_seconds": 31.111703749997105,
+      "reranking_seconds": 28.43159307501992,
+      "non_reranking_retrieval_seconds": 2.680110674977186,
+      "hit_at_1": 0.45555555555555555,
+      "hit_at_3": 0.7222222222222222,
+      "hit_at_5": 0.8444444444444444,
+      "recall_at_1": 0.45,
+      "recall_at_3": 0.7166666666666667,
+      "recall_at_5": 0.8222222222222222,
+      "mean_first_correct_rank": 1.894736842105263,
+      "chunk_sha256": "f9b6e8292dc2d73c03ba42739700c2858124dc7d89be4d4f18441eb15692e646"
+    },
+    "boundary": {
+      "chunk_count": 3510,
+      "embedding_build_seconds": 63.21113187500305,
+      "qdrant_build_seconds": 2.2625471249994007,
+      "qdrant_storage_bytes": 18498319,
+      "bm25_build_seconds": 0.1594499579987314,
+      "evaluation_seconds": 31.672869209000055,
+      "reranking_seconds": 29.0503659209935,
+      "non_reranking_retrieval_seconds": 2.6225032880065555,
+      "hit_at_1": 0.4222222222222222,
+      "hit_at_3": 0.6333333333333333,
+      "hit_at_5": 0.8444444444444444,
+      "recall_at_1": 0.4166666666666667,
+      "recall_at_3": 0.6166666666666667,
+      "recall_at_5": 0.8222222222222222,
+      "mean_first_correct_rank": 2.1578947368421053,
+      "chunk_sha256": "06fc2cc21ad06484e07779700bffd198915cfc2af749ccd027f39e7c100c9a91"
+    },
+    "structural": {
+      "chunk_count": 2939,
+      "embedding_build_seconds": 58.863190750002104,
+      "qdrant_build_seconds": 1.942267707996507,
+      "qdrant_storage_bytes": 16093969,
+      "bm25_build_seconds": 0.14202816700344556,
+      "evaluation_seconds": 34.51687670799947,
+      "reranking_seconds": 32.0286319149709,
+      "non_reranking_retrieval_seconds": 2.4882447930285707,
+      "hit_at_1": 0.4444444444444444,
+      "hit_at_3": 0.7333333333333333,
+      "hit_at_5": 0.8222222222222222,
+      "recall_at_1": 0.4388888888888889,
+      "recall_at_3": 0.7111111111111111,
+      "recall_at_5": 0.8055555555555556,
+      "mean_first_correct_rank": 1.8243243243243243,
+      "chunk_sha256": "a46bcfbb1a74757670666d2c206f0972630032e37802b7f5cbac7a691b65e99c"
+    },
+    "semantic": {
+      "chunk_count": 5124,
+      "embedding_build_seconds": 46.99320091700065,
+      "qdrant_build_seconds": 3.3665427080013615,
+      "qdrant_storage_bytes": 24728335,
+      "bm25_build_seconds": 0.26361916600581026,
+      "evaluation_seconds": 28.940747625005315,
+      "reranking_seconds": 25.84068333498726,
+      "non_reranking_retrieval_seconds": 3.1000642900180537,
+      "hit_at_1": 0.4,
+      "hit_at_3": 0.7555555555555555,
+      "hit_at_5": 0.8444444444444444,
+      "recall_at_1": 0.38333333333333336,
+      "recall_at_3": 0.7333333333333333,
+      "recall_at_5": 0.8222222222222222,
+      "mean_first_correct_rank": 1.8157894736842106,
+      "chunk_sha256": "be6caa457470264bd7e99cb848035a6f394b4b789ad08713224b647bdaadf949"
+    }
+  },
+  "category_metrics": {
+    "legacy": {
+      "comparison": {
+        "questions": 3,
+        "hit_at_1": 0.3333333333333333,
+        "hit_at_3": 0.6666666666666666,
+        "hit_at_5": 0.6666666666666666,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 0.6666666666666666,
+        "recall_at_5": 0.6666666666666666,
+        "mean_first_correct_rank": 1.5
+      },
+      "cross_page_context": {
+        "questions": 3,
+        "hit_at_1": 0.3333333333333333,
+        "hit_at_3": 0.3333333333333333,
+        "hit_at_5": 0.6666666666666666,
+        "recall_at_1": 0.16666666666666666,
+        "recall_at_3": 0.3333333333333333,
+        "recall_at_5": 0.5,
+        "mean_first_correct_rank": 3.0
+      },
+      "difficult_distractor": {
+        "questions": 19,
+        "hit_at_1": 0.3684210526315789,
+        "hit_at_3": 0.631578947368421,
+        "hit_at_5": 0.8421052631578947,
+        "recall_at_1": 0.3684210526315789,
+        "recall_at_3": 0.631578947368421,
+        "recall_at_5": 0.8421052631578947,
+        "mean_first_correct_rank": 2.1875
+      },
+      "exact_number": {
+        "questions": 23,
+        "hit_at_1": 0.5217391304347826,
+        "hit_at_3": 0.8260869565217391,
+        "hit_at_5": 0.8260869565217391,
+        "recall_at_1": 0.5217391304347826,
+        "recall_at_3": 0.8260869565217391,
+        "recall_at_5": 0.8260869565217391,
+        "mean_first_correct_rank": 1.4736842105263157
+      },
+      "exact_terminology": {
+        "questions": 13,
+        "hit_at_1": 0.46153846153846156,
+        "hit_at_3": 0.8461538461538461,
+        "hit_at_5": 1.0,
+        "recall_at_1": 0.46153846153846156,
+        "recall_at_3": 0.8461538461538461,
+        "recall_at_5": 1.0,
+        "mean_first_correct_rank": 2.0
+      },
+      "multi_source": {
+        "questions": 5,
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.2,
+        "hit_at_5": 0.6,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.1,
+        "recall_at_5": 0.3,
+        "mean_first_correct_rank": 3.3333333333333335
+      },
+      "section_detail": {
+        "questions": 13,
+        "hit_at_1": 0.5384615384615384,
+        "hit_at_3": 0.7692307692307693,
+        "hit_at_5": 0.8461538461538461,
+        "recall_at_1": 0.5384615384615384,
+        "recall_at_3": 0.7692307692307693,
+        "recall_at_5": 0.8461538461538461,
+        "mean_first_correct_rank": 1.8181818181818181
+      },
+      "semantic_paraphrase": {
+        "questions": 11,
+        "hit_at_1": 0.6363636363636364,
+        "hit_at_3": 0.8181818181818182,
+        "hit_at_5": 0.9090909090909091,
+        "recall_at_1": 0.6363636363636364,
+        "recall_at_3": 0.8181818181818182,
+        "recall_at_5": 0.9090909090909091,
+        "mean_first_correct_rank": 1.6
+      }
+    },
+    "boundary": {
+      "comparison": {
+        "questions": 3,
+        "hit_at_1": 0.6666666666666666,
+        "hit_at_3": 0.6666666666666666,
+        "hit_at_5": 0.6666666666666666,
+        "recall_at_1": 0.6666666666666666,
+        "recall_at_3": 0.6666666666666666,
+        "recall_at_5": 0.6666666666666666,
+        "mean_first_correct_rank": 1.0
+      },
+      "cross_page_context": {
+        "questions": 3,
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.6666666666666666,
+        "hit_at_5": 0.6666666666666666,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.3333333333333333,
+        "recall_at_5": 0.3333333333333333,
+        "mean_first_correct_rank": 2.5
+      },
+      "difficult_distractor": {
+        "questions": 19,
+        "hit_at_1": 0.3157894736842105,
+        "hit_at_3": 0.6842105263157895,
+        "hit_at_5": 0.7894736842105263,
+        "recall_at_1": 0.3157894736842105,
+        "recall_at_3": 0.6842105263157895,
+        "recall_at_5": 0.7894736842105263,
+        "mean_first_correct_rank": 2.1333333333333333
+      },
+      "exact_number": {
+        "questions": 23,
+        "hit_at_1": 0.391304347826087,
+        "hit_at_3": 0.6086956521739131,
+        "hit_at_5": 0.8260869565217391,
+        "recall_at_1": 0.391304347826087,
+        "recall_at_3": 0.6086956521739131,
+        "recall_at_5": 0.8260869565217391,
+        "mean_first_correct_rank": 2.210526315789474
+      },
+      "exact_terminology": {
+        "questions": 13,
+        "hit_at_1": 0.5384615384615384,
+        "hit_at_3": 0.6153846153846154,
+        "hit_at_5": 0.8461538461538461,
+        "recall_at_1": 0.5384615384615384,
+        "recall_at_3": 0.6153846153846154,
+        "recall_at_5": 0.8461538461538461,
+        "mean_first_correct_rank": 2.0
+      },
+      "multi_source": {
+        "questions": 5,
+        "hit_at_1": 0.2,
+        "hit_at_3": 0.2,
+        "hit_at_5": 0.6,
+        "recall_at_1": 0.1,
+        "recall_at_3": 0.1,
+        "recall_at_5": 0.4,
+        "mean_first_correct_rank": 3.0
+      },
+      "section_detail": {
+        "questions": 13,
+        "hit_at_1": 0.46153846153846156,
+        "hit_at_3": 0.6153846153846154,
+        "hit_at_5": 1.0,
+        "recall_at_1": 0.46153846153846156,
+        "recall_at_3": 0.6153846153846154,
+        "recall_at_5": 1.0,
+        "mean_first_correct_rank": 2.4615384615384617
+      },
+      "semantic_paraphrase": {
+        "questions": 11,
+        "hit_at_1": 0.6363636363636364,
+        "hit_at_3": 0.8181818181818182,
+        "hit_at_5": 1.0,
+        "recall_at_1": 0.6363636363636364,
+        "recall_at_3": 0.8181818181818182,
+        "recall_at_5": 1.0,
+        "mean_first_correct_rank": 1.8181818181818181
+      }
+    },
+    "structural": {
+      "comparison": {
+        "questions": 3,
+        "hit_at_1": 0.6666666666666666,
+        "hit_at_3": 0.6666666666666666,
+        "hit_at_5": 0.6666666666666666,
+        "recall_at_1": 0.6666666666666666,
+        "recall_at_3": 0.6666666666666666,
+        "recall_at_5": 0.6666666666666666,
+        "mean_first_correct_rank": 1.0
+      },
+      "cross_page_context": {
+        "questions": 3,
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.6666666666666666,
+        "hit_at_5": 1.0,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.3333333333333333,
+        "recall_at_5": 0.6666666666666666,
+        "mean_first_correct_rank": 2.6666666666666665
+      },
+      "difficult_distractor": {
+        "questions": 19,
+        "hit_at_1": 0.3157894736842105,
+        "hit_at_3": 0.7368421052631579,
+        "hit_at_5": 0.9473684210526315,
+        "recall_at_1": 0.3157894736842105,
+        "recall_at_3": 0.7368421052631579,
+        "recall_at_5": 0.9473684210526315,
+        "mean_first_correct_rank": 2.4444444444444446
+      },
+      "exact_number": {
+        "questions": 23,
+        "hit_at_1": 0.5652173913043478,
+        "hit_at_3": 0.782608695652174,
+        "hit_at_5": 0.782608695652174,
+        "recall_at_1": 0.5652173913043478,
+        "recall_at_3": 0.782608695652174,
+        "recall_at_5": 0.782608695652174,
+        "mean_first_correct_rank": 1.3333333333333333
+      },
+      "exact_terminology": {
+        "questions": 13,
+        "hit_at_1": 0.6153846153846154,
+        "hit_at_3": 0.8461538461538461,
+        "hit_at_5": 0.9230769230769231,
+        "recall_at_1": 0.6153846153846154,
+        "recall_at_3": 0.8461538461538461,
+        "recall_at_5": 0.9230769230769231,
+        "mean_first_correct_rank": 1.5
+      },
+      "multi_source": {
+        "questions": 5,
+        "hit_at_1": 0.2,
+        "hit_at_3": 0.4,
+        "hit_at_5": 0.4,
+        "recall_at_1": 0.1,
+        "recall_at_3": 0.2,
+        "recall_at_5": 0.3,
+        "mean_first_correct_rank": 1.5
+      },
+      "section_detail": {
+        "questions": 13,
+        "hit_at_1": 0.3076923076923077,
+        "hit_at_3": 0.6153846153846154,
+        "hit_at_5": 0.7692307692307693,
+        "recall_at_1": 0.3076923076923077,
+        "recall_at_3": 0.6153846153846154,
+        "recall_at_5": 0.7692307692307693,
+        "mean_first_correct_rank": 2.4
+      },
+      "semantic_paraphrase": {
+        "questions": 11,
+        "hit_at_1": 0.5454545454545454,
+        "hit_at_3": 0.8181818181818182,
+        "hit_at_5": 0.8181818181818182,
+        "recall_at_1": 0.5454545454545454,
+        "recall_at_3": 0.8181818181818182,
+        "recall_at_5": 0.8181818181818182,
+        "mean_first_correct_rank": 1.3333333333333333
+      }
+    },
+    "semantic": {
+      "comparison": {
+        "questions": 3,
+        "hit_at_1": 0.3333333333333333,
+        "hit_at_3": 0.6666666666666666,
+        "hit_at_5": 0.6666666666666666,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 0.6666666666666666,
+        "recall_at_5": 0.6666666666666666,
+        "mean_first_correct_rank": 1.5
+      },
+      "cross_page_context": {
+        "questions": 3,
+        "hit_at_1": 0.6666666666666666,
+        "hit_at_3": 0.6666666666666666,
+        "hit_at_5": 0.6666666666666666,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_3": 0.3333333333333333,
+        "recall_at_5": 0.3333333333333333,
+        "mean_first_correct_rank": 1.0
+      },
+      "difficult_distractor": {
+        "questions": 19,
+        "hit_at_1": 0.21052631578947367,
+        "hit_at_3": 0.5789473684210527,
+        "hit_at_5": 0.7894736842105263,
+        "recall_at_1": 0.21052631578947367,
+        "recall_at_3": 0.5789473684210527,
+        "recall_at_5": 0.7894736842105263,
+        "mean_first_correct_rank": 2.2666666666666666
+      },
+      "exact_number": {
+        "questions": 23,
+        "hit_at_1": 0.43478260869565216,
+        "hit_at_3": 0.8260869565217391,
+        "hit_at_5": 0.8695652173913043,
+        "recall_at_1": 0.43478260869565216,
+        "recall_at_3": 0.8260869565217391,
+        "recall_at_5": 0.8695652173913043,
+        "mean_first_correct_rank": 1.75
+      },
+      "exact_terminology": {
+        "questions": 13,
+        "hit_at_1": 0.5384615384615384,
+        "hit_at_3": 0.9230769230769231,
+        "hit_at_5": 1.0,
+        "recall_at_1": 0.5384615384615384,
+        "recall_at_3": 0.9230769230769231,
+        "recall_at_5": 1.0,
+        "mean_first_correct_rank": 1.8461538461538463
+      },
+      "multi_source": {
+        "questions": 5,
+        "hit_at_1": 0.2,
+        "hit_at_3": 0.4,
+        "hit_at_5": 0.4,
+        "recall_at_1": 0.1,
+        "recall_at_3": 0.2,
+        "recall_at_5": 0.2,
+        "mean_first_correct_rank": 1.5
+      },
+      "section_detail": {
+        "questions": 13,
+        "hit_at_1": 0.38461538461538464,
+        "hit_at_3": 0.8461538461538461,
+        "hit_at_5": 0.9230769230769231,
+        "recall_at_1": 0.38461538461538464,
+        "recall_at_3": 0.8461538461538461,
+        "recall_at_5": 0.9230769230769231,
+        "mean_first_correct_rank": 1.75
+      },
+      "semantic_paraphrase": {
+        "questions": 11,
+        "hit_at_1": 0.5454545454545454,
+        "hit_at_3": 0.8181818181818182,
+        "hit_at_5": 0.9090909090909091,
+        "recall_at_1": 0.5454545454545454,
+        "recall_at_3": 0.8181818181818182,
+        "recall_at_5": 0.9090909090909091,
+        "mean_first_correct_rank": 1.6
+      }
+    }
+  },
+  "rank_changes_vs_legacy": {
+    "boundary": {
+      "improved_count": 21,
+      "degraded_count": 23,
+      "unchanged_count": 46,
+      "improved_ids": [
+        "p75_rankgpt_noveleval",
+        "p75_retro_database",
+        "p75_fid_passage_scaling",
+        "p75_graphrag_index",
+        "p75_gtr_data_efficiency",
+        "p75_gtr_scaling",
+        "p75_raptor_levels",
+        "p75_ruler_beyond_niah",
+        "p75_cocondenser_loss",
+        "p75_compare_beir_bright",
+        "p75_contriever_beir",
+        "p75_hyde_false_details",
+        "p75_layoutlm_inputs",
+        "p75_lost_middle_pattern",
+        "p75_msmarco_answers",
+        "p75_mteb_no_winner",
+        "p75_query2doc_bm25_gain",
+        "p75_raptor_tree",
+        "p75_rocketqav2_distillation",
+        "p75_selfrag_adaptive",
+        "p75_trec_dl_tasks"
+      ],
+      "degraded_ids": [
+        "p75_deepimpact_token_value",
+        "p75_replug_results",
+        "p75_bert_reranker_gain",
+        "p75_crag_evaluator",
+        "p75_colbert_late_interaction",
+        "p75_doct5query_direction",
+        "p75_e5_evaluation",
+        "p75_instructor_tasks",
+        "p75_splade_sparsity",
+        "p75_ance_global_negatives",
+        "p75_colbertv2_space",
+        "p75_instructor_unseen",
+        "p75_monot5_reformulation",
+        "p75_rankt5_losses",
+        "p75_realm_signal",
+        "p75_colbert_precompute",
+        "p75_colbertv2_compression",
+        "p75_hnsw_layers",
+        "p75_hyrr_training_pool",
+        "p75_lost_middle_position",
+        "p75_multihop_source",
+        "p75_query2doc_both_retrievers",
+        "p75_splade_tradeoff"
+      ]
+    },
+    "structural": {
+      "improved_count": 27,
+      "degraded_count": 21,
+      "unchanged_count": 42,
+      "improved_ids": [
+        "p75_replug_integration",
+        "p75_retro_database",
+        "p75_dpr_dual_encoder",
+        "p75_cocondenser_loss",
+        "p75_compare_rag_replug",
+        "p75_cpack_benchmark",
+        "p75_deepimpact_expansion",
+        "p75_graphrag_index",
+        "p75_hyde_false_details",
+        "p75_msmarco_answers",
+        "p75_raptor_tree",
+        "p75_ruler_beyond_niah",
+        "p75_contriever_beir",
+        "p75_doct5query_direction",
+        "p75_gtr_scaling",
+        "p75_hnsw_layers",
+        "p75_late_chunking_training",
+        "p75_lost_middle_pattern",
+        "p75_m3_granularity",
+        "p75_mteb_no_winner",
+        "p75_multihop_source",
+        "p75_query2doc_bm25_gain",
+        "p75_raptor_levels",
+        "p75_realm_signal",
+        "p75_rocketqav2_distillation",
+        "p75_selfrag_adaptive",
+        "p75_trec_dl_tasks"
+      ],
+      "degraded_ids": [
+        "p75_ance_efficiency",
+        "p75_colbert_late_interaction",
+        "p75_crag_web_search",
+        "p75_crag_evaluator",
+        "p75_instructor_unseen",
+        "p75_late_chunking_order",
+        "p75_rewrite_trainable",
+        "p75_dpr_bm25_margin",
+        "p75_hyde_pipeline",
+        "p75_ance_global_negatives",
+        "p75_compare_hyde_query2doc",
+        "p75_monot5_reformulation",
+        "p75_rankt5_losses",
+        "p75_simcse_supervised_pairs",
+        "p75_bright_reasoning",
+        "p75_colbert_precompute",
+        "p75_e5_evaluation",
+        "p75_hyrr_training_pool",
+        "p75_lost_middle_position",
+        "p75_m3_functions",
+        "p75_splade_tradeoff"
+      ]
+    },
+    "semantic": {
+      "improved_count": 20,
+      "degraded_count": 26,
+      "unchanged_count": 44,
+      "improved_ids": [
+        "p75_gtr_data_efficiency",
+        "p75_cocondenser_loss",
+        "p75_hyde_false_details",
+        "p75_rankgpt_noveleval",
+        "p75_raptor_levels",
+        "p75_replug_integration",
+        "p75_compare_rag_replug",
+        "p75_cpack_benchmark",
+        "p75_realm_signal",
+        "p75_ance_global_negatives",
+        "p75_deepimpact_expansion",
+        "p75_fid_passage_scaling",
+        "p75_msmarco_answers",
+        "p75_raptor_tree",
+        "p75_ruler_beyond_niah",
+        "p75_graphrag_index",
+        "p75_layoutlm_inputs",
+        "p75_multihop_source",
+        "p75_query2doc_bm25_gain",
+        "p75_sbert_speed"
+      ],
+      "degraded_ids": [
+        "p75_colbert_late_interaction",
+        "p75_late_chunking_order",
+        "p75_late_chunking_training",
+        "p75_monot5_reformulation",
+        "p75_rocketqav2_distillation",
+        "p75_selfrag_tokens",
+        "p75_simcse_supervised_pairs",
+        "p75_compare_hyde_query2doc",
+        "p75_lost_middle_position",
+        "p75_simcse_dropout",
+        "p75_ance_efficiency",
+        "p75_atlas_few_shot",
+        "p75_bright_reasoning",
+        "p75_coil_index",
+        "p75_colbertv2_space",
+        "p75_doct5query_direction",
+        "p75_dpr_bm25_margin",
+        "p75_e5_supervision",
+        "p75_hyrr_training_pool",
+        "p75_instructor_unseen",
+        "p75_longbench_scope",
+        "p75_mteb_scale",
+        "p75_query2doc_both_retrievers",
+        "p75_splade_sparsity",
+        "p75_splade_tradeoff",
+        "p75_trec_dl_tasks"
+      ]
+    }
+  },
+  "per_question_first_correct_rank": {
+    "p75_ance_global_negatives": {
+      "legacy": 4,
+      "boundary": null,
+      "structural": null,
+      "semantic": 2
+    },
+    "p75_atlas_few_shot": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_beir_composition": {
+      "legacy": null,
+      "boundary": null,
+      "structural": null,
+      "semantic": null
+    },
+    "p75_bert_reranker_gain": {
+      "legacy": 1,
+      "boundary": 5,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_cpack_resources": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_bright_reasoning": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 2,
+      "semantic": 2
+    },
+    "p75_cocondenser_loss": {
+      "legacy": 5,
+      "boundary": 4,
+      "structural": 2,
+      "semantic": 1
+    },
+    "p75_coil_index": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_colbert_late_interaction": {
+      "legacy": 1,
+      "boundary": 4,
+      "structural": null,
+      "semantic": null
+    },
+    "p75_colbertv2_compression": {
+      "legacy": 2,
+      "boundary": 3,
+      "structural": 2,
+      "semantic": 2
+    },
+    "p75_contriever_beir": {
+      "legacy": 2,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_crag_evaluator": {
+      "legacy": 2,
+      "boundary": null,
+      "structural": null,
+      "semantic": 2
+    },
+    "p75_deepimpact_expansion": {
+      "legacy": null,
+      "boundary": null,
+      "structural": 3,
+      "semantic": 4
+    },
+    "p75_doct5query_direction": {
+      "legacy": 2,
+      "boundary": 5,
+      "structural": 1,
+      "semantic": 3
+    },
+    "p75_dpr_bm25_margin": {
+      "legacy": 3,
+      "boundary": 3,
+      "structural": null,
+      "semantic": 4
+    },
+    "p75_e5_supervision": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_faiss_kselection": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_fid_passage_scaling": {
+      "legacy": null,
+      "boundary": 4,
+      "structural": null,
+      "semantic": 4
+    },
+    "p75_grf_source": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_graphrag_index": {
+      "legacy": 4,
+      "boundary": 2,
+      "structural": 2,
+      "semantic": 3
+    },
+    "p75_gtr_scaling": {
+      "legacy": null,
+      "boundary": 4,
+      "structural": 5,
+      "semantic": null
+    },
+    "p75_hnsw_layers": {
+      "legacy": 2,
+      "boundary": 3,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_hyde_pipeline": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 4,
+      "semantic": 1
+    },
+    "p75_hyrr_training_pool": {
+      "legacy": 1,
+      "boundary": 2,
+      "structural": 2,
+      "semantic": 2
+    },
+    "p75_instructor_tasks": {
+      "legacy": 1,
+      "boundary": 4,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_late_chunking_order": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 5,
+      "semantic": 4
+    },
+    "p75_layoutlm_inputs": {
+      "legacy": 2,
+      "boundary": 1,
+      "structural": 2,
+      "semantic": 1
+    },
+    "p75_longbench_scope": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_lost_middle_position": {
+      "legacy": 4,
+      "boundary": 5,
+      "structural": 5,
+      "semantic": null
+    },
+    "p75_m3_functions": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 2,
+      "semantic": 1
+    },
+    "p75_monot5_reformulation": {
+      "legacy": 3,
+      "boundary": 5,
+      "structural": 5,
+      "semantic": null
+    },
+    "p75_msmarco_answers": {
+      "legacy": 4,
+      "boundary": 3,
+      "structural": 2,
+      "semantic": 2
+    },
+    "p75_mteb_scale": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_multihop_evidence": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_query2doc_bm25_gain": {
+      "legacy": 3,
+      "boundary": 2,
+      "structural": 2,
+      "semantic": 2
+    },
+    "p75_rewrite_trainable": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 5,
+      "semantic": 1
+    },
+    "p75_rag_memory": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_rankgpt_noveleval": {
+      "legacy": null,
+      "boundary": 1,
+      "structural": null,
+      "semantic": 2
+    },
+    "p75_rankt5_losses": {
+      "legacy": 2,
+      "boundary": 4,
+      "structural": 4,
+      "semantic": 2
+    },
+    "p75_raptor_tree": {
+      "legacy": 3,
+      "boundary": 2,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_realm_signal": {
+      "legacy": 4,
+      "boundary": null,
+      "structural": 3,
+      "semantic": 1
+    },
+    "p75_replug_integration": {
+      "legacy": null,
+      "boundary": null,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_retro_database": {
+      "legacy": null,
+      "boundary": 3,
+      "structural": 1,
+      "semantic": null
+    },
+    "p75_rocketqav2_distillation": {
+      "legacy": 3,
+      "boundary": 2,
+      "structural": 2,
+      "semantic": null
+    },
+    "p75_ruler_tasks": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_sbert_speed": {
+      "legacy": 2,
+      "boundary": 2,
+      "structural": 2,
+      "semantic": 1
+    },
+    "p75_selfrag_tokens": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 4
+    },
+    "p75_sgpt_scale": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_simcse_dropout": {
+      "legacy": 2,
+      "boundary": 2,
+      "structural": 2,
+      "semantic": 4
+    },
+    "p75_splade_sparsity": {
+      "legacy": 1,
+      "boundary": 4,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_texttiling_cues": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_trec_dl_regime": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_ance_efficiency": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": null,
+      "semantic": 2
+    },
+    "p75_beir_tradeoff": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_cpack_benchmark": {
+      "legacy": null,
+      "boundary": null,
+      "structural": 3,
+      "semantic": 3
+    },
+    "p75_bright_query_count": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_coil_scoring": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_colbert_precompute": {
+      "legacy": 1,
+      "boundary": 2,
+      "structural": 2,
+      "semantic": 1
+    },
+    "p75_colbertv2_space": {
+      "legacy": 2,
+      "boundary": 4,
+      "structural": 2,
+      "semantic": 3
+    },
+    "p75_crag_web_search": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": null,
+      "semantic": 1
+    },
+    "p75_deepimpact_token_value": {
+      "legacy": 1,
+      "boundary": null,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_doct5query_latency": {
+      "legacy": null,
+      "boundary": null,
+      "structural": null,
+      "semantic": null
+    },
+    "p75_dpr_dual_encoder": {
+      "legacy": null,
+      "boundary": null,
+      "structural": 2,
+      "semantic": null
+    },
+    "p75_e5_evaluation": {
+      "legacy": 1,
+      "boundary": 4,
+      "structural": 2,
+      "semantic": 1
+    },
+    "p75_faiss_graph_time": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_fid_aggregation": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_gtr_data_efficiency": {
+      "legacy": null,
+      "boundary": 4,
+      "structural": null,
+      "semantic": 1
+    },
+    "p75_hnsw_graph_only": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_hyde_false_details": {
+      "legacy": 5,
+      "boundary": 4,
+      "structural": 3,
+      "semantic": 1
+    },
+    "p75_instructor_unseen": {
+      "legacy": 2,
+      "boundary": 4,
+      "structural": null,
+      "semantic": 3
+    },
+    "p75_late_chunking_training": {
+      "legacy": 3,
+      "boundary": 3,
+      "structural": 2,
+      "semantic": null
+    },
+    "p75_longbench_languages": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_lost_middle_pattern": {
+      "legacy": 4,
+      "boundary": 3,
+      "structural": 3,
+      "semantic": 4
+    },
+    "p75_m3_granularity": {
+      "legacy": 2,
+      "boundary": 2,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_mteb_no_winner": {
+      "legacy": 2,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_multihop_source": {
+      "legacy": 3,
+      "boundary": 4,
+      "structural": 2,
+      "semantic": 2
+    },
+    "p75_query2doc_both_retrievers": {
+      "legacy": 1,
+      "boundary": 2,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_raptor_levels": {
+      "legacy": 5,
+      "boundary": 3,
+      "structural": 4,
+      "semantic": 1
+    },
+    "p75_replug_results": {
+      "legacy": 1,
+      "boundary": null,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_ruler_beyond_niah": {
+      "legacy": 3,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_selfrag_adaptive": {
+      "legacy": 2,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 2
+    },
+    "p75_simcse_supervised_pairs": {
+      "legacy": 1,
+      "boundary": 1,
+      "structural": 3,
+      "semantic": 4
+    },
+    "p75_splade_tradeoff": {
+      "legacy": 1,
+      "boundary": 2,
+      "structural": 2,
+      "semantic": 2
+    },
+    "p75_texttiling_validation": {
+      "legacy": null,
+      "boundary": null,
+      "structural": null,
+      "semantic": null
+    },
+    "p75_trec_dl_tasks": {
+      "legacy": 2,
+      "boundary": 1,
+      "structural": 1,
+      "semantic": 3
+    },
+    "p75_compare_dpr_ance_negatives": {
+      "legacy": null,
+      "boundary": null,
+      "structural": null,
+      "semantic": null
+    },
+    "p75_compare_coil_colbert": {
+      "legacy": null,
+      "boundary": null,
+      "structural": null,
+      "semantic": null
+    },
+    "p75_compare_hyde_query2doc": {
+      "legacy": 4,
+      "boundary": 4,
+      "structural": null,
+      "semantic": null
+    },
+    "p75_compare_rag_replug": {
+      "legacy": 4,
+      "boundary": 4,
+      "structural": 1,
+      "semantic": 1
+    },
+    "p75_compare_beir_bright": {
+      "legacy": 2,
+      "boundary": 1,
+      "structural": 2,
+      "semantic": 2
+    }
+  }
+}

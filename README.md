@@ -49,7 +49,14 @@ new corpus directory directly; no ingestion defaults were changed.
 The separate [Phase 7.5 evaluation dataset](docs/phase-7.5-evaluation-dataset.md)
 contains 100 verified questions: 90 grounded answerable questions covering all
 52 PDFs and 10 domain-plausible unanswerable questions. The original 20-question
-benchmark remains unchanged; the expanded benchmark has not yet been run.
+benchmark remains unchanged; the expanded dataset is used without label changes
+in the final experiment below.
+
+The [final Phase 7.5 benchmark](docs/phase-7.5-final-benchmark.md) runs all four
+chunk strategies through the same Qdrant + BM25 + RRF + cross-encoder stack.
+Legacy remains the default (45.6% Hit@1 and 84.4% Hit@5), while structural gives
+the strongest limited cross-page result and semantic leads Hit@3. The experiment
+is retrieval-only; no 100-question generation run was performed.
 
 A portfolio project for learning retrieval-augmented generation by implementing
 its fundamental components directly. The project currently covers ingestion,
