@@ -269,3 +269,10 @@ contracts.
 
 See [the Phase 6 guide](phase-6-qdrant.md) for the storage model, safety checks,
 CLI, exact-versus-approximate search, filtering, and measured equivalence.
+# Phase 7: chunking strategies
+
+The ingestion boundary is now `DocumentParser (pypdf) -> ChunkingStrategy -> JSONL`.
+`legacy`, `boundary`, `structural`, and `semantic` produce the same `Chunk` contract,
+so BM25, dense retrieval, RRF, reranking, and Qdrant do not need strategy branches.
+The contract carries an inclusive page span and optional section title; `page_number`
+is retained as its start page for compatibility. See [Phase 7](phase-7-advanced-chunking.md).

@@ -1,5 +1,26 @@
 # RAG Research Assistant
 
+## Phase 7: advanced chunking
+
+Phase 7 compares four local, framework-free ways to form evidence chunks: the
+reproducible page-scoped `legacy` baseline (still the default), sentence/paragraph
+`boundary`, cross-page heading-aware `structural`, and embedding-assisted `semantic`.
+Each Chunk now retains an honest inclusive page range and optional section label.
+
+```bash
+rag-research-assistant ingest --chunking-strategy structural \
+  --output data/processed/chunks-structural.jsonl
+rag-research-assistant inspect --input data/processed/chunks-structural.jsonl \
+  --document dense-passage-retrieval.pdf --page 2
+rag-research-assistant compare-chunks --document dense-passage-retrieval.pdf --page 2
+```
+
+On the unchanged evaluation set, the existing legacy strategy remains best for
+this three-paper corpus (Hit@1/3/5: **75.0% / 100% / 100%**). That result is useful:
+cleaner boundaries and richer provenance are not automatically better retrieval.
+Read [the Phase 7 experiment](docs/phase-7-advanced-chunking.md) for methodology,
+trade-offs, page-span citation policy, and the complete comparison.
+
 A portfolio project for learning retrieval-augmented generation by implementing
 its fundamental components directly. The project currently covers ingestion,
 local semantic retrieval, grounded local answer generation, and systematic
