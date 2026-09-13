@@ -21,6 +21,26 @@ cleaner boundaries and richer provenance are not automatically better retrieval.
 Read [the Phase 7 experiment](docs/phase-7-advanced-chunking.md) for methodology,
 trade-offs, page-span citation policy, and the complete comparison.
 
+## Phase 7.5: corpus acquisition and provenance
+
+The reviewed 57-paper corpus definition lives in
+[the proposed corpus manifest](docs/proposed-phase-7.5-corpus.md). Its 52
+approved public-PDF records can be acquired with an idempotent, auditable local
+workflow; the five held records remain in the JSONL manifest but are never
+downloaded automatically.
+
+```bash
+rag-research-assistant corpus-build
+```
+
+This writes deterministic paper-ID filenames to `data/corpus/pdfs/` and a
+tracked `data/corpus/manifest.jsonl`. Each record records source provenance,
+status, SHA-256, size, first-page title validation, redirects, and non-fatal
+failures. It reconciles the original RAG, DPR, and SGPT PDFs rather than
+redownloading them. See [the acquisition guide](docs/phase-7.5-corpus-acquisition.md)
+for validation rules and recovery from download failures. PDFs themselves are
+intentionally ignored by Git; the manifest is the auditable, versioned record.
+
 A portfolio project for learning retrieval-augmented generation by implementing
 its fundamental components directly. The project currently covers ingestion,
 local semantic retrieval, grounded local answer generation, and systematic

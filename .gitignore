@@ -27,6 +27,8 @@ env/
 # Local research papers and generated artifacts
 data/papers/*
 !data/papers/.gitkeep
+data/corpus/pdfs/*
+!data/corpus/pdfs/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
 data/evaluation/results/*

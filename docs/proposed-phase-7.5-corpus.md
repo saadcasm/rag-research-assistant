@@ -1,8 +1,10 @@
 # Proposed Phase 7.5 corpus: scaling and evaluation expansion
 
-Status: **metadata and source-validated proposal; not approved for download
-automation yet**. Do not download from this document yet. The current three PDFs
-remain in the corpus and are marked `existing`. The validation date is 2026-09-13.
+Status: **metadata and source-validated corpus definition**. The reproducible
+acquisition workflow derives its machine-readable manifest from this document;
+it downloads only the 52 approved records and represents the five held records
+explicitly without fetching them. The current three PDFs remain in the corpus and
+are marked `existing`. The validation date is 2026-09-13.
 For every arXiv item, the listed link is the preferred direct PDF URL and its
 title/authors/year/arXiv identity were checked against the arXiv record. For the
 seven non-arXiv items, the listed venue or author source was checked separately.

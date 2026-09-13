@@ -7,6 +7,7 @@ from typing import List, Optional, Sequence, Tuple
 
 from .bm25 import BM25Index
 from .comparison import compare_reports, write_comparison_report
+from .corpus import DEFAULT_CORPUS_DIR, DEFAULT_PROPOSAL, build_corpus, corpus_summary
 from .embeddings import DEFAULT_MODEL, Embedder, SentenceTransformerEmbedder
 from .evaluation import (
     EvaluationReport,
@@ -98,6 +99,14 @@ def _parser() -> argparse.ArgumentParser:
     compare_chunks.add_argument("--document", required=True)
     compare_chunks.add_argument("--page", type=int, required=True)
     compare_chunks.add_argument("--limit", type=int, default=10)
+
+    corpus_build = subparsers.add_parser(
+        "corpus-build", help="Download and validate only approved Phase 7.5 PDFs"
+    )
+    corpus_build.add_argument("--proposal", type=Path, default=DEFAULT_PROPOSAL)
+    corpus_build.add_argument("--corpus-dir", type=Path, default=DEFAULT_CORPUS_DIR)
+    corpus_build.add_argument("--existing-papers-dir", type=Path, default=Path("data/papers"))
+    corpus_build.add_argument("--timeout", type=float, default=30.0)
 
     embed = subparsers.add_parser(
         "embed", help="Build a persistent local embedding index"
@@ -407,6 +416,29 @@ def _print_comparison(report) -> None:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     args = _parser().parse_args(argv)
+
+    if args.command == "corpus-build":
+        try:
+            records = build_corpus(
+                proposal_path=args.proposal,
+                corpus_dir=args.corpus_dir,
+                existing_papers_dir=args.existing_papers_dir,
+                timeout=args.timeout,
+            )
+        except (FileNotFoundError, OSError, ValueError) as exc:
+            print(f"Error: corpus build failed: {exc}", file=sys.stderr)
+            return 2
+        summary = corpus_summary(records)
+        print("\nCorpus build")
+        for name, value in summary.items():
+            print(f"{name.replace('_', ' ')}: {value}")
+        failures = [r for r in records if r["download_status"] in {"download_failed", "validation_failed"}]
+        if failures:
+            print("\nFailures")
+            for record in failures:
+                print(f"- {record['paper_id']}: {record['validation_notes']}")
+        print(f"\nManifest: {args.corpus_dir / 'manifest.jsonl'}")
+        return 0
 
     if args.command == "ingest":
         pdfs = discover_pdfs(args.input)
