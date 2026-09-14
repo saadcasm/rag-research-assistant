@@ -149,7 +149,7 @@ def create_app(
 
     application = FastAPI(
         title="RAG Research Assistant API",
-        version="0.8.0",
+        version="0.9.0",
         description="Local grounded question answering over the verified research corpus.",
         lifespan=lifespan,
     )

@@ -1,5 +1,16 @@
 # RAG Research Assistant
 
+## Phase 9: parallel LangChain and LangGraph exercises
+
+The manual CLI/FastAPI pipeline remains the project default. Phase 9 adds a
+small isolated LangChain composition around the existing retriever and a
+bounded LangGraph retrieve/evaluate/rewrite workflow so their abstractions can
+be compared without migrating or rebuilding the RAG system.
+
+See [the Phase 9 framework comparison](docs/phase-9-langchain-langgraph.md) for
+the data flow, graph state and nodes, controlled corpus experiment, trade-offs,
+tests, and adoption decision.
+
 ## Phase 8: local HTTP API
 
 The existing RAG pipeline is available through a typed FastAPI application. It
@@ -85,7 +96,8 @@ PDF -> pages -> chunks -> NumPy or Qdrant dense + BM25 -> RRF -> reranker
 evaluation questions -> metrics + comparison                context -> local LLM
 ```
 
-No RAG framework, cloud service, cloud LLM API, agent, or web UI is used.
+The production/default path uses no RAG framework, cloud service, cloud LLM API,
+agent, or web UI. Phase 9's framework code is an isolated comparison path.
 
 ## Phase 1 features
 
@@ -666,6 +678,7 @@ rag-research-assistant/
 ├── src/rag_research_assistant/
 │   ├── api.py           # FastAPI routes, schemas, lifecycle, and HTTP errors
 │   ├── application.py   # shared retriever construction and process service
+│   ├── frameworks/      # isolated LangChain and LangGraph experiments
 │   ├── bm25.py          # transparent lexical ranking and corpus statistics
 │   ├── chunking.py      # normalization and chunk construction
 │   ├── cli.py           # local pipeline and evaluation commands
@@ -693,6 +706,6 @@ rag-research-assistant/
 
 ## Roadmap
 
-Phase 8 adds a local query API while deliberately omitting runtime ingestion,
-authentication, request history, streaming, background jobs, and deployment.
-The existing CLI and transparent NumPy baseline remain available.
+Phase 9 compares framework abstractions while keeping the manual query API and
+CLI as defaults. Agents, tool calling, persistent graph checkpoints, runtime
+ingestion, authentication, and production deployment remain deferred.

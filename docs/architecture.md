@@ -1,4 +1,4 @@
-# Phase 1 through Phase 8 architecture
+# Phase 1 through Phase 9 architecture
 
 ```text
 data/papers/*.pdf
@@ -304,3 +304,18 @@ embedding model, reranker, chunks/BM25 state, Qdrant client, and Ollama generato
 once, reuses them across requests, and closes Qdrant on shutdown. The HTTP layer
 converts existing `GroundedAnswer` and `CitationSource` records into a public
 Pydantic response contract. See [the Phase 8 API guide](phase-8-api.md).
+
+## Phase 9 parallel framework experiments
+
+The default architecture above is unchanged. The isolated `frameworks/`
+package adapts the existing `Retriever` to LangChain Documents/Runnables and
+uses LangGraph for one bounded retrieve/evaluate/rewrite branch:
+
+```text
+existing Retriever -> LangChainRAGPipeline -> GroundedAnswer
+                  \-> BoundedRetrievalGraph -> GroundedAnswer
+```
+
+The framework paths do not own ingestion, indexes, retrieval algorithms,
+evaluation, FastAPI routes, or application defaults. See
+[the Phase 9 comparison](phase-9-langchain-langgraph.md).

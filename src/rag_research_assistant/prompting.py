@@ -1,15 +1,7 @@
 """Construct the explicit grounded question-answering prompt."""
 
 
-def build_grounded_prompt(question: str, context: str) -> str:
-    """Combine behavior rules, retrieved evidence, and the user question."""
-
-    if not question.strip():
-        raise ValueError("question cannot be empty")
-    if not context.strip():
-        raise ValueError("context cannot be empty")
-
-    return f"""You are a research assistant answering a question from retrieved evidence.
+GROUNDED_PROMPT_TEMPLATE = """You are a research assistant answering a question from retrieved evidence.
 
 Rules:
 1. Answer using only the evidence in the CONTEXT section.
@@ -23,7 +15,21 @@ CONTEXT
 {context}
 
 QUESTION
-{question.strip()}
+{question}
 
 ANSWER
 """
+
+
+def build_grounded_prompt(question: str, context: str) -> str:
+    """Combine behavior rules, retrieved evidence, and the user question."""
+
+    if not question.strip():
+        raise ValueError("question cannot be empty")
+    if not context.strip():
+        raise ValueError("context cannot be empty")
+
+    return GROUNDED_PROMPT_TEMPLATE.format(
+        context=context,
+        question=question.strip(),
+    )

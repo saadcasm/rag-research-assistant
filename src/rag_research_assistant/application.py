@@ -254,23 +254,27 @@ class RAGApplication:
         self.loaded.close()
 
 
+def default_retrieval_config(settings: ApplicationSettings) -> RetrievalConfig:
+    """Describe the established Phase 7.5 stack for any application transport."""
+
+    return RetrievalConfig(
+        chunks_path=settings.chunks_path,
+        index_path=Path("data/processed/embedding_index"),
+        dense_backend="qdrant",
+        qdrant_path=settings.qdrant_path,
+        collection_name=settings.collection_name,
+        retriever_name="hybrid",
+        rerank=True,
+        candidate_depth=20,
+        reranker_model=DEFAULT_RERANKER_MODEL,
+        device=settings.device,
+    )
+
+
 def build_application(settings: ApplicationSettings) -> RAGApplication:
     """Initialize the strongest established stack once for an API process."""
 
-    loaded = load_retriever(
-        RetrievalConfig(
-            chunks_path=settings.chunks_path,
-            index_path=Path("data/processed/embedding_index"),
-            dense_backend="qdrant",
-            qdrant_path=settings.qdrant_path,
-            collection_name=settings.collection_name,
-            retriever_name="hybrid",
-            rerank=True,
-            candidate_depth=20,
-            reranker_model=DEFAULT_RERANKER_MODEL,
-            device=settings.device,
-        )
-    )
+    loaded = load_retriever(default_retrieval_config(settings))
     try:
         generator = OllamaGenerator(
             model_name=settings.ollama_model,
