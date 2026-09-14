@@ -2,7 +2,7 @@ import numpy as np
 from pathlib import Path
 from types import SimpleNamespace
 
-from rag_research_assistant import cli
+from rag_research_assistant import application, cli
 from rag_research_assistant.generation import OllamaUnavailableError
 from rag_research_assistant.index import EmbeddingIndex
 from rag_research_assistant.evaluation import EvaluationExample, ExpectedSource
@@ -30,10 +30,10 @@ def test_search_command_displays_score_and_chunk_metadata(monkeypatch, capsys) -
         chunks=[chunk],
         model_name="test/model",
     )
-    monkeypatch.setattr(cli, "load_index", lambda chunks_path, index_dir: index)
-    monkeypatch.setattr(cli, "read_jsonl", lambda path: [chunk])
+    monkeypatch.setattr(application, "load_index", lambda chunks_path, index_dir: index)
+    monkeypatch.setattr(application, "read_jsonl", lambda path: [chunk])
     monkeypatch.setattr(
-        cli,
+        application,
         "SentenceTransformerEmbedder",
         lambda **kwargs: FakeQueryEmbedder(),
     )
@@ -88,10 +88,10 @@ def test_retrieval_only_evaluate_command_does_not_construct_ollama(
         (ExpectedSource("paper.pdf", 1),),
     )
     monkeypatch.setattr(cli, "load_evaluation_dataset", lambda path: [example])
-    monkeypatch.setattr(cli, "load_index", lambda chunks_path, index_dir: index)
-    monkeypatch.setattr(cli, "read_jsonl", lambda path: [chunk])
+    monkeypatch.setattr(application, "load_index", lambda chunks_path, index_dir: index)
+    monkeypatch.setattr(application, "read_jsonl", lambda path: [chunk])
     monkeypatch.setattr(
-        cli,
+        application,
         "SentenceTransformerEmbedder",
         lambda **kwargs: FakeQueryEmbedder(),
     )
@@ -117,9 +117,13 @@ def test_retriever_modes_construct_expected_strategy(monkeypatch) -> None:
         chunks=[chunk],
         model_name="test/model",
     )
-    monkeypatch.setattr(cli, "load_index", lambda chunks, path: index)
-    monkeypatch.setattr(cli, "read_jsonl", lambda path: [chunk])
-    monkeypatch.setattr(cli, "SentenceTransformerEmbedder", lambda **kwargs: FakeQueryEmbedder())
+    monkeypatch.setattr(application, "load_index", lambda chunks, path: index)
+    monkeypatch.setattr(application, "read_jsonl", lambda path: [chunk])
+    monkeypatch.setattr(
+        application,
+        "SentenceTransformerEmbedder",
+        lambda **kwargs: FakeQueryEmbedder(),
+    )
 
     def args(strategy, rerank=False):
         return SimpleNamespace(
@@ -141,7 +145,9 @@ def test_retriever_modes_construct_expected_strategy(monkeypatch) -> None:
     assert isinstance(cli._load_retriever(args("hybrid"))[2], HybridRetriever)
 
     fake_reranker = SimpleNamespace(model_name="fake/reranker", rerank=lambda *a: [])
-    monkeypatch.setattr(cli, "CrossEncoderReranker", lambda **kwargs: fake_reranker)
+    monkeypatch.setattr(
+        application, "CrossEncoderReranker", lambda **kwargs: fake_reranker
+    )
     assert isinstance(
         cli._load_retriever(args("hybrid", rerank=True))[2], RerankingRetriever
     )
@@ -170,15 +176,21 @@ def test_qdrant_backend_selection_constructs_qdrant_dense_retriever(
     info = QdrantIndexInfo(
         "chunks", Path("qdrant"), 1, 2, "Cosine", "test/model", "hash", 1
     )
-    monkeypatch.setattr(cli, "read_jsonl", lambda path: [chunk])
-    monkeypatch.setattr(cli, "inspect_qdrant_index", lambda *args, **kwargs: info)
+    monkeypatch.setattr(application, "read_jsonl", lambda path: [chunk])
     monkeypatch.setattr(
-        cli, "SentenceTransformerEmbedder", lambda **kwargs: FakeQueryEmbedder()
+        application, "inspect_qdrant_index", lambda *args, **kwargs: info
+    )
+    monkeypatch.setattr(
+        application,
+        "SentenceTransformerEmbedder",
+        lambda **kwargs: FakeQueryEmbedder(),
     )
     sentinel = SimpleNamespace(
         name="dense", score_name="cosine", backend_name="qdrant"
     )
-    monkeypatch.setattr(cli, "QdrantDenseRetriever", lambda *args, **kwargs: sentinel)
+    monkeypatch.setattr(
+        application, "QdrantDenseRetriever", lambda *args, **kwargs: sentinel
+    )
     args = SimpleNamespace(
         retriever="dense",
         rerank=False,

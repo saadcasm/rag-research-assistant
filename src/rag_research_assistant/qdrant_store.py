@@ -340,4 +340,6 @@ class QdrantDenseRetriever:
         ]
 
     def close(self) -> None:
+        """Release the process-scoped local Qdrant client."""
+
         self._client.close()

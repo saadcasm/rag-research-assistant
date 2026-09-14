@@ -1,4 +1,4 @@
-# Phase 1 through Phase 5 architecture
+# Phase 1 through Phase 8 architecture
 
 ```text
 data/papers/*.pdf
@@ -276,3 +276,31 @@ The ingestion boundary is now `DocumentParser (pypdf) -> ChunkingStrategy -> JSO
 so BM25, dense retrieval, RRF, reranking, and Qdrant do not need strategy branches.
 The contract carries an inclusive page span and optional section title; `page_number`
 is retained as its start page for compatibility. See [Phase 7](phase-7-advanced-chunking.md).
+
+## Phase 8 application boundary
+
+`application.py` moves retriever construction out of the CLI transport. Both
+CLI and FastAPI construct the same `Retriever` graph through `load_retriever`
+and ultimately call `rag.answer_question`. HTTP routes contain no BM25, fusion,
+reranking, prompting, or generation implementation.
+
+```text
+CLI arguments -> RetrievalConfig ---+
+                                      v
+                              load_retriever
+                                      |
+HTTP lifespan -> ApplicationSettings +-> RAGApplication
+                                              |
+HTTP request -> Pydantic contract ------------+
+                                              v
+                                    answer_question
+                                              |
+                                              v
+                               GroundedAnswer + sources
+```
+
+FastAPI's lifespan owns one process-scoped `RAGApplication`. It loads the
+embedding model, reranker, chunks/BM25 state, Qdrant client, and Ollama generator
+once, reuses them across requests, and closes Qdrant on shutdown. The HTTP layer
+converts existing `GroundedAnswer` and `CitationSource` records into a public
+Pydantic response contract. See [the Phase 8 API guide](phase-8-api.md).

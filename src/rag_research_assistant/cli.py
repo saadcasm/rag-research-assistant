@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 from typing import List, Optional, Sequence, Tuple
 
+from .application import RetrievalConfig, load_retriever
 from .bm25 import BM25Index
 from .comparison import compare_reports, write_comparison_report
 from .corpus import DEFAULT_CORPUS_DIR, DEFAULT_PROPOSAL, build_corpus, corpus_summary
@@ -311,73 +312,22 @@ def _load_retriever(
 ]:
     """Load shared corpus state and construct the requested ranking strategy."""
 
-    if args.rerank and args.retriever != "hybrid":
-        raise ValueError("--rerank requires --retriever hybrid")
-    if args.candidate_depth <= 0:
-        raise ValueError("candidate_depth must be positive")
-    if args.document and (
-        args.dense_backend != "qdrant" or args.retriever != "dense"
-    ):
-        raise ValueError(
-            "--document currently requires --retriever dense --dense-backend qdrant"
-        )
-    chunks = read_jsonl(args.chunks)
-    bm25 = BM25Retriever(BM25Index(chunks))
-    index = None
-    embedder = None
-    dense = None
-    if args.dense_backend == "numpy":
-        index = load_index(args.chunks, args.index)
-        metadata = CorpusIndexMetadata(
-            index.model_name, index.dimension, len(index.chunks)
-        )
-    else:
-        qdrant_info = inspect_qdrant_index(
-            args.chunks,
-            args.qdrant_path,
+    loaded = load_retriever(
+        RetrievalConfig(
+            chunks_path=Path(args.chunks),
+            index_path=Path(args.index),
+            dense_backend=args.dense_backend,
+            qdrant_path=Path(args.qdrant_path),
             collection_name=args.collection,
-        )
-        metadata = CorpusIndexMetadata(
-            qdrant_info.model_name, qdrant_info.dimension, qdrant_info.point_count
-        )
-    if args.retriever != "bm25":
-        embedder = SentenceTransformerEmbedder(
-            model_name=metadata.embedding_model,
+            retriever_name=args.retriever,
+            rerank=args.rerank,
+            candidate_depth=args.candidate_depth,
+            reranker_model=args.reranker_model,
             device=args.device,
-            local_files_only=True,
+            document=args.document,
         )
-        if args.dense_backend == "numpy":
-            assert index is not None
-            dense = DenseRetriever(index, embedder)
-        else:
-            dense = QdrantDenseRetriever(
-                args.chunks,
-                args.qdrant_path,
-                embedder,
-                collection_name=args.collection,
-                document=args.document,
-            )
-    selected: Retriever
-    if args.retriever == "dense":
-        assert dense is not None
-        selected = dense
-    elif args.retriever == "bm25":
-        selected = bm25
-    else:
-        assert dense is not None
-        selected = HybridRetriever(
-            dense, bm25, candidate_depth=args.candidate_depth, rrf_k=60
-        )
-    if args.rerank:
-        reranker = CrossEncoderReranker(
-            model_name=args.reranker_model,
-            device=args.device,
-            local_files_only=True,
-        )
-        selected = RerankingRetriever(
-            selected, reranker, candidate_depth=args.candidate_depth
-        )
-    return index, embedder, selected, metadata
+    )
+    return loaded.index, loaded.embedder, loaded.retriever, loaded.metadata
 
 
 def _print_comparison(report) -> None:

@@ -1,5 +1,20 @@
 # RAG Research Assistant
 
+## Phase 8: local HTTP API
+
+The existing RAG pipeline is available through a typed FastAPI application. It
+loads the Phase 7.5 legacy Qdrant + BM25 + RRF + reranker stack once per process
+and reuses `rag.answer_question`; endpoints do not duplicate retrieval or
+generation logic.
+
+```bash
+uvicorn rag_research_assistant.api:app --reload
+```
+
+Open `http://127.0.0.1:8000/docs` for interactive OpenAPI documentation. See
+[the Phase 8 API guide](docs/phase-8-api.md) for configuration, lifecycle,
+schemas, curl examples, errors, concurrency, and the real local smoke test.
+
 ## Phase 7: advanced chunking
 
 Phase 7 compares four local, framework-free ways to form evidence chunks: the
@@ -140,6 +155,16 @@ No RAG framework, cloud service, cloud LLM API, agent, or web UI is used.
 - Uses stable UUIDv5 point IDs so repeated builds do not create duplicates.
 - Supports exact document-filename filtering through Qdrant payload.
 - Keeps BM25, RRF, reranking, evaluation, and generation backend-independent.
+
+## Phase 8 features
+
+- Adds `GET /health` and a typed, structured `POST /ask` endpoint.
+- Reuses shared application and RAG orchestration from both CLI and HTTP.
+- Initializes heavy models, BM25, Qdrant, and Ollama once per process.
+- Preserves citation page spans and chunk IDs in the public response.
+- Generates OpenAPI, Swagger UI, and ReDoc from Pydantic models.
+- Maps dependency failures to safe HTTP errors without leaking local paths.
+- Keeps API tests offline through a lightweight fake service.
 
 ## Setup
 
@@ -639,6 +664,8 @@ rag-research-assistant/
 │   └── processed/       # generated chunks and embeddings (ignored)
 ├── docs/                # architecture notes
 ├── src/rag_research_assistant/
+│   ├── api.py           # FastAPI routes, schemas, lifecycle, and HTTP errors
+│   ├── application.py   # shared retriever construction and process service
 │   ├── bm25.py          # transparent lexical ranking and corpus statistics
 │   ├── chunking.py      # normalization and chunk construction
 │   ├── cli.py           # local pipeline and evaluation commands
@@ -666,7 +693,6 @@ rag-research-assistant/
 
 ## Roadmap
 
-Phase 6 adds one local vector database while deliberately omitting Docker,
-Qdrant Cloud, RAG frameworks, query rewriting, web search, LLM judges, servers,
-and UI. NumPy remains available so later changes can still be compared with the
-most transparent baseline.
+Phase 8 adds a local query API while deliberately omitting runtime ingestion,
+authentication, request history, streaming, background jobs, and deployment.
+The existing CLI and transparent NumPy baseline remain available.
