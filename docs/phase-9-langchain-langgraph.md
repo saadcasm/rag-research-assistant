@@ -144,7 +144,7 @@ manual application layer.
 | Hidden behavior | low | more validation, conversion, callback, and message behavior |
 
 The manual orchestration, context, and prompt modules are 136 lines combined.
-The LangChain module is 176 lines because robust provenance adapters and domain
+The LangChain module is 178 lines because robust provenance adapters and domain
 conversion dominate it; the central LCEL expression itself is short. Line count
 therefore does not prove simplicity. LangChain becomes more attractive when
 many replaceable models, retrievers, callbacks, or streaming modes must share a
