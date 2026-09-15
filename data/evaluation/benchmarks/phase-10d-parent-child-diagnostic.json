@@ -1,0 +1,3050 @@
+{
+  "schema_version": 1,
+  "experiment": "phase-10d-semantic-child-parent-expansion",
+  "created_at": "2026-09-15T10:30:34.504032+00:00",
+  "dataset_path": "data/evaluation/questions-phase-7.5.jsonl",
+  "dataset_sha256": "36e9707071d722e327ff1987118caff1fc71d646dbeef77d139b32aa1445fcbe",
+  "configuration": {
+    "baseline_chunks": "data/processed/corpus-52/chunks-legacy.jsonl",
+    "child_strategy": "semantic",
+    "child_chunks": "data/processed/corpus-52/chunks-semantic.jsonl",
+    "child_chunk_count": 5124,
+    "structural_chunks": "data/processed/corpus-52/chunks-structural.jsonl",
+    "parent_index_build_seconds": 22.496189166005934,
+    "extracted_pages": 849,
+    "corpus_documents": 52,
+    "child_depth": 20,
+    "parent_top_k": 5,
+    "child_retrieval_strategy": "hybrid+rerank",
+    "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
+    "reranker_model": "cross-encoder/ms-marco-MiniLM-L6-v2",
+    "parent_aggregation": "sum 1/(60+child_rank) after child reranking"
+  },
+  "structural_coverage": {
+    "total_child_chunks": 5124,
+    "children_with_section_metadata": 5124,
+    "children_without_section_metadata": 0,
+    "structural_exact_mappings": 3310,
+    "structural_page_fallback_mappings": 1814,
+    "structural_exact_coverage": 0.6459797033567526,
+    "unique_page_parents": 844,
+    "unique_structural_parents": 2349,
+    "fallback_rule": "page parent when no unique same-section structural chunk contains the full child text"
+  },
+  "summary": {
+    "total_questions": 5,
+    "retrieval_scored_questions": 5,
+    "unanswerable_questions": 0,
+    "baseline": {
+      "hit_at_1": 0.6,
+      "hit_at_3": 0.6,
+      "hit_at_5": 0.8,
+      "recall_at_1": 0.6,
+      "recall_at_3": 0.6,
+      "recall_at_5": 0.8,
+      "mean_first_relevant_rank": 1.75
+    },
+    "child": {
+      "hit_at_1": 0.4,
+      "hit_at_3": 0.8,
+      "hit_at_5": 0.8,
+      "recall_at_1": 0.4,
+      "recall_at_3": 0.8,
+      "recall_at_5": 0.8,
+      "mean_first_relevant_rank": 1.5
+    },
+    "page_parent": {
+      "hit_at_1": 0.2,
+      "hit_at_3": 0.4,
+      "hit_at_5": 1.0,
+      "recall_at_1": 0.2,
+      "recall_at_3": 0.4,
+      "recall_at_5": 1.0,
+      "mean_first_relevant_rank": 3.4,
+      "average_parent_characters": 4212.84,
+      "median_parent_characters": 4142.0,
+      "p95_parent_characters": 6032.4,
+      "average_parent_tokens_approx": 640.88,
+      "average_expansion_ratio": 7.307538124447859,
+      "average_contributing_children": 2.08,
+      "parent_deduplication_rate": 0.27,
+      "relevant_child_mapping_rate": 1.0,
+      "relevant_child_containment_rate": 0.4166666666666667
+    },
+    "structural_parent": {
+      "hit_at_1": 0.4,
+      "hit_at_3": 0.6,
+      "hit_at_5": 0.8,
+      "recall_at_1": 0.4,
+      "recall_at_3": 0.6,
+      "recall_at_5": 0.8,
+      "mean_first_relevant_rank": 2.0,
+      "average_parent_characters": 2622.96,
+      "median_parent_characters": 1200.0,
+      "p95_parent_characters": 5657.999999999999,
+      "average_parent_tokens_approx": 396.2,
+      "average_expansion_ratio": 4.029002860110824,
+      "average_contributing_children": 1.24,
+      "parent_deduplication_rate": 0.06,
+      "relevant_child_mapping_rate": 0.5833333333333334,
+      "relevant_child_containment_rate": 0.4166666666666667
+    },
+    "child_improved": 1,
+    "child_degraded": 1,
+    "child_unchanged": 3,
+    "page_parent_harms_child_hit": 0,
+    "structural_parent_harms_child_hit": 0,
+    "average_baseline_retrieval_seconds": 0.20600744200055487,
+    "average_child_retrieval_seconds": 0.1702243333973456,
+    "average_parent_mapping_seconds": 3.974999999627471e-05,
+    "average_page_aggregation_seconds": 0.00020892499887850135,
+    "average_structural_aggregation_seconds": 0.00014940020046196877,
+    "average_parent_child_total_seconds": 0.17062240859668237
+  },
+  "questions": [
+    {
+      "question_id": "p75_ance_global_negatives",
+      "original_question": "Why does ANCE select negatives from the whole corpus rather than relying only on local in-batch samples?",
+      "answerability": "answerable",
+      "expected_sources": [
+        {
+          "document": "ance.pdf",
+          "page_number": 1,
+          "chunk_id": null
+        }
+      ],
+      "baseline_first_relevant_rank": 4,
+      "child_first_relevant_rank": 2,
+      "page_parent_first_relevant_rank": 5,
+      "structural_parent_first_relevant_rank": 4,
+      "child_vs_baseline_outcome": "improved",
+      "page_parent_vs_baseline_outcome": "degraded",
+      "structural_parent_vs_baseline_outcome": "unchanged",
+      "page_parent_vs_child_outcome": "degraded",
+      "structural_parent_vs_child_outcome": "degraded",
+      "baseline_results": [
+        {
+          "rank": 1,
+          "score": 5.309420108795166,
+          "chunk_id": "ance.pdf:p2:c2",
+          "document": "ance.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 1051
+        },
+        {
+          "rank": 2,
+          "score": 4.994507789611816,
+          "chunk_id": "ance.pdf:p4:c3",
+          "document": "ance.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 1043
+        },
+        {
+          "rank": 3,
+          "score": 3.831514835357666,
+          "chunk_id": "ance.pdf:p8:c4",
+          "document": "ance.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 1013
+        },
+        {
+          "rank": 4,
+          "score": 3.5350852012634277,
+          "chunk_id": "ance.pdf:p1:c2",
+          "document": "ance.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 825
+        },
+        {
+          "rank": 5,
+          "score": 2.7658066749572754,
+          "chunk_id": "ance.pdf:p8:c5",
+          "document": "ance.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 1003
+        }
+      ],
+      "child_results": [
+        {
+          "rank": 1,
+          "score": 5.614640235900879,
+          "chunk_id": "ance.pdf:semantic:c19:63f4d306c3",
+          "document": "ance.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 1096
+        },
+        {
+          "rank": 2,
+          "score": 4.089834690093994,
+          "chunk_id": "ance.pdf:semantic:c2:9651288607",
+          "document": "ance.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 479
+        },
+        {
+          "rank": 3,
+          "score": 3.8970913887023926,
+          "chunk_id": "ance.pdf:semantic:c46:1fd23b10b2",
+          "document": "ance.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 603
+        },
+        {
+          "rank": 4,
+          "score": 3.5224390029907227,
+          "chunk_id": "ance.pdf:semantic:c44:876b97507f",
+          "document": "ance.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 842
+        },
+        {
+          "rank": 5,
+          "score": 3.513123035430908,
+          "chunk_id": "ance.pdf:semantic:c18:3e72656ef3",
+          "document": "ance.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 685
+        },
+        {
+          "rank": 6,
+          "score": 2.294321060180664,
+          "chunk_id": "e5.pdf:semantic:c21:d4bb204a22",
+          "document": "e5.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 637
+        },
+        {
+          "rank": 7,
+          "score": 2.163648843765259,
+          "chunk_id": "ance.pdf:semantic:c37:ce2da96b08",
+          "document": "ance.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "character_count": 418
+        },
+        {
+          "rank": 8,
+          "score": 1.8655669689178467,
+          "chunk_id": "ance.pdf:semantic:c8:ba96d7d0ce",
+          "document": "ance.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 429
+        },
+        {
+          "rank": 9,
+          "score": 1.8471148014068604,
+          "chunk_id": "ance.pdf:semantic:c20:fdffc084ce",
+          "document": "ance.pdf",
+          "start_page": 4,
+          "end_page": 5,
+          "character_count": 645
+        },
+        {
+          "rank": 10,
+          "score": 1.2662712335586548,
+          "chunk_id": "ance.pdf:semantic:c7:dd2771d527",
+          "document": "ance.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 584
+        },
+        {
+          "rank": 11,
+          "score": 0.9045147895812988,
+          "chunk_id": "ance.pdf:semantic:c34:3328e8e27e",
+          "document": "ance.pdf",
+          "start_page": 6,
+          "end_page": 7,
+          "character_count": 1200
+        },
+        {
+          "rank": 12,
+          "score": 0.6658613085746765,
+          "chunk_id": "ance.pdf:semantic:c5:8ec5fb8123",
+          "document": "ance.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 694
+        },
+        {
+          "rank": 13,
+          "score": -0.1929260790348053,
+          "chunk_id": "ance.pdf:semantic:c21:0253308678",
+          "document": "ance.pdf",
+          "start_page": 5,
+          "end_page": 5,
+          "character_count": 809
+        },
+        {
+          "rank": 14,
+          "score": -0.5308714509010315,
+          "chunk_id": "ance.pdf:semantic:c38:db6f3ec318",
+          "document": "ance.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "character_count": 616
+        },
+        {
+          "rank": 15,
+          "score": -0.6239706873893738,
+          "chunk_id": "beir.pdf:semantic:c39:48eabb60b6",
+          "document": "beir.pdf",
+          "start_page": 6,
+          "end_page": 6,
+          "character_count": 479
+        },
+        {
+          "rank": 16,
+          "score": -1.1010453701019287,
+          "chunk_id": "dpr_karpukhin_2020.pdf:semantic:c36:576c707744",
+          "document": "dpr_karpukhin_2020.pdf",
+          "start_page": 6,
+          "end_page": 6,
+          "character_count": 482
+        },
+        {
+          "rank": 17,
+          "score": -1.6712698936462402,
+          "chunk_id": "ance.pdf:semantic:c6:d6d9a6f5bd",
+          "document": "ance.pdf",
+          "start_page": 1,
+          "end_page": 2,
+          "character_count": 1181
+        },
+        {
+          "rank": 18,
+          "score": -2.6595137119293213,
+          "chunk_id": "e5.pdf:semantic:c46:8278d9e4d0",
+          "document": "e5.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 705
+        },
+        {
+          "rank": 19,
+          "score": -2.8219351768493652,
+          "chunk_id": "rocketqav2.pdf:semantic:c43:6a5bb6a852",
+          "document": "rocketqav2.pdf",
+          "start_page": 8,
+          "end_page": 9,
+          "character_count": 582
+        },
+        {
+          "rank": 20,
+          "score": -5.875870704650879,
+          "chunk_id": "cocondenser.pdf:semantic:c37:e603751706",
+          "document": "cocondenser.pdf",
+          "start_page": 7,
+          "end_page": 8,
+          "character_count": 489
+        }
+      ],
+      "page_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.04627081163075461,
+          "parent_id": "parent:page:03aca00d5f0c2604",
+          "parent_type": "page",
+          "document": "ance.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "section_title": null,
+          "parent_character_count": 3140,
+          "parent_token_count_approx": 491,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c19:63f4d306c3",
+            "ance.pdf:semantic:c18:3e72656ef3",
+            "ance.pdf:semantic:c20:fdffc084ce"
+          ],
+          "contributing_child_ranks": [
+            1,
+            5,
+            9
+          ],
+          "best_child_score": 5.614640235900879,
+          "best_child_rank": 1,
+          "best_child_character_count": 1096,
+          "expansion_ratio": 2.8649635036496353,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "cross_page_child_mapped_to_highest_overlap_page"
+          ],
+          "text_preview": "Preprint\nq\n𝑑!\n𝐷!!\"#\n\"\nTrainer\nInferencer\nq\n𝑑!\n𝐷!!\"$\n\"\nCheckpoint k-1\n…\nCheckpoint k\nq\n𝑑!\n𝐷!!\"$\n\"\nq\n𝑑!\n𝐷!!\n\"\n…\nCheckpoint k+1\nq\n𝑑!\n𝐷!!\"#\n\"\n…\nInferencing\nIndex &\nSearch\nTraining\nPositives\nANCE\nNegatives\nIndex &\nSearch\nFigure 2: ANCE Asynchronous Training. The Trainer learns the representation using negatives from\nthe ANN index. The Inferencer uses a recent checkpoint to update the representation of documents in\nthe corpus and once ﬁnished, refreshes the ANN index with most up-to-date encodings.\nwh"
+        },
+        {
+          "rank": 2,
+          "score": 0.04252339369009539,
+          "parent_id": "parent:page:511b1ab0846a7f54",
+          "parent_type": "page",
+          "document": "ance.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "section_title": null,
+          "parent_character_count": 3839,
+          "parent_token_count_approx": 636,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c37:ce2da96b08",
+            "ance.pdf:semantic:c34:3328e8e27e",
+            "ance.pdf:semantic:c38:db6f3ec318"
+          ],
+          "contributing_child_ranks": [
+            7,
+            11,
+            14
+          ],
+          "best_child_score": 2.163648843765259,
+          "best_child_rank": 7,
+          "best_child_character_count": 418,
+          "expansion_ratio": 9.18421052631579,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "cross_page_child_mapped_to_highest_overlap_page"
+          ],
+          "text_preview": "Preprint\nTable 4: OpenQA Test Scores in Single Task\nSetting. ANCE+Reader switches the retrieve\nof a system from DPR to ANCE and keeps the\nsame reading model, which is RAG-Token on\nNatural Questions (NQ) and DPR Reader on\nTrivia QA (TQA).\nModel NQ TQA\nT5-11B (Roberts et al., 2020) 34.5 -\nT5-11B + SSM (Roberts et al., 2020) 36.6 -\nREALM (Guu et al., 2020) 40.4 -\nDPR (Karpukhin et al., 2020) 41.5 56.8\nDPR + BM25 (Karpukhin et al., 2020) 39.0 57.0\nRAG-Token (Lewis et al., 2020b) 44.1 55.2\nRAG-Sequen"
+        },
+        {
+          "rank": 3,
+          "score": 0.04197860962566845,
+          "parent_id": "parent:page:6af5ddfdf8355ece",
+          "parent_type": "page",
+          "document": "ance.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "section_title": null,
+          "parent_character_count": 3997,
+          "parent_token_count_approx": 618,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c8:ba96d7d0ce",
+            "ance.pdf:semantic:c7:dd2771d527",
+            "ance.pdf:semantic:c6:d6d9a6f5bd"
+          ],
+          "contributing_child_ranks": [
+            8,
+            10,
+            17
+          ],
+          "best_child_score": 1.8655669689178467,
+          "best_child_rank": 8,
+          "best_child_character_count": 429,
+          "expansion_ratio": 9.317016317016318,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "cross_page_child_mapped_to_highest_overlap_page"
+          ],
+          "text_preview": "Preprint\nQuery\nRelevant\nDR Neg\nBM25 Neg\nRand Neg\nFigure 1: T-SNE (Maaten & Hinton,\n2008) representations of query, relevant\ndocuments, negative training instances\nfrom BM25 (BM25 Neg) or randomly\nsampled (Rand Neg), and testing nega-\ntives (DR Neg) in dense retrieval.\nIn this paper, we ﬁrst theoretically analyze the convergence\nof dense retrieval training with negative sampling. Us-\ning the variance reduction framework (Alain et al., 2015;\nKatharopoulos & Fleuret, 2018), we show that, under con-"
+        },
+        {
+          "rank": 4,
+          "score": 0.03149801587301587,
+          "parent_id": "parent:page:486f22884e42c004",
+          "parent_type": "page",
+          "document": "ance.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "section_title": null,
+          "parent_character_count": 4109,
+          "parent_token_count_approx": 640,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c46:1fd23b10b2",
+            "ance.pdf:semantic:c44:876b97507f"
+          ],
+          "contributing_child_ranks": [
+            3,
+            4
+          ],
+          "best_child_score": 3.8970913887023926,
+          "best_child_rank": 3,
+          "best_child_character_count": 603,
+          "expansion_ratio": 6.814262023217247,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "Preprint\n0k 5k 10k15k20k25k30k\n0.0\n0.2\n0.4\n0.6\n(a) Training Loss\n0k 5k 10k15k20k25k30k\n0\n5\n10\n15\n20 (b) Grad Norm (Bottom)\n0k 5k 10k15k20k25k30k\n0\n5\n10\n15\n20 (c) Grad Norm (Middle)\n0k 5k 10k15k20k25k30k\n0\n5\n10\n15\n20\nANCE(FirstP)\nBM25->NCE Neg\nBM25->Rand\nBM25->BM25+Rand (d) Grad Norm (Top)\nFigure 4: The loss and gradient norms during DR training (after BM25 warm up). The gradient norms\nare on the bottom (1-4), middle (5-8), and top (9-12) BERT layers. The x-axes are training steps.\n7 R ELATED WOR"
+        },
+        {
+          "rank": 5,
+          "score": 0.030017921146953404,
+          "parent_id": "parent:page:b667900986360766",
+          "parent_type": "page",
+          "document": "ance.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": null,
+          "parent_character_count": 3866,
+          "parent_token_count_approx": 557,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c2:9651288607",
+            "ance.pdf:semantic:c5:8ec5fb8123"
+          ],
+          "contributing_child_ranks": [
+            2,
+            12
+          ],
+          "best_child_score": 4.089834690093994,
+          "best_child_rank": 2,
+          "best_child_character_count": 479,
+          "expansion_ratio": 8.07098121085595,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "Preprint\nAPPROXIMATE NEAREST NEIGHBOR NEGATIVE CON-\nTRASTIVE LEARNING FOR DENSE TEXT RETRIEVAL\nLee Xiong∗, Chenyan Xiong∗, Ye Li, Kwok-Fung Tang, Jialin Liu,\nPaul Bennett, Junaid Ahmed, Arnold Overwijk\nMicrosoft\nlexion, chenyan.xiong, yeli1, kwokfung.tang, jialliu,\npaul.n.bennett, jahmed, arnold.overwijk@microsoft.com\nABSTRACT\nConducting text retrieval in a dense representation space has many intriguing ad-\nvantages. Yet the end-to-end learned dense retrieval (DR) often underperforms\nword-based "
+        }
+      ],
+      "structural_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.027692895339954164,
+          "parent_id": "parent:page:6af5ddfdf8355ece",
+          "parent_type": "page",
+          "document": "ance.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "section_title": null,
+          "parent_character_count": 3997,
+          "parent_token_count_approx": 618,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c8:ba96d7d0ce",
+            "ance.pdf:semantic:c6:d6d9a6f5bd"
+          ],
+          "contributing_child_ranks": [
+            8,
+            17
+          ],
+          "best_child_score": 1.8655669689178467,
+          "best_child_rank": 8,
+          "best_child_character_count": 429,
+          "expansion_ratio": 9.317016317016318,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "Preprint\nQuery\nRelevant\nDR Neg\nBM25 Neg\nRand Neg\nFigure 1: T-SNE (Maaten & Hinton,\n2008) representations of query, relevant\ndocuments, negative training instances\nfrom BM25 (BM25 Neg) or randomly\nsampled (Rand Neg), and testing nega-\ntives (DR Neg) in dense retrieval.\nIn this paper, we ﬁrst theoretically analyze the convergence\nof dense retrieval training with negative sampling. Us-\ning the variance reduction framework (Alain et al., 2015;\nKatharopoulos & Fleuret, 2018), we show that, under con-"
+        },
+        {
+          "rank": 2,
+          "score": 0.027598020555767037,
+          "parent_id": "parent:page:511b1ab0846a7f54",
+          "parent_type": "page",
+          "document": "ance.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "section_title": null,
+          "parent_character_count": 3839,
+          "parent_token_count_approx": 636,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c34:3328e8e27e",
+            "ance.pdf:semantic:c38:db6f3ec318"
+          ],
+          "contributing_child_ranks": [
+            11,
+            14
+          ],
+          "best_child_score": 0.9045147895812988,
+          "best_child_rank": 11,
+          "best_child_character_count": 1200,
+          "expansion_ratio": 3.1991666666666667,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "Preprint\nTable 4: OpenQA Test Scores in Single Task\nSetting. ANCE+Reader switches the retrieve\nof a system from DPR to ANCE and keeps the\nsame reading model, which is RAG-Token on\nNatural Questions (NQ) and DPR Reader on\nTrivia QA (TQA).\nModel NQ TQA\nT5-11B (Roberts et al., 2020) 34.5 -\nT5-11B + SSM (Roberts et al., 2020) 36.6 -\nREALM (Guu et al., 2020) 40.4 -\nDPR (Karpukhin et al., 2020) 41.5 56.8\nDPR + BM25 (Karpukhin et al., 2020) 39.0 57.0\nRAG-Token (Lewis et al., 2020b) 44.1 55.2\nRAG-Sequen"
+        },
+        {
+          "rank": 3,
+          "score": 0.01639344262295082,
+          "parent_id": "parent:structural:c91d0ef9e45227c4",
+          "parent_type": "structural",
+          "document": "ance.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "section_title": "ANCE",
+          "parent_character_count": 1149,
+          "parent_token_count_approx": 180,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c19:63f4d306c3"
+          ],
+          "contributing_child_ranks": [
+            1
+          ],
+          "best_child_score": 5.614640235900879,
+          "best_child_rank": 1,
+          "best_child_character_count": 1096,
+          "expansion_ratio": 1.0483576642335766,
+          "best_child_start_character_in_parent": 0,
+          "characters_before_best_child": 0,
+          "characters_after_best_child": 53,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "Both conditions are easy to verify empirically in dense retrieval benchmarks. The two together make the probability that a random mini-batch includes meaningful negatives p = b|D−∗| |C|2 close to zero. Selecting negatives from local training batches is unlikely to provide optimal training signals for dense retrieval. Our analyses show the importance, if not necessity, to construct negativesglobally from the corpus. In this section, we propose Approximate nearest neighbor Negative Contrastive Est"
+        },
+        {
+          "rank": 4,
+          "score": 0.016129032258064516,
+          "parent_id": "parent:structural:e8a85b849495a138",
+          "parent_type": "structural",
+          "document": "ance.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": "1 I NTRODUCTION",
+          "parent_character_count": 1083,
+          "parent_token_count_approx": 145,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c2:9651288607"
+          ],
+          "contributing_child_ranks": [
+            2
+          ],
+          "best_child_score": 4.089834690093994,
+          "best_child_rank": 2,
+          "best_child_character_count": 479,
+          "expansion_ratio": 2.2609603340292277,
+          "best_child_start_character_in_parent": 511,
+          "characters_before_best_child": 511,
+          "characters_after_best_child": 93,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "Lee Xiong∗, Chenyan Xiong∗, Ye Li, Kwok-Fung Tang, Jialin Liu, Paul Bennett, Junaid Ahmed, Arnold Overwijk lexion, chenyan.xiong, yeli1, kwokfung.tang, jialliu, paul.n.bennett, jahmed, arnold.overwijk@microsoft.com vantages. Yet the end-to-end learned dense retrieval (DR) often underperforms word-based sparse retrieval. In this paper, we ﬁrst theoretically show the learning sampled locally in batch, which yield diminishing gradient norms, large stochastic gradient variances, and slow learning co"
+        },
+        {
+          "rank": 5,
+          "score": 0.015873015873015872,
+          "parent_id": "parent:page:486f22884e42c004",
+          "parent_type": "page",
+          "document": "ance.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "section_title": null,
+          "parent_character_count": 4109,
+          "parent_token_count_approx": 640,
+          "contributing_child_ids": [
+            "ance.pdf:semantic:c46:1fd23b10b2"
+          ],
+          "contributing_child_ranks": [
+            3
+          ],
+          "best_child_score": 3.8970913887023926,
+          "best_child_rank": 3,
+          "best_child_character_count": 603,
+          "expansion_ratio": 6.814262023217247,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "Preprint\n0k 5k 10k15k20k25k30k\n0.0\n0.2\n0.4\n0.6\n(a) Training Loss\n0k 5k 10k15k20k25k30k\n0\n5\n10\n15\n20 (b) Grad Norm (Bottom)\n0k 5k 10k15k20k25k30k\n0\n5\n10\n15\n20 (c) Grad Norm (Middle)\n0k 5k 10k15k20k25k30k\n0\n5\n10\n15\n20\nANCE(FirstP)\nBM25->NCE Neg\nBM25->Rand\nBM25->BM25+Rand (d) Grad Norm (Top)\nFigure 4: The loss and gradient norms during DR training (after BM25 warm up). The gradient norms\nare on the bottom (1-4), middle (5-8), and top (9-12) BERT layers. The x-axes are training steps.\n7 R ELATED WOR"
+        }
+      ],
+      "page_evidence_preservation": {
+        "first_relevant_rank": 5,
+        "hit_at_1": false,
+        "hit_at_3": false,
+        "hit_at_5": true,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 3,
+        "relevant_children_mapped_into_returned_parents": 3,
+        "relevant_children_contained_by_returned_parents": 2
+      },
+      "structural_evidence_preservation": {
+        "first_relevant_rank": 4,
+        "hit_at_1": false,
+        "hit_at_3": false,
+        "hit_at_5": true,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 3,
+        "relevant_children_mapped_into_returned_parents": 2,
+        "relevant_children_contained_by_returned_parents": 1
+      },
+      "baseline_retrieval_seconds": 0.3061140420031734,
+      "child_retrieval_seconds": 0.1718450420012232,
+      "parent_mapping_seconds": 4.295899998396635e-05,
+      "page_aggregation_seconds": 0.00020695799321401864,
+      "structural_aggregation_seconds": 0.00014879200898576528,
+      "page_unique_parents_before_top_k": 12,
+      "structural_unique_parents_before_top_k": 18,
+      "parent_child_total_seconds": 0.17224375100340694,
+      "page_parent_fallback_warnings": 3,
+      "structural_parent_fallback_warnings": 3
+    },
+    {
+      "question_id": "p75_atlas_few_shot",
+      "original_question": "What result shows that Atlas can learn a knowledge-intensive task from very few examples?",
+      "answerability": "answerable",
+      "expected_sources": [
+        {
+          "document": "atlas.pdf",
+          "page_number": 1,
+          "chunk_id": null
+        }
+      ],
+      "baseline_first_relevant_rank": 1,
+      "child_first_relevant_rank": 2,
+      "page_parent_first_relevant_rank": 1,
+      "structural_parent_first_relevant_rank": 1,
+      "child_vs_baseline_outcome": "degraded",
+      "page_parent_vs_baseline_outcome": "unchanged",
+      "structural_parent_vs_baseline_outcome": "unchanged",
+      "page_parent_vs_child_outcome": "improved",
+      "structural_parent_vs_child_outcome": "improved",
+      "baseline_results": [
+        {
+          "rank": 1,
+          "score": 6.9615373611450195,
+          "chunk_id": "atlas.pdf:p1:c2",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 1172
+        },
+        {
+          "rank": 2,
+          "score": 4.584262371063232,
+          "chunk_id": "atlas.pdf:p1:c1",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 1088
+        },
+        {
+          "rank": 3,
+          "score": 3.4275543689727783,
+          "chunk_id": "atlas.pdf:p15:c2",
+          "document": "atlas.pdf",
+          "start_page": 15,
+          "end_page": 15,
+          "character_count": 1144
+        },
+        {
+          "rank": 4,
+          "score": 0.4960954785346985,
+          "chunk_id": "query_rewriting_rag.pdf:p2:c6",
+          "document": "query_rewriting_rag.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 542
+        },
+        {
+          "rank": 5,
+          "score": 0.35368528962135315,
+          "chunk_id": "atlas.pdf:p2:c2",
+          "document": "atlas.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 763
+        }
+      ],
+      "child_results": [
+        {
+          "rank": 1,
+          "score": 6.402950763702393,
+          "chunk_id": "atlas.pdf:semantic:c110:8f20b9cd28",
+          "document": "atlas.pdf",
+          "start_page": 19,
+          "end_page": 19,
+          "character_count": 976
+        },
+        {
+          "rank": 2,
+          "score": 3.2653610706329346,
+          "chunk_id": "atlas.pdf:semantic:c3:11bedb0418",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 503
+        },
+        {
+          "rank": 3,
+          "score": 2.6608757972717285,
+          "chunk_id": "atlas.pdf:semantic:c2:3ee1490bc0",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 531
+        },
+        {
+          "rank": 4,
+          "score": 2.4570066928863525,
+          "chunk_id": "replug.pdf:semantic:c37:78699adb82",
+          "document": "replug.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "character_count": 451
+        },
+        {
+          "rank": 5,
+          "score": 1.9818333387374878,
+          "chunk_id": "atlas.pdf:semantic:c89:29c32889ff",
+          "document": "atlas.pdf",
+          "start_page": 15,
+          "end_page": 15,
+          "character_count": 841
+        },
+        {
+          "rank": 6,
+          "score": 1.804766058921814,
+          "chunk_id": "atlas.pdf:semantic:c1:d861c444f0",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 511
+        },
+        {
+          "rank": 7,
+          "score": 1.6310880184173584,
+          "chunk_id": "atlas.pdf:semantic:c82:7acc2d1f52",
+          "document": "atlas.pdf",
+          "start_page": 13,
+          "end_page": 13,
+          "character_count": 670
+        },
+        {
+          "rank": 8,
+          "score": 0.9605212211608887,
+          "chunk_id": "atlas.pdf:semantic:c46:f9daa7cdf1",
+          "document": "atlas.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 542
+        },
+        {
+          "rank": 9,
+          "score": 0.201737642288208,
+          "chunk_id": "atlas.pdf:semantic:c4:96b09e7e5d",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 1200
+        },
+        {
+          "rank": 10,
+          "score": -0.4244598150253296,
+          "chunk_id": "atlas.pdf:semantic:c86:9800b399f5",
+          "document": "atlas.pdf",
+          "start_page": 14,
+          "end_page": 14,
+          "character_count": 926
+        },
+        {
+          "rank": 11,
+          "score": -1.465698003768921,
+          "chunk_id": "atlas.pdf:semantic:c78:4613f4e0d8",
+          "document": "atlas.pdf",
+          "start_page": 13,
+          "end_page": 13,
+          "character_count": 1146
+        },
+        {
+          "rank": 12,
+          "score": -1.8634345531463623,
+          "chunk_id": "atlas.pdf:semantic:c51:31c6240f76",
+          "document": "atlas.pdf",
+          "start_page": 8,
+          "end_page": 9,
+          "character_count": 954
+        },
+        {
+          "rank": 13,
+          "score": -2.6209988594055176,
+          "chunk_id": "atlas.pdf:semantic:c8:8ec6af1eeb",
+          "document": "atlas.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 562
+        },
+        {
+          "rank": 14,
+          "score": -2.9757089614868164,
+          "chunk_id": "instructor.pdf:semantic:c91:b63b7f562f",
+          "document": "instructor.pdf",
+          "start_page": 14,
+          "end_page": 14,
+          "character_count": 591
+        },
+        {
+          "rank": 15,
+          "score": -3.502941370010376,
+          "chunk_id": "rag_lewis_2020.pdf:semantic:c25:15bdfeb45d",
+          "document": "rag_lewis_2020.pdf",
+          "start_page": 5,
+          "end_page": 5,
+          "character_count": 808
+        },
+        {
+          "rank": 16,
+          "score": -3.593553066253662,
+          "chunk_id": "bert_reranker.pdf:semantic:c15:a760cde3d6",
+          "document": "bert_reranker.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 562
+        },
+        {
+          "rank": 17,
+          "score": -5.918675422668457,
+          "chunk_id": "self_rag.pdf:semantic:c121:5eca6c2e8a",
+          "document": "self_rag.pdf",
+          "start_page": 17,
+          "end_page": 18,
+          "character_count": 998
+        },
+        {
+          "rank": 18,
+          "score": -6.047558307647705,
+          "chunk_id": "self_rag.pdf:semantic:c136:5c23157cc1",
+          "document": "self_rag.pdf",
+          "start_page": 20,
+          "end_page": 21,
+          "character_count": 614
+        },
+        {
+          "rank": 19,
+          "score": -7.077207088470459,
+          "chunk_id": "atlas.pdf:semantic:c75:55aecc5775",
+          "document": "atlas.pdf",
+          "start_page": 12,
+          "end_page": 12,
+          "character_count": 521
+        },
+        {
+          "rank": 20,
+          "score": -10.803996086120605,
+          "chunk_id": "ance.pdf:semantic:c81:285547d54a",
+          "document": "ance.pdf",
+          "start_page": 13,
+          "end_page": 13,
+          "character_count": 651
+        }
+      ],
+      "page_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.06164631690578395,
+          "parent_id": "parent:page:bb18ffc08e802a52",
+          "parent_type": "page",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": null,
+          "parent_character_count": 3291,
+          "parent_token_count_approx": 481,
+          "contributing_child_ids": [
+            "atlas.pdf:semantic:c3:11bedb0418",
+            "atlas.pdf:semantic:c2:3ee1490bc0",
+            "atlas.pdf:semantic:c1:d861c444f0",
+            "atlas.pdf:semantic:c4:96b09e7e5d"
+          ],
+          "contributing_child_ranks": [
+            2,
+            3,
+            6,
+            9
+          ],
+          "best_child_score": 3.2653610706329346,
+          "best_child_rank": 2,
+          "best_child_character_count": 503,
+          "expansion_ratio": 6.542743538767396,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "Atlas: Few-shot Learning with\nRetrieval Augmented Language Models\nGautier Izacard∗ ∗,♦,♣,♥ gizacard@fb.com\nPatrick Lewis∗,♦ plewis@fb.com\nMaria Lomeli♦ marialomeli@fb.com\nLucas Hosseini♦ hoss@fb.com\nFabio Petroni♦ fabiopetroni@fb.com\nTimo Schick♦ schick@fb.com\nJane Dwivedi-Yu♦ janeyu@fb.com\nArmand Joulin♦ ajoulin@fb.com\nSebastian Riedel♦,♠ sriedel@fb.com\nEdouard Grave♦ egrave@fb.com\n♦Meta AI Research, ♣ENS, PSL University, ♥Inria,♠University College London\nAbstract\nLarge language models have sho"
+        },
+        {
+          "rank": 2,
+          "score": 0.02900988017658188,
+          "parent_id": "parent:page:f5b262499411a2a1",
+          "parent_type": "page",
+          "document": "atlas.pdf",
+          "start_page": 13,
+          "end_page": 13,
+          "section_title": null,
+          "parent_character_count": 4566,
+          "parent_token_count_approx": 664,
+          "contributing_child_ids": [
+            "atlas.pdf:semantic:c82:7acc2d1f52",
+            "atlas.pdf:semantic:c78:4613f4e0d8"
+          ],
+          "contributing_child_ranks": [
+            7,
+            11
+          ],
+          "best_child_score": 1.6310880184173584,
+          "best_child_rank": 7,
+          "best_child_character_count": 670,
+          "expansion_ratio": 6.8149253731343284,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "Table 6:Standard vs de-biased inference for MMLUThese results are reported forAtlas-11B, using\ncyclic permutations for de-biasing, which increases inference costs by a factor of 4×.\nZero-shot 5-shot 5-shot (multi-task) Full / Transfer\nStandard Inference 36.8 43.4 56.4 65.8\nDe-biased Inference 47.1 47.9 56.6 66.0\nsigniﬁcantly better than random (25%) in few-shot settings with 770M parameters, whereas the equivalent\nAtlas achieves around 40%, signiﬁcantly better than random, despite its small size"
+        },
+        {
+          "rank": 3,
+          "score": 0.01639344262295082,
+          "parent_id": "parent:page:59e25b7913d966ea",
+          "parent_type": "page",
+          "document": "atlas.pdf",
+          "start_page": 19,
+          "end_page": 19,
+          "section_title": null,
+          "parent_character_count": 2318,
+          "parent_token_count_approx": 327,
+          "contributing_child_ids": [
+            "atlas.pdf:semantic:c110:8f20b9cd28"
+          ],
+          "contributing_child_ranks": [
+            1
+          ],
+          "best_child_score": 6.402950763702393,
+          "best_child_rank": 1,
+          "best_child_character_count": 976,
+          "expansion_ratio": 2.375,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "101\n102\nMemory (in GB)\n0.2\n0.4\n0.6\n0.8NQ Recall@50\n101\n102\nMemory (in GB)\n10\n20\n30\n40NQ Exact Match\n100\n101\nMemory (in GB)\n0.2\n0.4\n0.6\n0.8NQ Recall@50\n100\n101\nMemory (in GB)\n10\n20\n30\n40NQ Exact Match\nFigure 4:Index Compression: Atlas-3B 64-shot NQ performance (left column: Retrieval Recall@50, right\ncolumn: QA Exact Match score), as a function of index size, for diﬀerent levels of quantisation. The right-most\npoint in each plot represents the uncompressed index.Top Row:Wikipedia + CC Index.Botto"
+        },
+        {
+          "rank": 4,
+          "score": 0.015625,
+          "parent_id": "parent:page:97016aedd59221ef",
+          "parent_type": "page",
+          "document": "replug.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "section_title": null,
+          "parent_character_count": 4270,
+          "parent_token_count_approx": 698,
+          "contributing_child_ids": [
+            "replug.pdf:semantic:c37:78699adb82"
+          ],
+          "contributing_child_ranks": [
+            4
+          ],
+          "best_child_score": 2.4570066928863525,
+          "best_child_rank": 4,
+          "best_child_character_count": 451,
+          "expansion_ratio": 9.467849223946786,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "REPLUG: Retrieval-Augmented Black-Box Language Models\nNQ TQA\nModel Few-shot Full Few-shot Full\nChinchilla 35.5 - 64.6 -\nPaLM 39.6 - - -\nCodex 40.6 - 73.6 -\nRETRO† - 45.5 - -\nR2-D2† - 55.9 - 69.9\nAtlas† 42.4 60.4 74.5 79.8\nCodex + Contrievercc\n2 44.2 - 76.0 -\nCodex + REPLUG 44.7 - 76.8 -\nCodex + REPLUG LSR 45.5 - 77.3 -\nTable 3. Performance on NQ and TQA. We report results for both\nfew-shot (64 shots for Chinchilla, PaLM, and Atlas; 16 shots for\nCodex-based models) and full training data settings"
+        },
+        {
+          "rank": 5,
+          "score": 0.015384615384615385,
+          "parent_id": "parent:page:5fc26433d7b0d361",
+          "parent_type": "page",
+          "document": "atlas.pdf",
+          "start_page": 15,
+          "end_page": 15,
+          "section_title": null,
+          "parent_character_count": 2976,
+          "parent_token_count_approx": 478,
+          "contributing_child_ids": [
+            "atlas.pdf:semantic:c89:29c32889ff"
+          ],
+          "contributing_child_ranks": [
+            5
+          ],
+          "best_child_score": 1.9818333387374878,
+          "best_child_rank": 5,
+          "best_child_character_count": 841,
+          "expansion_ratio": 3.5386444708680145,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "Table 9: Comparison to state-of-the-art on FEVER.We report accuracy on FEVER test set, for\nwhich evaluation is available here:https://competitions.codalab.org/competitions/18814. For the few-shot\nsettings, our model uses ﬁne-tuning while other models use prompting.†uses an index composed of the\nFEVER Wikipedia corpus.\n15-shot 65-shot Full dataset\nGopher (Rae et al., 2021) 51.1 - -\nProoFVer (Krishna et al., 2021) - - 79.5\nAtlas 56.2 64.3 78.0 /80.1†\nTable 10:Downstream results on the KILT hidden "
+        }
+      ],
+      "structural_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.031024531024531024,
+          "parent_id": "parent:structural:7356c70b277a4713",
+          "parent_type": "structural",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": "1 Introduction",
+          "parent_character_count": 1043,
+          "parent_token_count_approx": 142,
+          "contributing_child_ids": [
+            "atlas.pdf:semantic:c2:3ee1490bc0",
+            "atlas.pdf:semantic:c1:d861c444f0"
+          ],
+          "contributing_child_ranks": [
+            3,
+            6
+          ],
+          "best_child_score": 2.6608757972717285,
+          "best_child_rank": 3,
+          "best_child_character_count": 531,
+          "expansion_ratio": 1.9642184557438795,
+          "best_child_start_character_in_parent": 512,
+          "characters_before_best_child": 512,
+          "characters_after_best_child": 0,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "Atlas: Few-shot Learning with Gautier Izacard∗ ∗,♦,♣,♥ gizacard@fb.com Patrick Lewis∗,♦ plewis@fb.com Maria Lomeli♦ marialomeli@fb.com Lucas Hosseini♦ hoss@fb.com Fabio Petroni♦ fabiopetroni@fb.com Timo Schick♦ schick@fb.com Jane Dwivedi-Yu♦ janeyu@fb.com Armand Joulin♦ ajoulin@fb.com Sebastian Riedel♦,♠ sriedel@fb.com Edouard Grave♦ egrave@fb.com ♦Meta AI Research, ♣ENS, PSL University, ♥Inria,♠University College London Large language models have shown impressive few-shot results on a wide rang"
+        },
+        {
+          "rank": 2,
+          "score": 0.01639344262295082,
+          "parent_id": "parent:page:59e25b7913d966ea",
+          "parent_type": "page",
+          "document": "atlas.pdf",
+          "start_page": 19,
+          "end_page": 19,
+          "section_title": null,
+          "parent_character_count": 2318,
+          "parent_token_count_approx": 327,
+          "contributing_child_ids": [
+            "atlas.pdf:semantic:c110:8f20b9cd28"
+          ],
+          "contributing_child_ranks": [
+            1
+          ],
+          "best_child_score": 6.402950763702393,
+          "best_child_rank": 1,
+          "best_child_character_count": 976,
+          "expansion_ratio": 2.375,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "101\n102\nMemory (in GB)\n0.2\n0.4\n0.6\n0.8NQ Recall@50\n101\n102\nMemory (in GB)\n10\n20\n30\n40NQ Exact Match\n100\n101\nMemory (in GB)\n0.2\n0.4\n0.6\n0.8NQ Recall@50\n100\n101\nMemory (in GB)\n10\n20\n30\n40NQ Exact Match\nFigure 4:Index Compression: Atlas-3B 64-shot NQ performance (left column: Retrieval Recall@50, right\ncolumn: QA Exact Match score), as a function of index size, for diﬀerent levels of quantisation. The right-most\npoint in each plot represents the uncompressed index.Top Row:Wikipedia + CC Index.Botto"
+        },
+        {
+          "rank": 3,
+          "score": 0.016129032258064516,
+          "parent_id": "parent:structural:b5b8b8d808cf8329",
+          "parent_type": "structural",
+          "document": "atlas.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": "1 Introduction",
+          "parent_character_count": 1135,
+          "parent_token_count_approx": 178,
+          "contributing_child_ids": [
+            "atlas.pdf:semantic:c3:11bedb0418"
+          ],
+          "contributing_child_ranks": [
+            2
+          ],
+          "best_child_score": 3.2653610706329346,
+          "best_child_rank": 2,
+          "best_child_character_count": 503,
+          "expansion_ratio": 2.256461232604374,
+          "best_child_start_character_in_parent": 175,
+          "characters_before_best_child": 175,
+          "characters_after_best_child": 457,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "In this work we presentAtlas, a carefully designed and pre-trained retrieval augmented language model able to learn knowledge intensive tasks with very few training examples. We perform evaluations on a wide range of tasks, including MMLU, KILT and NaturalQuestions, and study the impact of the content of the document index, showing that it can easily be updated. Notably, Atlasreaches over 42% accuracy on Natural Questions using only 64 examples, outperforming a 540B parameters model by 3% despit"
+        },
+        {
+          "rank": 4,
+          "score": 0.015625,
+          "parent_id": "parent:structural:e50e2f29790626a3",
+          "parent_type": "structural",
+          "document": "replug.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "section_title": "performance gains of REPLUG do not solely come from the",
+          "parent_character_count": 1178,
+          "parent_token_count_approx": 185,
+          "contributing_child_ids": [
+            "replug.pdf:semantic:c37:78699adb82"
+          ],
+          "contributing_child_ranks": [
+            4
+          ],
+          "best_child_score": 2.4570066928863525,
+          "best_child_rank": 4,
+          "best_child_character_count": 451,
+          "expansion_ratio": 2.611973392461197,
+          "best_child_start_character_in_parent": 271,
+          "characters_before_best_child": 271,
+          "characters_after_best_child": 456,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "The sec- augmented language models such as RETRO (Borgeaud et al., 2021), R2-D2 (Fajcik et al., 2021), and Atlas (Izacard et al., 2022b). All of these retrieval-augmented models are finetuned on the training data, either in a few-shot setting or with full training data. Specifically, Atlas is finetuned on 64 examples in the few-shot setting. with Wikipedia (2018, December) as the retrieval corpus to evaluate the model in a 16-shot in context learning. Sim- ilar to the setting in language modelin"
+        },
+        {
+          "rank": 5,
+          "score": 0.015384615384615385,
+          "parent_id": "parent:page:5fc26433d7b0d361",
+          "parent_type": "page",
+          "document": "atlas.pdf",
+          "start_page": 15,
+          "end_page": 15,
+          "section_title": null,
+          "parent_character_count": 2976,
+          "parent_token_count_approx": 478,
+          "contributing_child_ids": [
+            "atlas.pdf:semantic:c89:29c32889ff"
+          ],
+          "contributing_child_ranks": [
+            5
+          ],
+          "best_child_score": 1.9818333387374878,
+          "best_child_rank": 5,
+          "best_child_character_count": 841,
+          "expansion_ratio": 3.5386444708680145,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "Table 9: Comparison to state-of-the-art on FEVER.We report accuracy on FEVER test set, for\nwhich evaluation is available here:https://competitions.codalab.org/competitions/18814. For the few-shot\nsettings, our model uses ﬁne-tuning while other models use prompting.†uses an index composed of the\nFEVER Wikipedia corpus.\n15-shot 65-shot Full dataset\nGopher (Rae et al., 2021) 51.1 - -\nProoFVer (Krishna et al., 2021) - - 79.5\nAtlas 56.2 64.3 78.0 /80.1†\nTable 10:Downstream results on the KILT hidden "
+        }
+      ],
+      "page_evidence_preservation": {
+        "first_relevant_rank": 1,
+        "hit_at_1": true,
+        "hit_at_3": true,
+        "hit_at_5": true,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 4,
+        "relevant_children_mapped_into_returned_parents": 4,
+        "relevant_children_contained_by_returned_parents": 2
+      },
+      "structural_evidence_preservation": {
+        "first_relevant_rank": 1,
+        "hit_at_1": true,
+        "hit_at_3": true,
+        "hit_at_5": true,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 4,
+        "relevant_children_mapped_into_returned_parents": 3,
+        "relevant_children_contained_by_returned_parents": 3
+      },
+      "baseline_retrieval_seconds": 0.1761694169981638,
+      "child_retrieval_seconds": 0.14382608298910782,
+      "parent_mapping_seconds": 3.7707999581471086e-05,
+      "page_aggregation_seconds": 0.00024379200476687402,
+      "structural_aggregation_seconds": 0.00018145899230148643,
+      "page_unique_parents_before_top_k": 16,
+      "structural_unique_parents_before_top_k": 19,
+      "parent_child_total_seconds": 0.14428904198575765,
+      "page_parent_fallback_warnings": 0,
+      "structural_parent_fallback_warnings": 2
+    },
+    {
+      "question_id": "p75_beir_composition",
+      "original_question": "How broad is BEIR in terms of datasets and retrieval architectures evaluated?",
+      "answerability": "answerable",
+      "expected_sources": [
+        {
+          "document": "beir.pdf",
+          "page_number": 1,
+          "chunk_id": null
+        }
+      ],
+      "baseline_first_relevant_rank": null,
+      "child_first_relevant_rank": null,
+      "page_parent_first_relevant_rank": 5,
+      "structural_parent_first_relevant_rank": null,
+      "child_vs_baseline_outcome": "unchanged",
+      "page_parent_vs_baseline_outcome": "improved",
+      "structural_parent_vs_baseline_outcome": "unchanged",
+      "page_parent_vs_child_outcome": "improved",
+      "structural_parent_vs_child_outcome": "unchanged",
+      "baseline_results": [
+        {
+          "rank": 1,
+          "score": 5.2414164543151855,
+          "chunk_id": "beir.pdf:p2:c3",
+          "document": "beir.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 1121
+        },
+        {
+          "rank": 2,
+          "score": 5.177328586578369,
+          "chunk_id": "beir.pdf:p2:c6",
+          "document": "beir.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 1097
+        },
+        {
+          "rank": 3,
+          "score": 4.946042060852051,
+          "chunk_id": "beir.pdf:p9:c4",
+          "document": "beir.pdf",
+          "start_page": 9,
+          "end_page": 9,
+          "character_count": 855
+        },
+        {
+          "rank": 4,
+          "score": 4.354680061340332,
+          "chunk_id": "beir.pdf:p4:c4",
+          "document": "beir.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 1157
+        },
+        {
+          "rank": 5,
+          "score": 4.182552337646484,
+          "chunk_id": "gtr.pdf:p3:c2",
+          "document": "gtr.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 1091
+        }
+      ],
+      "child_results": [
+        {
+          "rank": 1,
+          "score": 6.641489028930664,
+          "chunk_id": "beir.pdf:semantic:c8:0ba08a7009",
+          "document": "beir.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 676
+        },
+        {
+          "rank": 2,
+          "score": 5.308962821960449,
+          "chunk_id": "beir.pdf:semantic:c10:5d949ecc9b",
+          "document": "beir.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 567
+        },
+        {
+          "rank": 3,
+          "score": 4.881372451782227,
+          "chunk_id": "beir.pdf:semantic:c7:72049500a6",
+          "document": "beir.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 1186
+        },
+        {
+          "rank": 4,
+          "score": 4.810978412628174,
+          "chunk_id": "beir.pdf:semantic:c45:54cf7f7c68",
+          "document": "beir.pdf",
+          "start_page": 6,
+          "end_page": 6,
+          "character_count": 404
+        },
+        {
+          "rank": 5,
+          "score": 3.9619193077087402,
+          "chunk_id": "beir.pdf:semantic:c66:58eafad584",
+          "document": "beir.pdf",
+          "start_page": 9,
+          "end_page": 9,
+          "character_count": 1146
+        },
+        {
+          "rank": 6,
+          "score": 3.032855987548828,
+          "chunk_id": "beir.pdf:semantic:c17:4dec627d5e",
+          "document": "beir.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 811
+        },
+        {
+          "rank": 7,
+          "score": 2.8685851097106934,
+          "chunk_id": "beir.pdf:semantic:c1:a26e0a7009",
+          "document": "beir.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 965
+        },
+        {
+          "rank": 8,
+          "score": 2.802794933319092,
+          "chunk_id": "late_chunking.pdf:semantic:c34:5b0e923a4c",
+          "document": "late_chunking.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "character_count": 446
+        },
+        {
+          "rank": 9,
+          "score": 2.770066261291504,
+          "chunk_id": "beir.pdf:semantic:c31:4bdaefcc7e",
+          "document": "beir.pdf",
+          "start_page": 5,
+          "end_page": 5,
+          "character_count": 686
+        },
+        {
+          "rank": 10,
+          "score": 2.6479241847991943,
+          "chunk_id": "colbertv2.pdf:semantic:c16:7ad17e954b",
+          "document": "colbertv2.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 703
+        },
+        {
+          "rank": 11,
+          "score": 2.363049030303955,
+          "chunk_id": "bge.pdf:semantic:c9:c86a762a83",
+          "document": "bge.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 908
+        },
+        {
+          "rank": 12,
+          "score": 2.2609448432922363,
+          "chunk_id": "beir.pdf:semantic:c26:6c1b7ee5f4",
+          "document": "beir.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 682
+        },
+        {
+          "rank": 13,
+          "score": 2.2206978797912598,
+          "chunk_id": "gtr.pdf:semantic:c11:9067801f61",
+          "document": "gtr.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 749
+        },
+        {
+          "rank": 14,
+          "score": 2.101088285446167,
+          "chunk_id": "beir.pdf:semantic:c44:3f0270aab1",
+          "document": "beir.pdf",
+          "start_page": 6,
+          "end_page": 6,
+          "character_count": 552
+        },
+        {
+          "rank": 15,
+          "score": 1.9507018327713013,
+          "chunk_id": "contriever.pdf:semantic:c43:f22efb59f4",
+          "document": "contriever.pdf",
+          "start_page": 6,
+          "end_page": 6,
+          "character_count": 527
+        },
+        {
+          "rank": 16,
+          "score": 1.6549937725067139,
+          "chunk_id": "gtr.pdf:semantic:c25:db1ab19bf3",
+          "document": "gtr.pdf",
+          "start_page": 5,
+          "end_page": 5,
+          "character_count": 531
+        },
+        {
+          "rank": 17,
+          "score": 1.6290974617004395,
+          "chunk_id": "dpr_karpukhin_2020.pdf:semantic:c2:419a610394",
+          "document": "dpr_karpukhin_2020.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 456
+        },
+        {
+          "rank": 18,
+          "score": -0.15666992962360382,
+          "chunk_id": "beir.pdf:semantic:c18:f699bf43fc",
+          "document": "beir.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 759
+        },
+        {
+          "rank": 19,
+          "score": -5.08604621887207,
+          "chunk_id": "bright.pdf:semantic:c47:0d1177ef08",
+          "document": "bright.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 1095
+        },
+        {
+          "rank": 20,
+          "score": -7.801954746246338,
+          "chunk_id": "texttiling.pdf:semantic:c79:a1b20387fa",
+          "document": "texttiling.pdf",
+          "start_page": 16,
+          "end_page": 16,
+          "character_count": 479
+        }
+      ],
+      "page_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.04839549075403121,
+          "parent_id": "parent:page:9e1b81cd57b3a8fb",
+          "parent_type": "page",
+          "document": "beir.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "section_title": null,
+          "parent_character_count": 5498,
+          "parent_token_count_approx": 782,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c8:0ba08a7009",
+            "beir.pdf:semantic:c10:5d949ecc9b",
+            "beir.pdf:semantic:c7:72049500a6"
+          ],
+          "contributing_child_ranks": [
+            1,
+            2,
+            3
+          ],
+          "best_child_score": 6.641489028930664,
+          "best_child_rank": 1,
+          "best_child_character_count": 676,
+          "expansion_ratio": 8.133136094674557,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "Fact Checking\nCitation-Prediction\nWiki\nFEVER\nQUERY\nDOCS\nNatural Claim\nWikipedia Articles\nWiki\nClimate-FEVER\nQUERY\nDOCS\nClimate-based Claim\nWikipedia Articles\nSciFact\nQUERY\nDOCS\nScientific claim\nPubMed ArticlesScientific\nSCIDOCS\nQUERY\nDOCS\nArticle Title\nPubMed ArticlesScientific\nDup. Question Retrieval\nQuora\nQuora\nQUERY\nDOCS\nStackEx.\nCQADupStack\nQUERY\nDOCS\nArgument Retrieval\nMisc.\nQUERY\nDOCS\nMisc.\nArguAna\nQUERY\nDOCS\nTóuche-2020\nQuery Title\nQuery Title + Body\nQuery Title\nQuora Questions\nArgument\nI"
+        },
+        {
+          "rank": 2,
+          "score": 0.029138513513513514,
+          "parent_id": "parent:page:237b730d26625ac9",
+          "parent_type": "page",
+          "document": "beir.pdf",
+          "start_page": 6,
+          "end_page": 6,
+          "section_title": null,
+          "parent_character_count": 4917,
+          "parent_token_count_approx": 768,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c45:54cf7f7c68",
+            "beir.pdf:semantic:c44:3f0270aab1"
+          ],
+          "contributing_child_ranks": [
+            4,
+            14
+          ],
+          "best_child_score": 4.810978412628174,
+          "best_child_rank": 4,
+          "best_child_character_count": 404,
+          "expansion_ratio": 12.17079207920792,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "(ii) Sparse Retrieval: (a) DeepCT [11] uses a bert-base-uncased model trained on MS MARCO to\nlearn the term weight frequencies (tf). It generates a pseudo-document with keywords multiplied\nwith the learnt term-frequencies. We use the original setup of Dai and Callan [11] in combination\nwith BM25 with default Anserini parameters which we empirically found to perform better over\nthe tuned MS MARCO parameters. ( b) SPARTA [79] computes similarity scores between the\nnon-contextualized query embeddin"
+        },
+        {
+          "rank": 3,
+          "score": 0.027972027972027972,
+          "parent_id": "parent:page:7b98256a8796a672",
+          "parent_type": "page",
+          "document": "beir.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "section_title": null,
+          "parent_character_count": 5184,
+          "parent_token_count_approx": 791,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c17:4dec627d5e",
+            "beir.pdf:semantic:c18:f699bf43fc"
+          ],
+          "contributing_child_ranks": [
+            6,
+            18
+          ],
+          "best_child_score": 3.032855987548828,
+          "best_child_rank": 6,
+          "best_child_character_count": 811,
+          "expansion_ratio": 6.392108508014797,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "tasks including a total of eleven datasets. The tasks involve retrieval, but it is not the primary task.\nFurther, KILT retrieves documents only from Wikipedia.\n2.1 Neural Retrieval\nInformation retrieval is the process of searching and returning relevant documents for a query from\na collection. In our paper, we focus on text retrieval and use document as a cover term for text of\nany length in the given collection and query for the user input, which can be of any length as well.\nTraditionally, lex"
+        },
+        {
+          "rank": 4,
+          "score": 0.015384615384615385,
+          "parent_id": "parent:page:c9262f27a70af094",
+          "parent_type": "page",
+          "document": "beir.pdf",
+          "start_page": 9,
+          "end_page": 9,
+          "section_title": null,
+          "parent_character_count": 4370,
+          "parent_token_count_approx": 653,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c66:58eafad584"
+          ],
+          "contributing_child_ranks": [
+            5
+          ],
+          "best_child_score": 3.9619193077087402,
+          "best_child_rank": 5,
+          "best_child_character_count": 1146,
+          "expansion_ratio": 3.81326352530541,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "Model (→) BM25 DeepCT SPARTA docT5query DPR ANCE TAS-B ColBERT BM25+CE\nHole@10 (in %) 6.4% 19.4% 12.4% 2.8% 30.6% 14.4% 31.8% 12.4% 1.6%\nnDCG@10 performances before and after manual annotation on TREC-COVID [65]\nOriginal (w/ holes) 0.656 0.406 0.538 0.713 0.332 0.654 0.481 0.677 0.757\nAnnotated (w/o holes) 0.668 0.472 0.624 0.714 0.445 0.735 0.555 0.735 0.760\nTable 4: Hole@10 analysis on TREC-COVID. Annotated scores show improvement in performances after\nremoving holes@10 (documents in top-10 hi"
+        },
+        {
+          "rank": 5,
+          "score": 0.014925373134328358,
+          "parent_id": "parent:page:7c0c9c6fa6eb07fa",
+          "parent_type": "page",
+          "document": "beir.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": null,
+          "parent_character_count": 3377,
+          "parent_token_count_approx": 461,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c1:a26e0a7009"
+          ],
+          "contributing_child_ranks": [
+            7
+          ],
+          "best_child_score": 2.8685851097106934,
+          "best_child_rank": 7,
+          "best_child_character_count": 965,
+          "expansion_ratio": 3.499481865284974,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "BEIR: A Heterogeneous Benchmark for Zero-shot\nEvaluation of Information Retrieval Models\nNandan Thakur, Nils Reimers, Andreas Rücklé∗, Abhishek Srivastava, Iryna Gurevych\nUbiquitous Knowledge Processing Lab (UKP-TUDA)\nDepartment of Computer Science, Technische Universität Darmstadt\nwww.ukp.tu-darmstadt.de\nAbstract\nExisting neural information retrieval (IR) models have often been studied in ho-\nmogeneous and narrow settings, which has considerably limited insights into their\nout-of-distribution ("
+        }
+      ],
+      "structural_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.03200204813108039,
+          "parent_id": "parent:page:9e1b81cd57b3a8fb",
+          "parent_type": "page",
+          "document": "beir.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "section_title": null,
+          "parent_character_count": 5498,
+          "parent_token_count_approx": 782,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c10:5d949ecc9b",
+            "beir.pdf:semantic:c7:72049500a6"
+          ],
+          "contributing_child_ranks": [
+            2,
+            3
+          ],
+          "best_child_score": 5.308962821960449,
+          "best_child_rank": 2,
+          "best_child_character_count": 567,
+          "expansion_ratio": 9.696649029982364,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "Fact Checking\nCitation-Prediction\nWiki\nFEVER\nQUERY\nDOCS\nNatural Claim\nWikipedia Articles\nWiki\nClimate-FEVER\nQUERY\nDOCS\nClimate-based Claim\nWikipedia Articles\nSciFact\nQUERY\nDOCS\nScientific claim\nPubMed ArticlesScientific\nSCIDOCS\nQUERY\nDOCS\nArticle Title\nPubMed ArticlesScientific\nDup. Question Retrieval\nQuora\nQuora\nQUERY\nDOCS\nStackEx.\nCQADupStack\nQUERY\nDOCS\nArgument Retrieval\nMisc.\nQUERY\nDOCS\nMisc.\nArguAna\nQUERY\nDOCS\nTóuche-2020\nQuery Title\nQuery Title + Body\nQuery Title\nQuora Questions\nArgument\nI"
+        },
+        {
+          "rank": 2,
+          "score": 0.027972027972027972,
+          "parent_id": "parent:page:7b98256a8796a672",
+          "parent_type": "page",
+          "document": "beir.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "section_title": null,
+          "parent_character_count": 5184,
+          "parent_token_count_approx": 791,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c17:4dec627d5e",
+            "beir.pdf:semantic:c18:f699bf43fc"
+          ],
+          "contributing_child_ranks": [
+            6,
+            18
+          ],
+          "best_child_score": 3.032855987548828,
+          "best_child_rank": 6,
+          "best_child_character_count": 811,
+          "expansion_ratio": 6.392108508014797,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "tasks including a total of eleven datasets. The tasks involve retrieval, but it is not the primary task.\nFurther, KILT retrieves documents only from Wikipedia.\n2.1 Neural Retrieval\nInformation retrieval is the process of searching and returning relevant documents for a query from\na collection. In our paper, we focus on text retrieval and use document as a cover term for text of\nany length in the given collection and query for the user input, which can be of any length as well.\nTraditionally, lex"
+        },
+        {
+          "rank": 3,
+          "score": 0.01639344262295082,
+          "parent_id": "parent:structural:621c8bdead16d5fb",
+          "parent_type": "structural",
+          "document": "beir.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "section_title": "2 Related Work and Background",
+          "parent_character_count": 1121,
+          "parent_token_count_approx": 160,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c8:0ba08a7009"
+          ],
+          "contributing_child_ranks": [
+            1
+          ],
+          "best_child_score": 6.641489028930664,
+          "best_child_rank": 1,
+          "best_child_character_count": 676,
+          "expansion_ratio": 1.6582840236686391,
+          "best_child_start_character_in_parent": 0,
+          "characters_before_best_child": 0,
+          "characters_after_best_child": 445,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "We use BEIR to evaluate ten diverse retrieval methods from ﬁve broad architectures: lexical, sparse, dense, late interaction, and re-ranking. From our analysis, we ﬁnd that no single approach consistently outperforms other approaches on all datasets. Further, we notice that the in-domain performance of a model does not correlate well with its generalization capabilities: models ﬁne-tuned with identical training data might generalize differently. In terms of efﬁciency, we ﬁnd a trade-off between "
+        },
+        {
+          "rank": 4,
+          "score": 0.015625,
+          "parent_id": "parent:structural:e338f1ba867bc249",
+          "parent_type": "structural",
+          "document": "beir.pdf",
+          "start_page": 6,
+          "end_page": 6,
+          "section_title": "5 Results and Analysis",
+          "parent_character_count": 586,
+          "parent_token_count_approx": 84,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c45:54cf7f7c68"
+          ],
+          "contributing_child_ranks": [
+            4
+          ],
+          "best_child_score": 4.810978412628174,
+          "best_child_rank": 4,
+          "best_child_character_count": 404,
+          "expansion_ratio": 1.4504950495049505,
+          "best_child_start_character_in_parent": 0,
+          "characters_before_best_child": 0,
+          "characters_after_best_child": 182,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "1. In-domain performance is not a good indicator for out-of-domain generalization.We observe BM25 heavily underperforms neural approaches by 7-18 points on in-domain MS MARCO. However, BEIR reveals it to be a strong baseline for generalization and generally outperforming many other, more complex approaches. This stresses the point, that retrieval methods must be evaluated on a broad range of datasets. 2. Term-weighting fails, document expansion captures out-of-domain keyword vocabulary. DeepCT a"
+        },
+        {
+          "rank": 5,
+          "score": 0.015384615384615385,
+          "parent_id": "parent:page:c9262f27a70af094",
+          "parent_type": "page",
+          "document": "beir.pdf",
+          "start_page": 9,
+          "end_page": 9,
+          "section_title": null,
+          "parent_character_count": 4370,
+          "parent_token_count_approx": 653,
+          "contributing_child_ids": [
+            "beir.pdf:semantic:c66:58eafad584"
+          ],
+          "contributing_child_ranks": [
+            5
+          ],
+          "best_child_score": 3.9619193077087402,
+          "best_child_rank": 5,
+          "best_child_character_count": 1146,
+          "expansion_ratio": 3.81326352530541,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "Model (→) BM25 DeepCT SPARTA docT5query DPR ANCE TAS-B ColBERT BM25+CE\nHole@10 (in %) 6.4% 19.4% 12.4% 2.8% 30.6% 14.4% 31.8% 12.4% 1.6%\nnDCG@10 performances before and after manual annotation on TREC-COVID [65]\nOriginal (w/ holes) 0.656 0.406 0.538 0.713 0.332 0.654 0.481 0.677 0.757\nAnnotated (w/o holes) 0.668 0.472 0.624 0.714 0.445 0.735 0.555 0.735 0.760\nTable 4: Hole@10 analysis on TREC-COVID. Annotated scores show improvement in performances after\nremoving holes@10 (documents in top-10 hi"
+        }
+      ],
+      "page_evidence_preservation": {
+        "first_relevant_rank": 5,
+        "hit_at_1": false,
+        "hit_at_3": false,
+        "hit_at_5": true,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 1,
+        "relevant_children_mapped_into_returned_parents": 1,
+        "relevant_children_contained_by_returned_parents": 0
+      },
+      "structural_evidence_preservation": {
+        "first_relevant_rank": null,
+        "hit_at_1": false,
+        "hit_at_3": false,
+        "hit_at_5": false,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 0.0,
+        "relevant_retrieved_child_count": 1,
+        "relevant_children_mapped_into_returned_parents": 0,
+        "relevant_children_contained_by_returned_parents": 0
+      },
+      "baseline_retrieval_seconds": 0.18007004199898802,
+      "child_retrieval_seconds": 0.1770132090023253,
+      "parent_mapping_seconds": 5.0125003326684237e-05,
+      "page_aggregation_seconds": 0.00021666700195055455,
+      "structural_aggregation_seconds": 0.00014683300105389208,
+      "page_unique_parents_before_top_k": 16,
+      "structural_unique_parents_before_top_k": 18,
+      "parent_child_total_seconds": 0.17742683400865644,
+      "page_parent_fallback_warnings": 0,
+      "structural_parent_fallback_warnings": 3
+    },
+    {
+      "question_id": "p75_bert_reranker_gain",
+      "original_question": "What relative MRR@10 improvement did the BERT passage reranker report over the previous state of the art?",
+      "answerability": "answerable",
+      "expected_sources": [
+        {
+          "document": "bert_reranker.pdf",
+          "page_number": 1,
+          "chunk_id": null
+        }
+      ],
+      "baseline_first_relevant_rank": 1,
+      "child_first_relevant_rank": 1,
+      "page_parent_first_relevant_rank": 2,
+      "structural_parent_first_relevant_rank": 1,
+      "child_vs_baseline_outcome": "unchanged",
+      "page_parent_vs_baseline_outcome": "degraded",
+      "structural_parent_vs_baseline_outcome": "unchanged",
+      "page_parent_vs_child_outcome": "degraded",
+      "structural_parent_vs_child_outcome": "unchanged",
+      "baseline_results": [
+        {
+          "rank": 1,
+          "score": 3.9671483039855957,
+          "chunk_id": "bert_reranker.pdf:p1:c2",
+          "document": "bert_reranker.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 997
+        },
+        {
+          "rank": 2,
+          "score": 1.9165213108062744,
+          "chunk_id": "bert_reranker.pdf:p3:c3",
+          "document": "bert_reranker.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 520
+        },
+        {
+          "rank": 3,
+          "score": 1.7532578706741333,
+          "chunk_id": "coil.pdf:p7:c1",
+          "document": "coil.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "character_count": 1113
+        },
+        {
+          "rank": 4,
+          "score": 1.4801537990570068,
+          "chunk_id": "monot5.pdf:p3:c4",
+          "document": "monot5.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 966
+        },
+        {
+          "rank": 5,
+          "score": 1.0937577486038208,
+          "chunk_id": "bert_reranker.pdf:p3:c1",
+          "document": "bert_reranker.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 1157
+        }
+      ],
+      "child_results": [
+        {
+          "rank": 1,
+          "score": 4.096147060394287,
+          "chunk_id": "bert_reranker.pdf:semantic:c2:d14bcba91a",
+          "document": "bert_reranker.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 1140
+        },
+        {
+          "rank": 2,
+          "score": 3.5800771713256836,
+          "chunk_id": "bert_reranker.pdf:semantic:c15:a760cde3d6",
+          "document": "bert_reranker.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 562
+        },
+        {
+          "rank": 3,
+          "score": 1.004870891571045,
+          "chunk_id": "coil.pdf:semantic:c35:f0d13aed4d",
+          "document": "coil.pdf",
+          "start_page": 6,
+          "end_page": 7,
+          "character_count": 405
+        },
+        {
+          "rank": 4,
+          "score": 0.38727954030036926,
+          "chunk_id": "doct5query.pdf:semantic:c21:28e27f35e9",
+          "document": "doct5query.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 419
+        },
+        {
+          "rank": 5,
+          "score": 0.2551122307777405,
+          "chunk_id": "colbert.pdf:semantic:c22:b225969148",
+          "document": "colbert.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 657
+        },
+        {
+          "rank": 6,
+          "score": 0.2200714349746704,
+          "chunk_id": "coil.pdf:semantic:c36:1d54662cd1",
+          "document": "coil.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "character_count": 401
+        },
+        {
+          "rank": 7,
+          "score": 0.1736905425786972,
+          "chunk_id": "sbert.pdf:semantic:c49:cd051a9630",
+          "document": "sbert.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 426
+        },
+        {
+          "rank": 8,
+          "score": -0.18218877911567688,
+          "chunk_id": "bert_reranker.pdf:semantic:c12:0a655f84fd",
+          "document": "bert_reranker.pdf",
+          "start_page": 2,
+          "end_page": 3,
+          "character_count": 435
+        },
+        {
+          "rank": 9,
+          "score": -0.4427148401737213,
+          "chunk_id": "monot5.pdf:semantic:c51:78b0155f48",
+          "document": "monot5.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 485
+        },
+        {
+          "rank": 10,
+          "score": -0.622184157371521,
+          "chunk_id": "coil.pdf:semantic:c37:8a8e56cf81",
+          "document": "coil.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "character_count": 506
+        },
+        {
+          "rank": 11,
+          "score": -1.0503218173980713,
+          "chunk_id": "bert_reranker.pdf:semantic:c16:cf7f6aff20",
+          "document": "bert_reranker.pdf",
+          "start_page": 3,
+          "end_page": 4,
+          "character_count": 420
+        },
+        {
+          "rank": 12,
+          "score": -1.2267239093780518,
+          "chunk_id": "bert_reranker.pdf:semantic:c3:7e5b59647e",
+          "document": "bert_reranker.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 689
+        },
+        {
+          "rank": 13,
+          "score": -1.3596771955490112,
+          "chunk_id": "colbert.pdf:semantic:c8:7752a83ca1",
+          "document": "colbert.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 863
+        },
+        {
+          "rank": 14,
+          "score": -1.5790718793869019,
+          "chunk_id": "hyrr.pdf:semantic:c39:363d4a142e",
+          "document": "hyrr.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "character_count": 825
+        },
+        {
+          "rank": 15,
+          "score": -5.072684288024902,
+          "chunk_id": "instructor.pdf:semantic:c27:6dc29dfcf0",
+          "document": "instructor.pdf",
+          "start_page": 5,
+          "end_page": 5,
+          "character_count": 555
+        },
+        {
+          "rank": 16,
+          "score": -5.77497673034668,
+          "chunk_id": "generative_rf.pdf:semantic:c32:51d6f8f190",
+          "document": "generative_rf.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 1029
+        },
+        {
+          "rank": 17,
+          "score": -6.294134140014648,
+          "chunk_id": "colbert.pdf:semantic:c11:5954ad778b",
+          "document": "colbert.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 631
+        },
+        {
+          "rank": 18,
+          "score": -7.935885429382324,
+          "chunk_id": "rankgpt.pdf:semantic:c8:ae81c295a5",
+          "document": "rankgpt.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 856
+        },
+        {
+          "rank": 19,
+          "score": -8.582649230957031,
+          "chunk_id": "retro.pdf:semantic:c163:93ee532199",
+          "document": "retro.pdf",
+          "start_page": 30,
+          "end_page": 30,
+          "character_count": 799
+        },
+        {
+          "rank": 20,
+          "score": -9.106073379516602,
+          "chunk_id": "colbert.pdf:semantic:c68:3e5e02597a",
+          "document": "colbert.pdf",
+          "start_page": 8,
+          "end_page": 8,
+          "character_count": 506
+        }
+      ],
+      "page_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.030834914611005692,
+          "parent_id": "parent:page:66ec5cbc48baded7",
+          "parent_type": "page",
+          "document": "bert_reranker.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "section_title": null,
+          "parent_character_count": 2209,
+          "parent_token_count_approx": 378,
+          "contributing_child_ids": [
+            "bert_reranker.pdf:semantic:c15:a760cde3d6",
+            "bert_reranker.pdf:semantic:c12:0a655f84fd"
+          ],
+          "contributing_child_ranks": [
+            2,
+            8
+          ],
+          "best_child_score": 3.5800771713256836,
+          "best_child_rank": 2,
+          "best_child_character_count": 562,
+          "expansion_ratio": 3.9306049822064058,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "cross_page_child_mapped_to_highest_overlap_page"
+          ],
+          "text_preview": "MS MARCO TREC-CAR\nMRR@10 MAP\nMethod Dev Eval Test\nBM25 (Lucene, no tuning) 16.7 16.5 12.3\nBM25 (Anserini, tuned) - - 15.3\nCo-PACRR⋆ (MacAvaney et al., 2017) - - 14.8\nKNRM (Xiong et al., 2017) 21.8 19.8 -\nConv-KNRM (Dai et al., 2018) 29.0 27.1 -\nIRNet† 27.8 28.1 -\nBERT Base 34.7 - 31.0\nBERT Large 36.5 35.8 33.5\nTable 1: Main Result on the passage re-ranking datasets. ⋆ Best Entry in the TREC-CAR 2017.\n† Previous SOTA in the MS MARCO leaderboard as of 01/04/2019; unpublished work.\nNumber of traini"
+        },
+        {
+          "rank": 2,
+          "score": 0.03028233151183971,
+          "parent_id": "parent:page:46d4b847ca74ff57",
+          "parent_type": "page",
+          "document": "bert_reranker.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": null,
+          "parent_character_count": 3319,
+          "parent_token_count_approx": 531,
+          "contributing_child_ids": [
+            "bert_reranker.pdf:semantic:c2:d14bcba91a",
+            "bert_reranker.pdf:semantic:c3:7e5b59647e"
+          ],
+          "contributing_child_ranks": [
+            1,
+            12
+          ],
+          "best_child_score": 4.096147060394287,
+          "best_child_rank": 1,
+          "best_child_character_count": 1140,
+          "expansion_ratio": 2.91140350877193,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "PASSAGE RE-RANKING WITH BERT\nRodrigo Nogueira\nNew York University\nrodrigonogueira@nyu.edu\nKyunghyun Cho\nNew York University\nFacebook AI Research\nCIFAR Azrieli Global Scholar\nkyunghyun.cho@nyu.edu\nABSTRACT\nRecently, neural models pretrained on a language modeling task, such as\nELMo (Peters et al., 2017), OpenAI GPT (Radford et al., 2018), and BERT (De-\nvlin et al., 2018), have achieved impressive results on various natural language\nprocessing tasks such as question-answering and natural language "
+        },
+        {
+          "rank": 3,
+          "score": 0.029437229437229435,
+          "parent_id": "parent:page:eb88645924866f88",
+          "parent_type": "page",
+          "document": "coil.pdf",
+          "start_page": 7,
+          "end_page": 7,
+          "section_title": null,
+          "parent_character_count": 2987,
+          "parent_token_count_approx": 477,
+          "contributing_child_ids": [
+            "coil.pdf:semantic:c36:1d54662cd1",
+            "coil.pdf:semantic:c37:8a8e56cf81"
+          ],
+          "contributing_child_ranks": [
+            6,
+            10
+          ],
+          "best_child_score": 0.2200714349746704,
+          "best_child_rank": 6,
+          "best_child_character_count": 401,
+          "expansion_ratio": 7.448877805486284,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "Table 1: MSMARCO passage collection results. Results not applicable are denoted ‘–’ and no available ‘n.a.’.\nMS MARCO Passage Ranking\nDev Rerank Dev Retrieval DL2019 Retrieval\nModel MRR@10 MRR@10 Recall@1K NDCG@10 MRR@1K\nLexical Retriever\nBM25 – 0.184 0.853 0.506 0.825\nDeepCT – 0.243 0.909 0.572 0.883\nDocT5Query – 0.278 0.945 0.642 0.888\nBM25+BERT reranker 0.347 – – – –\nDense Retriever\nDense (BM25 neg) n.a. 0.299 0.928 0.600 n.a.\nDense (rand + BM25 neg) n.a. 0.311 0.952 0.576 n.a.\nDense (our tra"
+        },
+        {
+          "rank": 4,
+          "score": 0.015873015873015872,
+          "parent_id": "parent:page:869f4052641c692e",
+          "parent_type": "page",
+          "document": "coil.pdf",
+          "start_page": 6,
+          "end_page": 6,
+          "section_title": null,
+          "parent_character_count": 4593,
+          "parent_token_count_approx": 752,
+          "contributing_child_ids": [
+            "coil.pdf:semantic:c35:f0d13aed4d"
+          ],
+          "contributing_child_ranks": [
+            3
+          ],
+          "best_child_score": 1.004870891571045,
+          "best_child_rank": 3,
+          "best_child_character_count": 405,
+          "expansion_ratio": 11.34074074074074,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "cross_page_child_mapped_to_highest_overlap_page"
+          ],
+          "text_preview": "MRR@1K and NDCG@10 on test and MRR@10\non MSMARCO Dev. We also report recall for the\ndev queries following prior work (Dai and Callan,\n2019a; Nogueira and Lin, 2019).\nCompared Systems Baselines include 1) tradi-\ntional exact match system BM25, 2) deep LM aug-\nmented BM25 systems DeepCT (Dai and Callan,\n2019a) and DocT5Query (Nogueira and Lin, 2019),\n3) dense retrievers, and 4) soft all-to-all retriever\nColBERT. For DeepCT and DocT5Query, we use\nthe rankings provided by the authors. For dense\nretr"
+        },
+        {
+          "rank": 5,
+          "score": 0.015625,
+          "parent_id": "parent:page:ef2dd12f80eac8d4",
+          "parent_type": "page",
+          "document": "doct5query.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "section_title": null,
+          "parent_character_count": 4401,
+          "parent_token_count_approx": 724,
+          "contributing_child_ids": [
+            "doct5query.pdf:semantic:c21:28e27f35e9"
+          ],
+          "contributing_child_ranks": [
+            4
+          ],
+          "best_child_score": 0.38727954030036926,
+          "best_child_rank": 4,
+          "best_child_character_count": 419,
+          "expansion_ratio": 10.503579952267303,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "4\nInput Document: July is the hottest month in Washington DC with an average temperature of 27C (80F) and the coldest\nis January at 4C (38F) with the most daily sunshine hours at 9 in July. The wettest month is May with\nan average of 100mm of rain.\nPredicted Query: weather in washington dc\nTarget query: what is the temperature in washington\nInput Document: The Delaware River ﬂows through Philadelphia into the Delaware Bay. It ﬂows through and aqueduct\nin the Roundout Reservoir and then ﬂows thro"
+        }
+      ],
+      "structural_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.01639344262295082,
+          "parent_id": "parent:page:46d4b847ca74ff57",
+          "parent_type": "page",
+          "document": "bert_reranker.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": null,
+          "parent_character_count": 3319,
+          "parent_token_count_approx": 531,
+          "contributing_child_ids": [
+            "bert_reranker.pdf:semantic:c2:d14bcba91a"
+          ],
+          "contributing_child_ranks": [
+            1
+          ],
+          "best_child_score": 4.096147060394287,
+          "best_child_rank": 1,
+          "best_child_character_count": 1140,
+          "expansion_ratio": 2.91140350877193,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "PASSAGE RE-RANKING WITH BERT\nRodrigo Nogueira\nNew York University\nrodrigonogueira@nyu.edu\nKyunghyun Cho\nNew York University\nFacebook AI Research\nCIFAR Azrieli Global Scholar\nkyunghyun.cho@nyu.edu\nABSTRACT\nRecently, neural models pretrained on a language modeling task, such as\nELMo (Peters et al., 2017), OpenAI GPT (Radford et al., 2018), and BERT (De-\nvlin et al., 2018), have achieved impressive results on various natural language\nprocessing tasks such as question-answering and natural language "
+        },
+        {
+          "rank": 2,
+          "score": 0.016129032258064516,
+          "parent_id": "parent:structural:756ecec01aa2f9b2",
+          "parent_type": "structural",
+          "document": "bert_reranker.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "section_title": "3.3 R ESULTS",
+          "parent_character_count": 1178,
+          "parent_token_count_approx": 196,
+          "contributing_child_ids": [
+            "bert_reranker.pdf:semantic:c15:a760cde3d6"
+          ],
+          "contributing_child_ranks": [
+            2
+          ],
+          "best_child_score": 3.5800771713256836,
+          "best_child_rank": 2,
+          "best_child_character_count": 562,
+          "expansion_ratio": 2.096085409252669,
+          "best_child_start_character_in_parent": 487,
+          "characters_before_best_child": 487,
+          "characters_after_best_child": 129,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "For the ﬁne-tuning data, we generate our query-passage pairs by retrieving the top ten passages from the entire TREC-CAR corpus using BM25. 3 This means that we end up with 30M example pairs (3M queries * 10 passages/query) to train our model. We train it for 400k iterations, or 12.8M examples (400k iterations * 32 pairs/batch), which corresponds to only 40% of the training set. Similarly to MS MARCO experiments, we did not see any gain on the dev set by training the models longer. We show the m"
+        },
+        {
+          "rank": 3,
+          "score": 0.015873015873015872,
+          "parent_id": "parent:structural:a4f925399b2c1b11",
+          "parent_type": "structural",
+          "document": "coil.pdf",
+          "start_page": 6,
+          "end_page": 7,
+          "section_title": "trieval performance and latency on MARCO pas-",
+          "parent_character_count": 1200,
+          "parent_token_count_approx": 192,
+          "contributing_child_ids": [
+            "coil.pdf:semantic:c35:f0d13aed4d"
+          ],
+          "contributing_child_ranks": [
+            3
+          ],
+          "best_child_score": 1.004870891571045,
+          "best_child_rank": 3,
+          "best_child_character_count": 405,
+          "expansion_ratio": 2.962962962962963,
+          "best_child_start_character_in_parent": 552,
+          "characters_before_best_child": 552,
+          "characters_after_best_child": 243,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "With the CLS matching added, COIL-full gains the ability other performance leap, outperforming all dense retrievers. gap to ColBERT. Recall that ColBERT computes all-to-all soft matches between all token pairs. For retrieval, it needs to consider for each query token all mentions of all tokens in the collection (MS- MARCO passage collection has around 500M to- ken mentions). COIL-full is able to capture match- from only query tokens’ mentions and a single CLS matching to bridge the vocabulary ga"
+        },
+        {
+          "rank": 4,
+          "score": 0.015625,
+          "parent_id": "parent:structural:f5f033475da65c83",
+          "parent_type": "structural",
+          "document": "doct5query.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "section_title": "Our implementation is based on integrating",
+          "parent_character_count": 1183,
+          "parent_token_count_approx": 201,
+          "contributing_child_ids": [
+            "doct5query.pdf:semantic:c21:28e27f35e9"
+          ],
+          "contributing_child_ranks": [
+            4
+          ],
+          "best_child_score": 0.38727954030036926,
+          "best_child_rank": 4,
+          "best_child_character_count": 419,
+          "expansion_ratio": 2.8233890214797137,
+          "best_child_start_character_in_parent": 571,
+          "characters_before_best_child": 571,
+          "characters_after_best_child": 193,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "Neverthe- less, the model also produces words not present in the input document (e.g., weather, relationship), onyms and other related terms. To quantify this analysis, we measured the pro- portion of predicted words that exist (copied) vs. not-exist (new) in the original document. Exclud- ing stop words, which corresponds to 51% of the predicted query words, we found that 31% are new while the rest (69%) are copied. If we expand MS trieve the development set queries with BM25, we obtain an MRR@"
+        },
+        {
+          "rank": 5,
+          "score": 0.015384615384615385,
+          "parent_id": "parent:page:1dffdb4dce9c61d4",
+          "parent_type": "page",
+          "document": "colbert.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "section_title": null,
+          "parent_character_count": 5698,
+          "parent_token_count_approx": 858,
+          "contributing_child_ids": [
+            "colbert.pdf:semantic:c22:b225969148"
+          ],
+          "contributing_child_ranks": [
+            5
+          ],
+          "best_child_score": 0.2551122307777405,
+          "best_child_rank": 5,
+          "best_child_character_count": 657,
+          "expansion_ratio": 8.672754946727549,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "(3) We show how to leverage ColBERT both for re-ranking on\ntop of a term-based retrieval model (§3.5) and for searching\na full collection using vector similarity indexes (§3.6).\n(4) We evaluate ColBERT on MS MARCO and TREC CAR, two\nrecent passage search collections.\n2 RELATED WORK\nNeural Matching Models. Over the past few years, IR researchers\nhave introduced numerous neural architectures for ranking. In\nthis work, we compare against KNRM [4, 36], Duet [20, 22], Con-\nvKNRM [4], and fastText+Conv"
+        }
+      ],
+      "page_evidence_preservation": {
+        "first_relevant_rank": 2,
+        "hit_at_1": false,
+        "hit_at_3": true,
+        "hit_at_5": true,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 2,
+        "relevant_children_mapped_into_returned_parents": 2,
+        "relevant_children_contained_by_returned_parents": 1
+      },
+      "structural_evidence_preservation": {
+        "first_relevant_rank": 1,
+        "hit_at_1": true,
+        "hit_at_3": true,
+        "hit_at_5": true,
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 2,
+        "relevant_children_mapped_into_returned_parents": 1,
+        "relevant_children_contained_by_returned_parents": 0
+      },
+      "baseline_retrieval_seconds": 0.1971544590051053,
+      "child_retrieval_seconds": 0.15790874999947846,
+      "parent_mapping_seconds": 3.845800529234111e-05,
+      "page_aggregation_seconds": 0.00022208300651982427,
+      "structural_aggregation_seconds": 0.00014874999760650098,
+      "page_unique_parents_before_top_k": 17,
+      "structural_unique_parents_before_top_k": 20,
+      "parent_child_total_seconds": 0.15831804100889713,
+      "page_parent_fallback_warnings": 2,
+      "structural_parent_fallback_warnings": 2
+    },
+    {
+      "question_id": "p75_cpack_resources",
+      "original_question": "Which three kinds of resources make up C-Pack?",
+      "answerability": "answerable",
+      "expected_sources": [
+        {
+          "document": "bge.pdf",
+          "page_number": 1,
+          "chunk_id": null
+        }
+      ],
+      "baseline_first_relevant_rank": 1,
+      "child_first_relevant_rank": 1,
+      "page_parent_first_relevant_rank": 4,
+      "structural_parent_first_relevant_rank": 2,
+      "child_vs_baseline_outcome": "unchanged",
+      "page_parent_vs_baseline_outcome": "degraded",
+      "structural_parent_vs_baseline_outcome": "degraded",
+      "page_parent_vs_child_outcome": "degraded",
+      "structural_parent_vs_child_outcome": "degraded",
+      "baseline_results": [
+        {
+          "rank": 1,
+          "score": 4.126277446746826,
+          "chunk_id": "bge.pdf:p1:c1",
+          "document": "bge.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 1167
+        },
+        {
+          "rank": 2,
+          "score": 3.279167652130127,
+          "chunk_id": "bge.pdf:p4:c1",
+          "document": "bge.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 976
+        },
+        {
+          "rank": 3,
+          "score": 2.829205274581909,
+          "chunk_id": "bge.pdf:p3:c1",
+          "document": "bge.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 1170
+        },
+        {
+          "rank": 4,
+          "score": 2.1019651889801025,
+          "chunk_id": "bge.pdf:p5:c1",
+          "document": "bge.pdf",
+          "start_page": 5,
+          "end_page": 5,
+          "character_count": 867
+        },
+        {
+          "rank": 5,
+          "score": 1.596541404724121,
+          "chunk_id": "bge.pdf:p2:c9",
+          "document": "bge.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 672
+        }
+      ],
+      "child_results": [
+        {
+          "rank": 1,
+          "score": 5.278448104858398,
+          "chunk_id": "bge.pdf:semantic:c1:2305d978e6",
+          "document": "bge.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 669
+        },
+        {
+          "rank": 2,
+          "score": 3.673671007156372,
+          "chunk_id": "bge.pdf:semantic:c18:d9d0eab339",
+          "document": "bge.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 727
+        },
+        {
+          "rank": 3,
+          "score": 2.045093536376953,
+          "chunk_id": "bge.pdf:semantic:c23:8b1aaf28a1",
+          "document": "bge.pdf",
+          "start_page": 3,
+          "end_page": 4,
+          "character_count": 656
+        },
+        {
+          "rank": 4,
+          "score": 1.7422640323638916,
+          "chunk_id": "bge.pdf:semantic:c75:daed91ddef",
+          "document": "bge.pdf",
+          "start_page": 9,
+          "end_page": 9,
+          "character_count": 427
+        },
+        {
+          "rank": 5,
+          "score": 1.4961576461791992,
+          "chunk_id": "bge.pdf:semantic:c32:b7eafdba51",
+          "document": "bge.pdf",
+          "start_page": 4,
+          "end_page": 5,
+          "character_count": 483
+        },
+        {
+          "rank": 6,
+          "score": 0.9788370728492737,
+          "chunk_id": "bge.pdf:semantic:c3:f79f7a878e",
+          "document": "bge.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "character_count": 417
+        },
+        {
+          "rank": 7,
+          "score": 0.24443906545639038,
+          "chunk_id": "bge.pdf:semantic:c16:746cf9023c",
+          "document": "bge.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 550
+        },
+        {
+          "rank": 8,
+          "score": -0.00796152651309967,
+          "chunk_id": "bge.pdf:semantic:c10:17a9cdd7f8",
+          "document": "bge.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 689
+        },
+        {
+          "rank": 9,
+          "score": -0.4712890386581421,
+          "chunk_id": "bright.pdf:semantic:c103:f7904becf6",
+          "document": "bright.pdf",
+          "start_page": 15,
+          "end_page": 15,
+          "character_count": 415
+        },
+        {
+          "rank": 10,
+          "score": -0.6554287075996399,
+          "chunk_id": "bge.pdf:semantic:c50:3e2a387ad4",
+          "document": "bge.pdf",
+          "start_page": 6,
+          "end_page": 7,
+          "character_count": 507
+        },
+        {
+          "rank": 11,
+          "score": -0.6880238056182861,
+          "chunk_id": "m3_embedding.pdf:semantic:c83:7f2ac45396",
+          "document": "m3_embedding.pdf",
+          "start_page": 12,
+          "end_page": 12,
+          "character_count": 409
+        },
+        {
+          "rank": 12,
+          "score": -1.5372464656829834,
+          "chunk_id": "bge.pdf:semantic:c20:599e9e3473",
+          "document": "bge.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 516
+        },
+        {
+          "rank": 13,
+          "score": -1.9773659706115723,
+          "chunk_id": "bge.pdf:semantic:c40:fc8d82901b",
+          "document": "bge.pdf",
+          "start_page": 5,
+          "end_page": 5,
+          "character_count": 649
+        },
+        {
+          "rank": 14,
+          "score": -2.2904610633850098,
+          "chunk_id": "bge.pdf:semantic:c17:ef1a2cec1c",
+          "document": "bge.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 410
+        },
+        {
+          "rank": 15,
+          "score": -2.8448028564453125,
+          "chunk_id": "bge.pdf:semantic:c22:751e134ef2",
+          "document": "bge.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "character_count": 893
+        },
+        {
+          "rank": 16,
+          "score": -6.735454082489014,
+          "chunk_id": "bge.pdf:semantic:c24:62be66e54d",
+          "document": "bge.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 877
+        },
+        {
+          "rank": 17,
+          "score": -6.916440963745117,
+          "chunk_id": "bge.pdf:semantic:c31:d287d2ac08",
+          "document": "bge.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "character_count": 515
+        },
+        {
+          "rank": 18,
+          "score": -10.479989051818848,
+          "chunk_id": "texttiling.pdf:semantic:c5:97c407d946",
+          "document": "texttiling.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 869
+        },
+        {
+          "rank": 19,
+          "score": -10.93834400177002,
+          "chunk_id": "m3_embedding.pdf:semantic:c9:6a5450df63",
+          "document": "m3_embedding.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "character_count": 549
+        },
+        {
+          "rank": 20,
+          "score": -11.311622619628906,
+          "chunk_id": "retro.pdf:semantic:c185:aa5d11c498",
+          "document": "retro.pdf",
+          "start_page": 36,
+          "end_page": 37,
+          "character_count": 416
+        }
+      ],
+      "page_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.04335125448028674,
+          "parent_id": "parent:page:d502035368de7ad2",
+          "parent_type": "page",
+          "document": "bge.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "section_title": null,
+          "parent_character_count": 4142,
+          "parent_token_count_approx": 589,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c18:d9d0eab339",
+            "bge.pdf:semantic:c20:599e9e3473",
+            "bge.pdf:semantic:c22:751e134ef2"
+          ],
+          "contributing_child_ranks": [
+            2,
+            12,
+            15
+          ],
+          "best_child_score": 3.673671007156372,
+          "best_child_rank": 2,
+          "best_child_character_count": 727,
+          "expansion_ratio": 5.697386519944979,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "C-Pack: Packed Resources For General Chinese Embeddings SIGIR ’24, July 14–18, 2024, Washington, DC, USA\nAmazonReviews-ZH\nMassiveIntent-ZH\nMassiveScenario-ZH\nMultilingualSentiment\nOnlineShopping\nIFlyTek\nJDReview\nTNews\nWaimai\nClassisication(9 datasets) Clustering(4 datasets)\nCLSClusteringP2P\nThuNewsClusteringP2P\nCLSClusteringS2S\nThuNewsClusteringS2S\nReranking(4 datasets)\nCMedQAv1\nCMedQAv2\nMMarcoReranking\nT2Reranking\nCmedqaRetrieval\nCovidRetrieval\nDuRetrieval\nEcomRetrieval\nMedicalRetrieval\nMMarcoR"
+        },
+        {
+          "rank": 2,
+          "score": 0.04314476900078305,
+          "parent_id": "parent:page:30cd132d92127f12",
+          "parent_type": "page",
+          "document": "bge.pdf",
+          "start_page": 2,
+          "end_page": 2,
+          "section_title": null,
+          "parent_character_count": 7393,
+          "parent_token_count_approx": 1057,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c16:746cf9023c",
+            "bge.pdf:semantic:c10:17a9cdd7f8",
+            "bge.pdf:semantic:c17:ef1a2cec1c"
+          ],
+          "contributing_child_ranks": [
+            7,
+            8,
+            14
+          ],
+          "best_child_score": 0.24443906545639038,
+          "best_child_rank": 7,
+          "best_child_character_count": 550,
+          "expansion_ratio": 13.441818181818181,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "SIGIR ’24, July 14–18, 2024, Washington, DC, USA Shitao Xiao et al.\nscale, diversity, and quality. To achieve high discriminative power\nfor the embeddings, it may take more than hundreds of millions of\ntraining instances [22, 40, 53], which is orders of magnitude greater\nthan typical task-specific datasets, like MS MARCO [38] and NLI [10,\n55]. Besides scale, the training data needs to be collected from a wide\nrange of sources so as to improve the generality across different\ntasks [22, 53]. Final"
+        },
+        {
+          "rank": 3,
+          "score": 0.04201792359687097,
+          "parent_id": "parent:page:230b4977000409ee",
+          "parent_type": "page",
+          "document": "bge.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "section_title": null,
+          "parent_character_count": 5930,
+          "parent_token_count_approx": 906,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c23:8b1aaf28a1",
+            "bge.pdf:semantic:c24:62be66e54d",
+            "bge.pdf:semantic:c31:d287d2ac08"
+          ],
+          "contributing_child_ranks": [
+            3,
+            16,
+            17
+          ],
+          "best_child_score": 2.045093536376953,
+          "best_child_rank": 3,
+          "best_child_character_count": 656,
+          "expansion_ratio": 9.039634146341463,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "cross_page_child_mapped_to_highest_overlap_page"
+          ],
+          "text_preview": "SIGIR ’24, July 14–18, 2024, Washington, DC, USA Shitao Xiao et al.\nGiven the above analysis, it can be concluded that the general\ntext embedding is highly resource-dependent, which calls for a wide\nrange of elements, such as datasets, models, and benchmarks. Thus,\nthe creation and public release of the corresponding resources in\nC-Pack is crucially important.\n3 C-PACK\nIn this section, we first introduce the resources in C-Pack: the\nbenchmark C-MTEB, the training data C-MTP, and the model\nclass "
+        },
+        {
+          "rank": 4,
+          "score": 0.031544957774465976,
+          "parent_id": "parent:page:7e8112f0a0a86e76",
+          "parent_type": "page",
+          "document": "bge.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": null,
+          "parent_character_count": 4571,
+          "parent_token_count_approx": 655,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c1:2305d978e6",
+            "bge.pdf:semantic:c3:f79f7a878e"
+          ],
+          "contributing_child_ranks": [
+            1,
+            6
+          ],
+          "best_child_score": 5.278448104858398,
+          "best_child_rank": 1,
+          "best_child_character_count": 669,
+          "expansion_ratio": 6.8325859491778775,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [],
+          "text_preview": "C-Pack: Packed Resources For General Chinese Embeddings\nShitao Xiao†\nstxiao@baai.ac.cn\nBeijing Academy of AI\nBeijing, China\nZheng Liu†∗\nzhengliu1026@gmail.com\nBeijing Academy of AI\nBeijing, China\nPeitian Zhang\nnamespace.pt@gmail.com\nRenmin University of China\nBeijing, China\nNiklas Muennighoff\nn.muennighoff@gmail.com\nHuggingFace\nBeijing, China\nDefu Lian\nliandefu@ustc.edu.cn\nUSTC\nHefei, China\nJian-Yun Nie\nnie@iro.umontreal.ca\nUniversity of Montreal\nMontreal, Canada\nABSTRACT\nWe introduce C-Pack, a "
+        },
+        {
+          "rank": 5,
+          "score": 0.029083245521601686,
+          "parent_id": "parent:page:2f795821657d3804",
+          "parent_type": "page",
+          "document": "bge.pdf",
+          "start_page": 5,
+          "end_page": 5,
+          "section_title": null,
+          "parent_character_count": 6058,
+          "parent_token_count_approx": 908,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c32:b7eafdba51",
+            "bge.pdf:semantic:c40:fc8d82901b"
+          ],
+          "contributing_child_ranks": [
+            5,
+            13
+          ],
+          "best_child_score": 1.4961576461791992,
+          "best_child_rank": 5,
+          "best_child_character_count": 483,
+          "expansion_ratio": 12.542443064182194,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "cross_page_child_mapped_to_highest_overlap_page"
+          ],
+          "text_preview": "C-Pack: Packed Resources For General Chinese Embeddings SIGIR ’24, July 14–18, 2024, Washington, DC, USA\nTable 1: Composition of C-MTP\ndataset C-MTP (unlabeled) C-MTP (labeled)\nsource\nWudao, Zhihu, Baike,\nCSL, XLSUM-Zh,\nAmazon-Review-Zh,\nCMRC, etc.\nT2-Ranking,\nmMARCO-Zh,\nDuReader, NLI-Zh,\netc.\nsize 100𝑀 838𝐾\n(Title, Body)\n(Question, Answer)\n(Paraphrase Answer)\n(Topic, Review)\nFilteringExtraction C-MTP\nFigure 4: Creation of C-MTP.\nWudao corpus [63], which is the largest dataset of well-formatted\n"
+        }
+      ],
+      "structural_parent_results": [
+        {
+          "rank": 1,
+          "score": 0.027222222222222224,
+          "parent_id": "parent:page:d502035368de7ad2",
+          "parent_type": "page",
+          "document": "bge.pdf",
+          "start_page": 3,
+          "end_page": 3,
+          "section_title": null,
+          "parent_character_count": 4142,
+          "parent_token_count_approx": 589,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c20:599e9e3473",
+            "bge.pdf:semantic:c22:751e134ef2"
+          ],
+          "contributing_child_ranks": [
+            12,
+            15
+          ],
+          "best_child_score": -1.5372464656829834,
+          "best_child_rank": 12,
+          "best_child_character_count": 516,
+          "expansion_ratio": 8.027131782945736,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "C-Pack: Packed Resources For General Chinese Embeddings SIGIR ’24, July 14–18, 2024, Washington, DC, USA\nAmazonReviews-ZH\nMassiveIntent-ZH\nMassiveScenario-ZH\nMultilingualSentiment\nOnlineShopping\nIFlyTek\nJDReview\nTNews\nWaimai\nClassisication(9 datasets) Clustering(4 datasets)\nCLSClusteringP2P\nThuNewsClusteringP2P\nCLSClusteringS2S\nThuNewsClusteringS2S\nReranking(4 datasets)\nCMedQAv1\nCMedQAv2\nMMarcoReranking\nT2Reranking\nCmedqaRetrieval\nCovidRetrieval\nDuRetrieval\nEcomRetrieval\nMedicalRetrieval\nMMarcoR"
+        },
+        {
+          "rank": 2,
+          "score": 0.01639344262295082,
+          "parent_id": "parent:structural:59738e47c273fd89",
+          "parent_type": "structural",
+          "document": "bge.pdf",
+          "start_page": 1,
+          "end_page": 1,
+          "section_title": "puts forward much higher demands on the training data in terms of",
+          "parent_character_count": 1039,
+          "parent_token_count_approx": 149,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c1:2305d978e6"
+          ],
+          "contributing_child_ranks": [
+            1
+          ],
+          "best_child_score": 5.278448104858398,
+          "best_child_rank": 1,
+          "best_child_character_count": 669,
+          "expansion_ratio": 1.553064275037369,
+          "best_child_start_character_in_parent": 0,
+          "characters_before_best_child": 0,
+          "characters_after_best_child": 370,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "C-Pack: Packed Resources For General Chinese Embeddings Shitao Xiao† stxiao@baai.ac.cn Beijing, China Zheng Liu†∗ zhengliu1026@gmail.com Beijing, China namespace.pt@gmail.com Beijing, China n.muennighoff@gmail.com Beijing, China liandefu@ustc.edu.cn Hefei, China nie@iro.umontreal.ca Montreal, Canada We introduce C-Pack, a package of resources that significantly advances the field of general text embeddings for Chinese. C-Pack includes three critical resources. 1) C-MTP is a massive training data"
+        },
+        {
+          "rank": 3,
+          "score": 0.016129032258064516,
+          "parent_id": "parent:structural:ab0836b92fa41cc0",
+          "parent_type": "structural",
+          "document": "bge.pdf",
+          "start_page": 2,
+          "end_page": 3,
+          "section_title": "training is affordable for many industrial organizations and compa-",
+          "parent_character_count": 1182,
+          "parent_token_count_approx": 135,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c18:d9d0eab339"
+          ],
+          "contributing_child_ranks": [
+            2
+          ],
+          "best_child_score": 3.673671007156372,
+          "best_child_rank": 2,
+          "best_child_character_count": 727,
+          "expansion_ratio": 1.62585969738652,
+          "best_child_start_character_in_parent": 411,
+          "characters_before_best_child": 411,
+          "characters_after_best_child": 44,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "The remaining part of this paper is organized as follows. We Section 3. We make comprehensive empirical analysis for the value of C-Pack in Section 4. Finally, we conclude our work in Section ??. 3https://python.langchain.com/docs/integrations/text_embedding/bge_huggingface 4https://docs.llamaindex.ai/en/stable/examples/embeddings/huggingface.html 5https://huggingface.co/docs/text-embeddings-inference/index C-Pack: Packed Resources For General Chinese Embeddings SIGIR ’24, July 14–18, 2024, Wash"
+        },
+        {
+          "rank": 4,
+          "score": 0.015873015873015872,
+          "parent_id": "parent:page:230b4977000409ee",
+          "parent_type": "page",
+          "document": "bge.pdf",
+          "start_page": 4,
+          "end_page": 4,
+          "section_title": null,
+          "parent_character_count": 5930,
+          "parent_token_count_approx": 906,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c23:8b1aaf28a1"
+          ],
+          "contributing_child_ranks": [
+            3
+          ],
+          "best_child_score": 2.045093536376953,
+          "best_child_rank": 3,
+          "best_child_character_count": 656,
+          "expansion_ratio": 9.039634146341463,
+          "best_child_start_character_in_parent": null,
+          "characters_before_best_child": null,
+          "characters_after_best_child": null,
+          "parent_contains_all_contributing_children": false,
+          "mapping_warnings": [
+            "structural_parent_does_not_uniquely_contain_child"
+          ],
+          "text_preview": "SIGIR ’24, July 14–18, 2024, Washington, DC, USA Shitao Xiao et al.\nGiven the above analysis, it can be concluded that the general\ntext embedding is highly resource-dependent, which calls for a wide\nrange of elements, such as datasets, models, and benchmarks. Thus,\nthe creation and public release of the corresponding resources in\nC-Pack is crucially important.\n3 C-PACK\nIn this section, we first introduce the resources in C-Pack: the\nbenchmark C-MTEB, the training data C-MTP, and the model\nclass "
+        },
+        {
+          "rank": 5,
+          "score": 0.015625,
+          "parent_id": "parent:structural:e84cc462d2165f49",
+          "parent_type": "structural",
+          "document": "bge.pdf",
+          "start_page": 8,
+          "end_page": 9,
+          "section_title": "optimized bi-granular document representation for scalable embedding based",
+          "parent_character_count": 1117,
+          "parent_token_count_approx": 149,
+          "contributing_child_ids": [
+            "bge.pdf:semantic:c75:daed91ddef"
+          ],
+          "contributing_child_ranks": [
+            4
+          ],
+          "best_child_score": 1.7422640323638916,
+          "best_child_rank": 4,
+          "best_child_character_count": 427,
+          "expansion_ratio": 2.6159250585480094,
+          "best_child_start_character_in_parent": 650,
+          "characters_before_best_child": 650,
+          "characters_after_best_child": 40,
+          "parent_contains_all_contributing_children": true,
+          "mapping_warnings": [],
+          "text_preview": "arXiv preprint arXiv:2101.06983 (2021). [19] Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, and Mingwei Chang. 2020. Retrieval augmented language model pre-training. In International conference on machine learning. PMLR, 3929–3938. [20] Wei He, Kai Liu, Jing Liu, Yajuan Lyu, Shiqi Zhao, Xinyan Xiao, Yuan Liu, Yizhong Wang, Hua Wu, Qiaoqiao She, et al. 2017. Dureader: a chinese machine reading comprehension dataset from real-world applications. arXiv preprint arXiv:1711.05073 (2017). [21] J"
+        }
+      ],
+      "page_evidence_preservation": {
+        "first_relevant_rank": 4,
+        "hit_at_1": false,
+        "hit_at_3": false,
+        "hit_at_5": true,
+        "recall_at_1": 0.0,
+        "recall_at_3": 0.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 2,
+        "relevant_children_mapped_into_returned_parents": 2,
+        "relevant_children_contained_by_returned_parents": 0
+      },
+      "structural_evidence_preservation": {
+        "first_relevant_rank": 2,
+        "hit_at_1": false,
+        "hit_at_3": true,
+        "hit_at_5": true,
+        "recall_at_1": 0.0,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "relevant_retrieved_child_count": 2,
+        "relevant_children_mapped_into_returned_parents": 1,
+        "relevant_children_contained_by_returned_parents": 1
+      },
+      "baseline_retrieval_seconds": 0.17052924999734387,
+      "child_retrieval_seconds": 0.2005285829945933,
+      "parent_mapping_seconds": 2.9499991796910763e-05,
+      "page_aggregation_seconds": 0.0001551249879412353,
+      "structural_aggregation_seconds": 0.00012116700236219913,
+      "page_unique_parents_before_top_k": 12,
+      "structural_unique_parents_before_top_k": 19,
+      "parent_child_total_seconds": 0.20083437497669365,
+      "page_parent_fallback_warnings": 2,
+      "structural_parent_fallback_warnings": 2
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# Phase 1 through Phase 10C-1 architecture
+# Phase 1 through Phase 10D architecture
 
 ```text
 data/papers/*.pdf
@@ -381,3 +381,27 @@ Nothing imports this analysis from FastAPI, the CLI, `RAGApplication`, or the
 LangGraph workflow. No production router is implemented because five positive
 examples do not support a stable rule. See the
 [Phase 10C-1 report](phase-10c-routing-signal-analysis.md).
+
+## Phase 10D experimental parent-child retrieval
+
+Phase 10D reuses the semantic chunk index as a focused child layer. After the
+existing hybrid and cross-encoder stack ranks children, stable prebuilt mappings
+expand them into physical pages or uniquely containing structural chunks.
+Parents are deduplicated and ranked by reciprocal contributing-child ranks.
+
+```text
+semantic child -> dense + BM25 -> hybrid RRF -> cross-encoder
+               -> stable parent mapping -> parent rank aggregation
+               -> page or structural context + child provenance
+```
+
+Ambiguous structural relationships fall back to page parents and remain visible
+as warnings. This experiment is not imported by FastAPI, the CLI,
+`RAGApplication`, or LangGraph. See the
+[Phase 10D engineering guide](phase-10d-parent-child.md).
+
+The benchmark keeps legacy as the production default. Full-page expansion
+weakens early precision and adds roughly 8× context. Exact structural parents
+are the more promising branch: they preserve top-five retrieval and average
+about 2× expansion, but only 64.6% of children map without page fallback. See
+the [Phase 10D results](phase-10d-parent-child-results.md).

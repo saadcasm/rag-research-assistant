@@ -1,5 +1,15 @@
 # RAG Research Assistant
 
+## Phase 10D: parent-child retrieval experiment
+
+Phase 10D retrieves the existing small semantic chunks and expands their stable
+IDs into physical-page or conservatively matched structural contexts. Parent
+ranking uses reciprocal child-rank evidence after the unchanged cross-encoder.
+The benchmark keeps legacy as the default: page parents were too broad, while
+structural parents preserved Hit@5 but covered only 64.6% of children without
+fallback. See the [engineering guide](docs/phase-10d-parent-child.md) and
+[results](docs/phase-10d-parent-child-results.md).
+
 ## Phase 10C-1: adaptive-routing signal analysis
 
 Phase 10C-1 analyzes whether cheap signals from the first baseline retrieval can
