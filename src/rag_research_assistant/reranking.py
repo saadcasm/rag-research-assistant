@@ -55,6 +55,28 @@ class CrossEncoderReranker:
             )
         self._scorer = scorer
 
+    def score_texts(self, query: str, texts: Sequence[str]) -> np.ndarray:
+        """Score query/text pairs in one batch without interpreting calibration.
+
+        Contextual compression reuses the already-loaded cross-encoder through
+        this method.  The returned values are ranking scores, not probabilities.
+        """
+
+        if not query.strip():
+            raise ValueError("query cannot be empty")
+        if not texts:
+            return np.empty(0, dtype=np.float32)
+        raw_scores = self._scorer.predict(
+            [(query, text) for text in texts],
+            batch_size=self.batch_size,
+            show_progress_bar=False,
+            convert_to_numpy=True,
+        )
+        scores = np.asarray(raw_scores, dtype=np.float32).reshape(-1)
+        if len(scores) != len(texts) or not np.isfinite(scores).all():
+            raise ValueError("cross-encoder returned invalid pair scores")
+        return scores
+
     def rerank(
         self, query: str, candidates: Sequence[SearchResult], top_k: int
     ) -> List[SearchResult]:
@@ -66,15 +88,9 @@ class CrossEncoderReranker:
             raise ValueError("top_k must be positive")
         if not candidates:
             return []
-        raw_scores = self._scorer.predict(
-            [(query, result.chunk.text) for result in candidates],
-            batch_size=self.batch_size,
-            show_progress_bar=False,
-            convert_to_numpy=True,
+        scores = self.score_texts(
+            query, [result.chunk.text for result in candidates]
         )
-        scores = np.asarray(raw_scores, dtype=np.float32).reshape(-1)
-        if len(scores) != len(candidates) or not np.isfinite(scores).all():
-            raise ValueError("cross-encoder returned invalid candidate scores")
         ranked_rows = sorted(
             range(len(candidates)), key=lambda row: (-float(scores[row]), row)
         )
