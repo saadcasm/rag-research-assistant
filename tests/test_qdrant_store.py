@@ -30,6 +30,11 @@ class FakeEmbedder:
         return np.asarray(self.query, dtype=np.float32)
 
 
+class FailingEmbedder(FakeEmbedder):
+    def embed_query(self, text: str) -> np.ndarray:
+        raise AssertionError("search_vector must not embed text again")
+
+
 def _chunk(chunk_id: str, document: str, page: int, text: str) -> Chunk:
     return Chunk(chunk_id, document, page, 1, 0, len(text), text)
 
@@ -128,6 +133,21 @@ def test_query_returns_cosine_order_and_reconstructs_chunk_metadata(tmp_path: Pa
     assert results[0].score > results[1].score
     assert results[1].chunk.document == "two.pdf"
     assert results[1].chunk.page_number == 2
+
+
+def test_precomputed_vector_search_reuses_index_without_embedding_again(tmp_path: Path) -> None:
+    chunks_path, index = _corpus(tmp_path)
+    storage = tmp_path / "qdrant"
+    build_qdrant_index(chunks_path, storage, index)
+    retriever = QdrantDenseRetriever(chunks_path, storage, FailingEmbedder())
+    try:
+        results = retriever.search_vector(
+            np.asarray([1.0, 0.0], dtype=np.float32), top_k=2
+        )
+    finally:
+        retriever.close()
+
+    assert [result.chunk.chunk_id for result in results] == ["first", "second"]
 
 
 def test_document_payload_filter_restricts_dense_results(tmp_path: Path) -> None:

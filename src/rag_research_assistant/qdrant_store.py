@@ -311,6 +311,16 @@ class QdrantDenseRetriever:
         if top_k <= 0:
             raise ValueError("top_k must be positive")
         vector = np.asarray(self.embedder.embed_query(query), dtype=np.float32)
+        return self.search_vector(vector, top_k=top_k)
+
+    def search_vector(
+        self, vector: np.ndarray, *, top_k: int = 5
+    ) -> List[SearchResult]:
+        """Search with an already-computed vector for controlled experiments."""
+
+        if top_k <= 0:
+            raise ValueError("top_k must be positive")
+        vector = np.asarray(vector, dtype=np.float32)
         if vector.ndim != 1 or len(vector) != self.info.dimension:
             raise InvalidQdrantIndexError(
                 "query vector dimension does not match the Qdrant collection"

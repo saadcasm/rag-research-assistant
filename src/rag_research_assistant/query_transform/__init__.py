@@ -5,6 +5,7 @@ from .multi_query import (
     MultiQueryGenerationResult,
     MultiQueryRetriever,
 )
+from .hyde import HyDEDocumentGenerator, HyDEExperimentalRetriever
 from .rewriting import (
     CorpusGroundedLLMRewriter,
     IdentityDiagnostics,
@@ -16,6 +17,8 @@ __all__ = [
     "CorpusGroundedMultiQueryGenerator",
     "CorpusGroundedLLMRewriter",
     "IdentityDiagnostics",
+    "HyDEDocumentGenerator",
+    "HyDEExperimentalRetriever",
     "MultiQueryGenerationResult",
     "MultiQueryRetriever",
     "RewriteResult",
