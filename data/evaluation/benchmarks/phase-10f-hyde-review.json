@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "experiment": "phase-10f-hyde-manual-review",
+  "source_artifact": "data/evaluation/benchmarks/phase-10f-hyde-results.json",
+  "decision": "retain as a reproducible learning experiment only; do not integrate into production",
+  "key_findings": {
+    "hyde_only_rescues": 4,
+    "hyde_only_losses": 5,
+    "fused_improvements": 0,
+    "fused_degradations": 0,
+    "unanswerable_hyde_top_result_changes": 8,
+    "mean_baseline_seconds": 0.19808782717067516,
+    "mean_hyde_only_seconds": 4.227705141320039,
+    "mean_fused_seconds": 4.4215267213011975,
+    "mean_generation_seconds": 4.076581520820037
+  },
+  "representative_rescues": [
+    {"question_id": "p75_rankgpt_noveleval", "baseline_rank": null, "hyde_rank": 3, "warning": "probe invented unrelated benchmark examples"},
+    {"question_id": "p75_replug_integration", "baseline_rank": null, "hyde_rank": 5, "warning": "probe simplified and partly misstated the integration mechanism"},
+    {"question_id": "p75_doct5query_latency", "baseline_rank": null, "hyde_rank": 4, "warning": "probe invented TREC 25 and a 12% recall gain"},
+    {"question_id": "p75_gtr_data_efficiency", "baseline_rank": null, "hyde_rank": 4, "warning": "probe invented 10% labeled data and ImageNet-21k pretraining"}
+  ],
+  "found_to_not_found_losses": [
+    {"question_id": "p75_doct5query_direction", "baseline_rank": 2, "cause": "probe described dense vectors instead of predicted queries appended to documents"},
+    {"question_id": "p75_dpr_bm25_margin", "baseline_rank": 3, "cause": "probe invented a 4.2-point margin and wrong dataset"},
+    {"question_id": "p75_instructor_tasks", "baseline_rank": 1, "cause": "probe invented a 100-task count"},
+    {"question_id": "p75_rocketqav2_distillation", "baseline_rank": 3, "cause": "probe replaced the specific mechanism with generic joint optimization"},
+    {"question_id": "p75_beir_tradeoff", "baseline_rank": 1, "cause": "probe named wrong model families and evaluation metric"}
+  ],
+  "interpretation": [
+    "A useful retrieval movement does not make hypothetical claims true.",
+    "Mean first-relevant rank is not comparable without noting changed found-question membership.",
+    "Equal fusion protects baseline relevance but eliminates all observed HyDE gains.",
+    "Drift diagnostics are audit signals, not calibrated predictors of retrieval outcome.",
+    "A smaller generator would address latency but not the absence of fused retrieval benefit."
+  ]
+}

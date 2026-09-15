@@ -1,4 +1,4 @@
-# Phase 1 through Phase 10E architecture
+# Phase 1 through Phase 10F architecture
 
 ```text
 data/papers/*.pdf
@@ -432,3 +432,27 @@ one unsupported compressed answer on an upstream multi-source retrieval miss.
 That result prevents production integration. FastAPI, CLI, `RAGApplication`,
 generation prompting, and the Phase 9 graph continue to use complete legacy
 chunks. See the [Phase 10E guide](phase-10e-contextual-compression.md).
+
+## Phase 10F experimental HyDE retrieval
+
+HyDE adds one isolated semantic probe while preserving real corpus evidence:
+
+```text
+question -> Qwen hypothetical passage -> existing embedder
+         -> existing legacy Qdrant collection -> real chunks
+
+frozen baseline ranking + HyDE dense ranking
+         -> equal RRF -> cross-encoder(original question, real chunk)
+```
+
+The Qdrant retriever now exposes a behavior-preserving precomputed-vector
+method so the experiment can measure embedding separately. Normal production
+search still embeds its query and follows the same code path as before. The
+hypothetical passage never enters a prompt as evidence, and it is never used
+for final cross-encoder scoring.
+
+HyDE-only moved many rankings but traded four top-five rescues for five losses.
+Equal fusion prevented every measured relevance regression, yet also produced
+zero gains across 90 scored questions while increasing mean request cost from
+about 0.20 to 4.42 seconds. No API, CLI, `RAGApplication`, generation, or
+LangGraph path imports HyDE. See the [Phase 10F guide](phase-10f-hyde.md).

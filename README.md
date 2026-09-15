@@ -1,5 +1,16 @@
 # RAG Research Assistant
 
+## Phase 10F: HyDE experiment
+
+Phase 10F generates a short answer-like passage with local Qwen, embeds it as a
+semantic retrieval probe, and retrieves only real legacy chunks. HyDE-only
+improved several semantic and section-detail questions but lost more top-five
+hits than it rescued; equal-RRF fusion reproduced baseline relevance on all 90
+scored questions while adding about 4.2 seconds. HyDE remains an isolated
+learning experiment and is not a production option. See the
+[engineering guide](docs/phase-10f-hyde.md) and
+[benchmark results](docs/phase-10f-hyde-results.md).
+
 ## Phase 10E: contextual compression experiment
 
 Phase 10E applies query-aware extractive compression after the unchanged
