@@ -1,4 +1,4 @@
-# Phase 1 through Phase 10B architecture
+# Phase 1 through Phase 10C-1 architecture
 
 ```text
 data/papers/*.pdf
@@ -361,3 +361,23 @@ not replacing the production default: it modestly improved top-3/top-5 retrieval
 without baseline-relative rank regressions, but generation dominated latency and
 three alternatives did not improve on two. See the
 [Phase 10B results](phase-10b-multiquery-results.md).
+
+## Phase 10C-1 experimental routing analysis
+
+Phase 10C-1 is offline analysis, not a runtime branch. It reads Phase 10B's
+persisted baseline reranker results, original-query hybrid candidates, and MQ2
+outcome labels, then extracts score-shape, document-concentration, query-term,
+identity-term, and reranking-stability signals. It systematically sweeps every
+observed threshold boundary in both directions and reports routing cost and
+retrieval metrics.
+
+```text
+Phase 10B result JSON -> cheap baseline signals + MQ2 labels
+                      -> exploratory threshold sweeps
+                      -> routing metrics and leakage warning
+```
+
+Nothing imports this analysis from FastAPI, the CLI, `RAGApplication`, or the
+LangGraph workflow. No production router is implemented because five positive
+examples do not support a stable rule. See the
+[Phase 10C-1 report](phase-10c-routing-signal-analysis.md).

@@ -1,5 +1,14 @@
 # RAG Research Assistant
 
+## Phase 10C-1: adaptive-routing signal analysis
+
+Phase 10C-1 analyzes whether cheap signals from the first baseline retrieval can
+predict when the optional Multi-query-2 experiment helps. It reuses Phase 10B's
+saved rankings and labels, performs no new model inference, and does not add a
+production router. The five helpful cases are too sparse for a trustworthy
+threshold: rescuing four still escalates 35.6% of questions at only 12.5%
+precision. See [the routing-signal report](docs/phase-10c-routing-signal-analysis.md).
+
 ## Phase 10B: multi-query retrieval experiment
 
 Phase 10B preserves the original query and supplements it with two or three
