@@ -456,3 +456,31 @@ Equal fusion prevented every measured relevance regression, yet also produced
 zero gains across 90 scored questions while increasing mean request cost from
 about 0.20 to 4.42 seconds. No API, CLI, `RAGApplication`, generation, or
 LangGraph path imports HyDE. See the [Phase 10F guide](phase-10f-hyde.md).
+
+## Phase 10G experimental multi-hop retrieval
+
+Phase 10G introduces a separate, explicitly hop-labelled draft dataset and an
+offline-only decomposition path:
+
+```text
+original question -> Qwen JSON-schema decomposition (maximum 3)
+                  -> hybrid retrieval per complementary sub-question
+original hybrid ranking + sub-question rankings
+                  -> equal RRF + stable chunk deduplication
+                  -> one cross-encoder rerank against original question
+```
+
+The experiment compares original-only, decomposed-only, and guarded
+original-plus-decomposed conditions. Generated text never becomes evidence, raw
+malformed output is retained, and any transformation failure returns the frozen
+baseline. Full and partial hop coverage at 3/5/10 supplement ordinary
+single-source retrieval metrics. The implementation remains outside all
+production application paths. See the
+[Phase 10G checkpoint guide](phase-10g-multihop.md).
+
+The completed 26-question experiment found no full-hop coverage improvement.
+Decomposed-only retrieval reduced Partial@10 from `0.4423` to `0.4038`; guarded
+fusion reduced it to `0.3846`. Guarded fusion exactly preserved the frozen
+single-evidence regression metrics, but at roughly two seconds of decomposition
+latency per multi-hop question. Phase 10G remains educational experiment code and
+does not enter the production graph.

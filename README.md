@@ -778,5 +778,13 @@ rag-research-assistant/
 ## Roadmap
 
 Phase 10A rejects single LLM rewriting as the default after measuring both gains
-and regressions. Multi-query retrieval, HyDE, decomposition, agents, runtime
-ingestion, authentication, and production deployment remain deferred.
+and regressions. Query decomposition is now isolated behind the Phase 10G
+dataset-validation checkpoint; agents, runtime ingestion, authentication, and
+production deployment remain deferred.
+
+Phase 10G tested Qwen query decomposition on 26 explicitly hop-labelled questions.
+Neither decomposed-only nor original-plus-decomposed retrieval improved full-hop
+coverage; partial coverage fell and generation added roughly two seconds per
+question. The guarded original branch prevented regression on the frozen benchmark,
+but the technique remains experimental and outside every production path. See the
+[Phase 10G results](docs/phase-10g-multihop-results.md).
