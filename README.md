@@ -1,5 +1,20 @@
 # RAG Research Assistant
 
+## Phase 10B: multi-query retrieval experiment
+
+Phase 10B preserves the original query and supplements it with two or three
+corpus-grounded alternatives. Each query uses the frozen dense+BM25 hybrid
+retriever; query rankings are fused with RRF before the unchanged cross-encoder
+reranks against the original question. The experiment remains outside the
+production CLI, API, application service, and LangGraph workflow.
+
+The 100-question benchmark found a modest Hit@3/5 and Recall@3/5 gain with no
+baseline-relative degradations, but local generation increased latency sharply.
+Multi-query-2 remains an optional experiment rather than the production default;
+three alternatives added no aggregate benefit. See the
+[engineering guide](docs/phase-10b-multi-query.md) and
+[benchmark results](docs/phase-10b-multiquery-results.md).
+
 ## Phase 10A: corpus-grounded query rewriting experiment
 
 Phase 10A evaluates one LLM-written retrieval query using preliminary corpus

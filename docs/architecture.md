@@ -1,4 +1,4 @@
-# Phase 1 through Phase 10A architecture
+# Phase 1 through Phase 10B architecture
 
 ```text
 data/papers/*.pdf
@@ -336,3 +336,28 @@ original question -> existing retriever -> preliminary evidence
 The original question and transformed retrieval query are separate fields.
 Nothing in `RAGApplication`, FastAPI, CLI, or Phase 9 imports this experiment.
 See [Phase 10A](phase-10a-query-rewriting.md).
+
+## Phase 10B experimental multi-query retrieval
+
+Phase 10B remains outside every production transport and workflow. It reuses
+the established `RerankingRetriever`, but inserts a second RRF stage at its
+existing boundary between hybrid candidate retrieval and cross-encoder
+reranking:
+
+```text
+each query -> Qdrant dense + BM25 -> hybrid RRF -> query ranking
+query rankings -> multi-query RRF -> cross-encoder(original question) -> top-k
+```
+
+The original query is always the first ranking. Generated alternatives can add
+candidates but cannot replace that ranking. Both RRF stages deduplicate by the
+stable chunk ID, and the final cross-encoder implementation, model, candidate
+depth, and original-question input remain unchanged.
+
+See [Phase 10B](phase-10b-multi-query.md).
+
+The frozen benchmark supports keeping multi-query-2 as an optional experiment,
+not replacing the production default: it modestly improved top-3/top-5 retrieval
+without baseline-relative rank regressions, but generation dominated latency and
+three alternatives did not improve on two. See the
+[Phase 10B results](phase-10b-multiquery-results.md).
