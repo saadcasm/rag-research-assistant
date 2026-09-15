@@ -6,6 +6,7 @@ from .multi_query import (
     MultiQueryRetriever,
 )
 from .hyde import HyDEDocumentGenerator, HyDEExperimentalRetriever
+from .decomposition import DecompositionResult, QueryDecomposer
 from .rewriting import (
     CorpusGroundedLLMRewriter,
     IdentityDiagnostics,
@@ -19,8 +20,10 @@ __all__ = [
     "IdentityDiagnostics",
     "HyDEDocumentGenerator",
     "HyDEExperimentalRetriever",
+    "DecompositionResult",
     "MultiQueryGenerationResult",
     "MultiQueryRetriever",
+    "QueryDecomposer",
     "RewriteResult",
     "diagnose_identity_preservation",
 ]

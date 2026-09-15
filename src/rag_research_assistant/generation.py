@@ -32,6 +32,16 @@ class TextGenerator(Protocol):
     def generate(self, prompt: str, temperature: float) -> str: ...
 
 
+class StructuredTextGenerator(Protocol):
+    """Optional generator capability for provider-enforced JSON output."""
+
+    model_name: str
+
+    def generate_structured(
+        self, prompt: str, schema: Dict[str, Any], temperature: float
+    ) -> str: ...
+
+
 class OllamaGenerator:
     """Generate text with a configurable model on a local Ollama server."""
 
@@ -127,4 +137,41 @@ class OllamaGenerator:
         text = response.get("response")
         if not isinstance(text, str) or not text.strip():
             raise GenerationError("Ollama returned an empty generation")
+        return text.strip()
+
+    def generate_structured(
+        self,
+        prompt: str,
+        schema: Dict[str, Any],
+        temperature: float = DEFAULT_TEMPERATURE,
+    ) -> str:
+        """Generate JSON constrained by Ollama's native JSON-schema format.
+
+        The response remains text so callers own parsing, validation, and audit
+        policy.  This keeps ordinary generation unchanged while allowing small
+        experimental contracts to be enforced by Ollama when available.
+        """
+
+        if not prompt.strip():
+            raise ValueError("prompt cannot be empty")
+        if not isinstance(schema, dict) or not schema:
+            raise ValueError("schema must be a non-empty object")
+        if not 0.0 <= temperature <= 2.0:
+            raise ValueError("temperature must be between 0 and 2")
+        if not self._model_verified:
+            self.ensure_model_available()
+        response = self._request_json(
+            "/api/generate",
+            {
+                "model": self.model_name,
+                "prompt": prompt,
+                "stream": False,
+                "think": False,
+                "format": schema,
+                "options": {"temperature": temperature},
+            },
+        )
+        text = response.get("response")
+        if not isinstance(text, str) or not text.strip():
+            raise GenerationError("Ollama returned an empty structured generation")
         return text.strip()

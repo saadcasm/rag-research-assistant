@@ -62,3 +62,26 @@ def test_generate_sends_model_prompt_and_temperature(monkeypatch) -> None:
         "think": False,
         "options": {"temperature": 0.1},
     }
+
+
+def test_structured_generation_sends_native_json_schema(monkeypatch) -> None:
+    generator = OllamaGenerator(model_name="local:test")
+    generator._model_verified = True
+    requests = []
+    schema = {"type": "object", "properties": {"ok": {"type": "boolean"}}}
+
+    def fake_request(path, payload=None):
+        requests.append((path, payload))
+        return {"response": '{"ok": true}'}
+
+    monkeypatch.setattr(generator, "_request_json", fake_request)
+
+    assert generator.generate_structured("prompt", schema, 0.0) == '{"ok": true}'
+    assert requests == [("/api/generate", {
+        "model": "local:test",
+        "prompt": "prompt",
+        "stream": False,
+        "think": False,
+        "format": schema,
+        "options": {"temperature": 0.0},
+    })]
