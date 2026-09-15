@@ -1,5 +1,16 @@
 # RAG Research Assistant
 
+## Phase 10A: corpus-grounded query rewriting experiment
+
+Phase 10A evaluates one LLM-written retrieval query using preliminary corpus
+evidence. The isolated experiment reuses the frozen Phase 7.5 stack and leaves
+the CLI, FastAPI, `RAGApplication`, and Phase 9 workflow unchanged. On the
+100-question benchmark it changed 36 queries, improved 7, degraded 8, and did
+not improve the primary top-five result, so it is not adopted as a default.
+
+See [the Phase 10A engineering guide](docs/phase-10a-query-rewriting.md) and
+[measured benchmark report](docs/phase-10a-query-rewriting-results.md).
+
 ## Phase 9: parallel LangChain and LangGraph exercises
 
 The manual CLI/FastAPI pipeline remains the project default. Phase 9 adds a
@@ -679,6 +690,8 @@ rag-research-assistant/
 │   ├── api.py           # FastAPI routes, schemas, lifecycle, and HTTP errors
 │   ├── application.py   # shared retriever construction and process service
 │   ├── frameworks/      # isolated LangChain and LangGraph experiments
+│   ├── experiments/     # offline/controlled benchmark runners
+│   ├── query_transform/ # experimental grounded query rewriting
 │   ├── bm25.py          # transparent lexical ranking and corpus statistics
 │   ├── chunking.py      # normalization and chunk construction
 │   ├── cli.py           # local pipeline and evaluation commands
@@ -706,6 +719,6 @@ rag-research-assistant/
 
 ## Roadmap
 
-Phase 9 compares framework abstractions while keeping the manual query API and
-CLI as defaults. Agents, tool calling, persistent graph checkpoints, runtime
+Phase 10A rejects single LLM rewriting as the default after measuring both gains
+and regressions. Multi-query retrieval, HyDE, decomposition, agents, runtime
 ingestion, authentication, and production deployment remain deferred.

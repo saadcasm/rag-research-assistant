@@ -1,4 +1,4 @@
-# Phase 1 through Phase 9 architecture
+# Phase 1 through Phase 10A architecture
 
 ```text
 data/papers/*.pdf
@@ -319,3 +319,20 @@ existing Retriever -> LangChainRAGPipeline -> GroundedAnswer
 The framework paths do not own ingestion, indexes, retrieval algorithms,
 evaluation, FastAPI routes, or application defaults. See
 [the Phase 9 comparison](phase-9-langchain-langgraph.md).
+
+## Phase 10A experimental query transformation
+
+The production graph remains unchanged. The Phase 10A runner calls the same
+frozen retriever for preliminary and final retrieval, with a corpus-grounded
+`QueryRewriter` between them. It delegates relevance scoring back to
+`evaluation.evaluate_retrieval_results` and writes auditable JSON/Markdown.
+
+```text
+original question -> existing retriever -> preliminary evidence
+                                      \-> local LLM -> one rewritten query
+                                                     -> existing retriever
+```
+
+The original question and transformed retrieval query are separate fields.
+Nothing in `RAGApplication`, FastAPI, CLI, or Phase 9 imports this experiment.
+See [Phase 10A](phase-10a-query-rewriting.md).

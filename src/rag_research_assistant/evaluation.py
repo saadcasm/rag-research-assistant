@@ -415,6 +415,14 @@ def _evaluate_question(
     )
 
 
+def evaluate_retrieval_results(
+    example: EvaluationExample, results: List[SearchResult]
+) -> QuestionEvaluation:
+    """Apply the established relevance labels to externally retrieved results."""
+
+    return _evaluate_question(example, results, generator=None, temperature=0.0)
+
+
 def _summarize(results: Sequence[QuestionEvaluation]) -> EvaluationSummary:
     retrieval_results = [r for r in results if r.answerability != "unanswerable"]
     generated = [r for r in results if r.generation is not None]
