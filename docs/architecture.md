@@ -1,4 +1,4 @@
-# Phase 1 through Phase 10D architecture
+# Phase 1 through Phase 10E architecture
 
 ```text
 data/papers/*.pdf
@@ -405,3 +405,30 @@ weakens early precision and adds roughly 8× context. Exact structural parents
 are the more promising branch: they preserve top-five retrieval and average
 about 2× expansion, but only 64.6% of children map without page fallback. See
 the [Phase 10D results](phase-10d-parent-child-results.md).
+
+## Phase 10E experimental contextual compression
+
+Phase 10E leaves retrieval untouched and transforms only the text supplied
+after the frozen top-five legacy ranking:
+
+```text
+legacy retrieval -> unchanged SearchResult ranking
+                 -> sentence-group segmentation
+                 -> batched cross-encoder segment scoring
+                 -> budget selection
+                 -> original source and segment order
+                 -> compressed, provenance-bearing context
+```
+
+The compressor reuses the process's existing cross-encoder rather than loading
+another model. Segment scores decide which exact source spans survive; they are
+not probabilities and never reorder retrieved sources. Per-chunk selection
+keeps at least one segment from each non-empty chunk. Global selection keeps at
+least one segment overall and explicitly records omitted source ranks.
+
+The 100-question experiment favors the conservative global-75% condition over
+more aggressive budgets, but the 10-question generation diagnostic contains
+one unsupported compressed answer on an upstream multi-source retrieval miss.
+That result prevents production integration. FastAPI, CLI, `RAGApplication`,
+generation prompting, and the Phase 9 graph continue to use complete legacy
+chunks. See the [Phase 10E guide](phase-10e-contextual-compression.md).

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "experiment": "phase-10e-global-75-generation-manual-review",
+  "source_artifact": "data/evaluation/benchmarks/phase-10e-compression-generation-diagnostic.json",
+  "review_summary": {
+    "questions": 10,
+    "answerable": 8,
+    "unanswerable": 2,
+    "answerable_preserved": 7,
+    "answerable_degraded": 1,
+    "unanswerable_abstention_preserved": 2,
+    "invalid_citation_references": 0,
+    "unsupported_claim_cases": 1,
+    "decision": "retain global-75% extractive compression as an experiment; do not integrate into production"
+  },
+  "reviews": [
+    {"question_id": "p75_atlas_few_shot", "outcome": "preserved", "notes": "Exact numbers and comparison survived."},
+    {"question_id": "p75_coil_index", "outcome": "preserved", "notes": "Mechanism remained correct and concise despite lower lexical-overlap proxy."},
+    {"question_id": "p75_doct5query_direction", "outcome": "preserved", "notes": "Predicted queries and document append operation survived."},
+    {"question_id": "p75_e5_supervision", "outcome": "preserved_clearer", "notes": "CCPairs supervision answer became more direct."},
+    {"question_id": "p75_trec_dl_regime", "outcome": "preserved", "notes": "Large-training-data regime and supporting scale survived."},
+    {"question_id": "p75_compare_beir_bright", "outcome": "degraded_unsupported", "notes": "BRIGHT was absent from retrieved sources. Baseline abstained; compressed generation misattributed a HyDE passage and made a claim contradicted by verified BRIGHT evidence."},
+    {"question_id": "p75_beir_tradeoff", "outcome": "preserved", "notes": "Best model families and computational-cost drawback survived."},
+    {"question_id": "p75_colbert_precompute", "outcome": "preserved_less_detail", "notes": "Delayed interaction rationale survived; explicit MaxSim detail was omitted."},
+    {"question_id": "p75_unanswerable_qdrant_hnsw_m", "outcome": "abstention_preserved", "notes": "Both conditions distinguished published experimental parameters from project-specific recommendations."},
+    {"question_id": "p75_unanswerable_energy", "outcome": "abstention_preserved", "notes": "Both conditions correctly reported missing energy evidence."}
+  ],
+  "limitations": [
+    "Ten questions are insufficient for a general answer-quality estimate.",
+    "Original generation always ran before compressed generation, so latency is order-confounded.",
+    "Citation syntax and lexical overlap do not establish claim entailment.",
+    "The multi-source failure began with an upstream top-five retrieval miss."
+  ]
+}

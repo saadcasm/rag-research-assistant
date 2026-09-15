@@ -1,5 +1,18 @@
 # RAG Research Assistant
 
+## Phase 10E: contextual compression experiment
+
+Phase 10E applies query-aware extractive compression after the unchanged
+legacy retrieval ranking. The existing cross-encoder batch-ranks auditable
+sentence groups under per-chunk or global character budgets, then restores
+source and passage order. The 100-question benchmark selected global 75% as
+the safest tested configuration, but a controlled generation diagnostic found
+one unsupported answer after compression. Compression therefore remains an
+isolated experiment; the production pipeline is unchanged. See the
+[engineering guide](docs/phase-10e-contextual-compression.md),
+[compression results](docs/phase-10e-contextual-compression-results.md), and
+[generation diagnostic](docs/phase-10e-compression-generation-diagnostic.md).
+
 ## Phase 10D: parent-child retrieval experiment
 
 Phase 10D retrieves the existing small semantic chunks and expands their stable
