@@ -505,3 +505,28 @@ oracle view of all 20 candidates. That ceiling represents two possible rescues;
 Consequently, no Phase 10H-2 selector was added and the production graph remains
 unchanged. The measured bottleneck is upstream candidate generation rather than
 selection among the persisted candidates.
+
+## Phase 10I-1 component-level recall diagnostic
+
+Phase 10I-1 isolates the candidate-generation layers without altering them. Its
+label-free collector sends the original question to the existing Qdrant dense and
+BM25 retrievers at depth 100 and passes their frozen results to the existing RRF
+function. A separate evaluator receives exact hop annotations afterward. This
+separation ensures expected documents, pages, and passages cannot affect queries,
+filtering, or ranking.
+
+The experiment records passage and document ranks independently for dense, BM25,
+and RRF at prefixes 5, 10, 20, 50, and 100. This distinguishes general document
+discovery from within-document passage localization, and it exposes branch-only
+hits, deep hits, full misses, and fusion demotion. The cross-encoder and Ollama are
+not initialized. Nothing under `candidate_generation` is imported by the CLI, API,
+`RAGApplication`, or production LangGraph. See the
+[Phase 10I-1 diagnostic guide](phase-10i-candidate-generation.md).
+
+The validated run shows that the architecture usually identifies the correct paper
+but ranks the exact supporting passage too deeply. Hybrid document recall is `100%`
+at depth 20, versus `57.14%` passage recall; passage recall reaches `77.55%` at 50
+and `85.71%` at 100. Only three of 49 available hops are complete dense-and-BM25
+misses through depth 100. RRF is beneficial in aggregate despite seven significant
+per-hop demotions. These results justify a future controlled depth experiment, not
+an immediate production change or fusion/model rewrite.

@@ -796,3 +796,18 @@ perfect selector could rescue at most two additional questions, while 18 of 22
 answerable questions lack at least one required passage. Phase 10H therefore stops
 before selector implementation; upstream candidate recall is the measured
 bottleneck. See the [Phase 10H-1 analysis](docs/phase-10h-candidate-coverage.md).
+
+Phase 10I-1 adds an experimental, retrieval-only diagnostic for that upstream
+bottleneck. It freezes independent Qdrant dense, BM25, and pre-rerank RRF rankings
+for each original multi-hop question at depths through 100, then applies exact gold
+passages only in a separate evaluator. It reports correct-document versus
+correct-passage recall, branch-specific misses, deep-only evidence, and RRF rank
+shifts without changing production retrieval. See the
+[Phase 10I-1 guide](docs/phase-10i-candidate-generation.md).
+
+The validated Phase 10I-1 run found `100%` hybrid document recall but only `57.14%`
+exact-passage recall at depth 20. Passage recall rises to `77.55%` at 50 and
+`85.71%` at 100; 14 of 49 available hops occur only below rank 20, while only three
+are missed by both branches through depth 100. This identifies shallow
+passage-level candidate retrieval as the dominant failure. No retrieval setting has
+been changed; a controlled depth experiment is deferred to Phase 10I-2.
