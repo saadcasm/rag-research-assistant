@@ -548,3 +548,20 @@ not: Full@10 is `23.08%`, `26.92%`, and `19.23%` respectively, while partial cov
 declines. The cross-encoder dominates the `2.15x`/`4.11x` latency increase and fails
 to preserve complementary hop evidence as the candidate pool grows. This isolates
 reranking/set quality as the next bottleneck without changing any production path.
+
+## Phase 10J set-level selection
+
+Phase 10J begins after frozen RRF candidate generation and cross-encoder scoring.
+It reuses the persisted legacy chunk vectors for cosine redundancy and extracts
+transparent facets only from the original question. Greedy, top-1-anchored selectors
+combine within-pool relevance rank, uncovered-facet reward, and optional redundancy
+penalty to produce a fixed top 10. Gold evidence enters only in the evaluator, and
+no production module imports the selector or experiment. See the
+[Phase 10J guide](phase-10j-coverage-reranking.md).
+
+The validated experiment does not promote any selector. Coverage preserved baseline
+multi-hop metrics but rescued no question; diversity lowered average similarity
+while degrading evidence coverage and frozen retrieval. The limiting issue is that
+surface-form query facets and generic semantic novelty do not describe which facts
+must jointly be present. Production therefore retains depth 20 and descending
+cross-encoder order.

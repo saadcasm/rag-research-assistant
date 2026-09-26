@@ -825,3 +825,16 @@ to `19.23%`. Depth 50 costs roughly `2.15x` total retrieval latency and degrades
 multi-hop questions for one rescue; depth 100 costs `4.11x` and performs worse.
 The cross-encoder/evidence-set objective, rather than candidate depth alone, is now
 the measured bottleneck. Production remains at depth 20.
+
+Phase 10J now isolates deterministic post-cross-encoder set selection using
+rank-normalized relevance, original-question facets, and cosine redundancy from the
+existing chunk vectors. Baseline, diversity, coverage, and combined selectors are
+available at depths 20 and 50 for manual validation; production remains unchanged.
+See the [Phase 10J guide](docs/phase-10j-coverage-reranking.md).
+
+The validated Phase 10J run rejects these selectors for production. Coverage-aware
+selection changed sets but produced no multi-hop rescue at either depth. Diversity
+reduced similarity modestly yet degraded three depth-50 questions and ordinary
+retrieval. Deterministic surface facets cannot reliably represent fact-level or
+same-paper evidence needs. Production remains depth 20 with normal cross-encoder
+ordering, and no generation comparison is warranted.
