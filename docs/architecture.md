@@ -530,3 +530,21 @@ and `85.71%` at 100. Only three of 49 available hops are complete dense-and-BM25
 misses through depth 100. RRF is beneficial in aggregate despite seven significant
 per-hop demotions. These results justify a future controlled depth experiment, not
 an immediate production change or fusion/model rewrite.
+
+## Phase 10I-2 controlled depth comparison
+
+The Phase 10I-2 runner directly reuses the dense and BM25 branches, RRF function,
+and cross-encoder already held by the frozen `RerankingRetriever`. For each original
+question it independently retrieves branch top N, fuses to at most N candidates,
+scores every fused candidate with the cross-encoder, and retains a fixed final top
+10, for N in 20, 50, and 100. Gold annotations enter only after these rankings are
+frozen. The experiment also repeats all conditions on the frozen Phase 7.5 dataset.
+No production module imports the depth experiment. See the
+[Phase 10I-2 guide](phase-10i-candidate-depth.md).
+
+The validated experiment keeps the production depth at 20. Oracle full-hop
+availability grows sharply at depths 50 and 100, but final reranked coverage does
+not: Full@10 is `23.08%`, `26.92%`, and `19.23%` respectively, while partial coverage
+declines. The cross-encoder dominates the `2.15x`/`4.11x` latency increase and fails
+to preserve complementary hop evidence as the candidate pool grows. This isolates
+reranking/set quality as the next bottleneck without changing any production path.

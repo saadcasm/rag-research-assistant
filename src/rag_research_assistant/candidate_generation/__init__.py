@@ -7,6 +7,7 @@ from .diagnostics import (
     evaluate_component_rankings,
     retrieve_component_rankings,
 )
+from .depth import CandidateDepthRun, evaluate_depth_run, run_candidate_depth
 
 __all__ = [
     "BRANCHES",
@@ -14,4 +15,7 @@ __all__ = [
     "aggregate_component_diagnostics",
     "evaluate_component_rankings",
     "retrieve_component_rankings",
+    "CandidateDepthRun",
+    "evaluate_depth_run",
+    "run_candidate_depth",
 ]

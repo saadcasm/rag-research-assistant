@@ -811,3 +811,17 @@ exact-passage recall at depth 20. Passage recall rises to `77.55%` at 50 and
 are missed by both branches through depth 100. This identifies shallow
 passage-level candidate retrieval as the dominant failure. No retrieval setting has
 been changed; a controlled depth experiment is deferred to Phase 10I-2.
+
+Phase 10I-2 now provides that isolated experiment at branch/fusion/reranker depths
+20, 50, and 100 while holding the final top 10 and every retrieval model/parameter
+fixed. It evaluates both the 26-question multi-hop benchmark and frozen 100-question
+regression, but remains outside production pending the manual run. See the
+[Phase 10I-2 guide](docs/phase-10i-candidate-depth.md).
+
+The validated Phase 10I-2 run rejects a deeper production default. Although oracle
+full-hop availability rises from `30.77%` at depth 20 to `53.85%` at 50 and `73.08%`
+at 100, final reranked Full@10 changes only from `23.08%` to `26.92%` and then falls
+to `19.23%`. Depth 50 costs roughly `2.15x` total retrieval latency and degrades five
+multi-hop questions for one rescue; depth 100 costs `4.11x` and performs worse.
+The cross-encoder/evidence-set objective, rather than candidate depth alone, is now
+the measured bottleneck. Production remains at depth 20.
