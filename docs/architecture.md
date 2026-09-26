@@ -484,3 +484,24 @@ fusion reduced it to `0.3846`. Guarded fusion exactly preserved the frozen
 single-evidence regression metrics, but at roughly two seconds of decomposition
 latency per multi-hop question. Phase 10G remains educational experiment code and
 does not enter the production graph.
+
+## Phase 10H-1 candidate-pool oracle analysis
+
+Phase 10H-1 is an artifact-only evaluator. It reconstructs the frozen baseline
+hybrid candidate pools persisted by Phase 10G, then applies exact hop labels only
+after retrieval to measure the candidate-generation ceiling. The loader that
+reconstructs pools does not accept gold labels, making the separation between
+retrieval data and evaluation data explicit.
+
+The saved pools contain 20 candidates, so oracle depths 5, 10, and 20 are available;
+depth 50 is recorded as unavailable. No production module imports the evidence
+selection package. See the
+[Phase 10H-1 engineering guide](phase-10h-candidate-coverage.md).
+
+The validated oracle result establishes the stopping boundary. Answerable full-hop
+coverage is `9.09%` in the current final top 10 and reaches only `18.18%` in an
+oracle view of all 20 candidates. That ceiling represents two possible rescues;
+18 of 22 answerable questions still lack at least one exact required passage.
+Consequently, no Phase 10H-2 selector was added and the production graph remains
+unchanged. The measured bottleneck is upstream candidate generation rather than
+selection among the persisted candidates.

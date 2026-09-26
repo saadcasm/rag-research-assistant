@@ -788,3 +788,11 @@ coverage; partial coverage fell and generation added roughly two seconds per
 question. The guarded original branch prevented regression on the frozen benchmark,
 but the technique remains experimental and outside every production path. See the
 [Phase 10G results](docs/phase-10g-multihop-results.md).
+
+Phase 10H-1 provides an isolated, label-safe oracle analysis over Phase 10G's saved
+depth-20 baseline candidate pools. The validated run found only `18.18%` answerable
+full-hop availability at depth 20 versus `9.09%` in the current final top 10: a
+perfect selector could rescue at most two additional questions, while 18 of 22
+answerable questions lack at least one required passage. Phase 10H therefore stops
+before selector implementation; upstream candidate recall is the measured
+bottleneck. See the [Phase 10H-1 analysis](docs/phase-10h-candidate-coverage.md).

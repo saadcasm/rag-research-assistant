@@ -1,0 +1,4726 @@
+{
+  "schema_version": 1,
+  "experiment": "phase-10h-candidate-pool-coverage",
+  "created_at": "2026-09-26T19:12:51.650402+00:00",
+  "source_phase10g_artifact": "data/evaluation/benchmarks/phase-10g-multihop-results.json",
+  "source_phase10g_artifact_sha256": "989722f0dc4811d9ec83d17bae26eb7a6631ad21a8fd3b74a1bddd61c22e1ce7",
+  "dataset_path": "data/evaluation/questions-phase-10g-multihop-draft.jsonl",
+  "dataset_sha256": "06664b6f35515319d4b29faad632c7945a35d6194911305c9c0a7f5f9a0bb61a",
+  "chunks_path": "data/processed/corpus-52/chunks-legacy.jsonl",
+  "chunks_sha256": "f9b6e8292dc2d73c03ba42739700c2858124dc7d89be4d4f18441eb15692e646",
+  "settings": {
+    "source_ranking": "saved Phase 10G baseline pre-rerank hybrid candidates",
+    "retrieval_or_model_rerun": false,
+    "gold_labels_used_for": "evaluation_only",
+    "requested_depths": [
+      5,
+      10,
+      20,
+      50
+    ],
+    "available_depths": [
+      5,
+      10,
+      20
+    ],
+    "unavailable_depths": [
+      50
+    ],
+    "candidate_counts": [
+      20
+    ]
+  },
+  "summary": {
+    "questions": 26,
+    "answerable_questions": 22,
+    "partially_answerable_questions": 4,
+    "current_final_top10": {
+      "questions": 26,
+      "full_hop_coverage": 0.07692307692307693,
+      "partial_hop_coverage": 0.4423076923076923,
+      "average_hops_recovered": 0.8846153846153846,
+      "zero_hops": 5,
+      "one_hop": 19,
+      "all_hops": 2
+    },
+    "current_final_top10_answerable": {
+      "questions": 22,
+      "full_hop_coverage": 0.09090909090909091,
+      "partial_hop_coverage": 0.4318181818181818,
+      "average_hops_recovered": 0.8636363636363636,
+      "zero_hops": 5,
+      "one_hop": 15,
+      "all_hops": 2
+    },
+    "oracle_candidate_pool": {
+      "5": {
+        "questions": 26,
+        "oracle_full_hop_availability": 0.0,
+        "partial_hop_availability": 0.19230769230769232,
+        "oracle_available_hop_full_availability": 0.15384615384615385,
+        "available_hop_partial_availability": 0.2692307692307692,
+        "average_recovered_hops": 0.38461538461538464,
+        "average_recovered_available_hops": 0.38461538461538464,
+        "zero_hops": 16,
+        "one_hop": 10,
+        "all_hops": 0,
+        "all_available_hops": 4
+      },
+      "10": {
+        "questions": 26,
+        "oracle_full_hop_availability": 0.038461538461538464,
+        "partial_hop_availability": 0.36538461538461536,
+        "oracle_available_hop_full_availability": 0.19230769230769232,
+        "available_hop_partial_availability": 0.4423076923076923,
+        "average_recovered_hops": 0.7307692307692307,
+        "average_recovered_available_hops": 0.7307692307692307,
+        "zero_hops": 8,
+        "one_hop": 17,
+        "all_hops": 1,
+        "all_available_hops": 5
+      },
+      "20": {
+        "questions": 26,
+        "oracle_full_hop_availability": 0.15384615384615385,
+        "partial_hop_availability": 0.5192307692307693,
+        "oracle_available_hop_full_availability": 0.3076923076923077,
+        "available_hop_partial_availability": 0.5961538461538461,
+        "average_recovered_hops": 1.0384615384615385,
+        "average_recovered_available_hops": 1.0384615384615385,
+        "zero_hops": 3,
+        "one_hop": 19,
+        "all_hops": 4,
+        "all_available_hops": 8
+      },
+      "50": null
+    },
+    "oracle_answerable": {
+      "5": {
+        "questions": 22,
+        "oracle_full_hop_availability": 0.0,
+        "partial_hop_availability": 0.13636363636363635,
+        "oracle_available_hop_full_availability": 0.0,
+        "available_hop_partial_availability": 0.13636363636363635,
+        "average_recovered_hops": 0.2727272727272727,
+        "average_recovered_available_hops": 0.2727272727272727,
+        "zero_hops": 16,
+        "one_hop": 6,
+        "all_hops": 0,
+        "all_available_hops": 0
+      },
+      "10": {
+        "questions": 22,
+        "oracle_full_hop_availability": 0.045454545454545456,
+        "partial_hop_availability": 0.3409090909090909,
+        "oracle_available_hop_full_availability": 0.045454545454545456,
+        "available_hop_partial_availability": 0.3409090909090909,
+        "average_recovered_hops": 0.6818181818181818,
+        "average_recovered_available_hops": 0.6818181818181818,
+        "zero_hops": 8,
+        "one_hop": 13,
+        "all_hops": 1,
+        "all_available_hops": 1
+      },
+      "20": {
+        "questions": 22,
+        "oracle_full_hop_availability": 0.18181818181818182,
+        "partial_hop_availability": 0.5227272727272727,
+        "oracle_available_hop_full_availability": 0.18181818181818182,
+        "available_hop_partial_availability": 0.5227272727272727,
+        "average_recovered_hops": 1.0454545454545454,
+        "average_recovered_available_hops": 1.0454545454545454,
+        "zero_hops": 3,
+        "one_hop": 15,
+        "all_hops": 4,
+        "all_available_hops": 4
+      },
+      "50": null
+    },
+    "oracle_partially_answerable": {
+      "5": {
+        "questions": 4,
+        "oracle_full_hop_availability": 0.0,
+        "partial_hop_availability": 0.5,
+        "oracle_available_hop_full_availability": 1.0,
+        "available_hop_partial_availability": 1.0,
+        "average_recovered_hops": 1.0,
+        "average_recovered_available_hops": 1.0,
+        "zero_hops": 0,
+        "one_hop": 4,
+        "all_hops": 0,
+        "all_available_hops": 4
+      },
+      "10": {
+        "questions": 4,
+        "oracle_full_hop_availability": 0.0,
+        "partial_hop_availability": 0.5,
+        "oracle_available_hop_full_availability": 1.0,
+        "available_hop_partial_availability": 1.0,
+        "average_recovered_hops": 1.0,
+        "average_recovered_available_hops": 1.0,
+        "zero_hops": 0,
+        "one_hop": 4,
+        "all_hops": 0,
+        "all_available_hops": 4
+      },
+      "20": {
+        "questions": 4,
+        "oracle_full_hop_availability": 0.0,
+        "partial_hop_availability": 0.5,
+        "oracle_available_hop_full_availability": 1.0,
+        "available_hop_partial_availability": 1.0,
+        "average_recovered_hops": 1.0,
+        "average_recovered_available_hops": 1.0,
+        "zero_hops": 0,
+        "one_hop": 4,
+        "all_hops": 0,
+        "all_available_hops": 4
+      },
+      "50": null
+    },
+    "category_breakdown": {
+      "benchmark_synthesis": {
+        "5": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.0,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.0,
+          "average_recovered_hops": 0.0,
+          "average_recovered_available_hops": 0.0,
+          "zero_hops": 1,
+          "one_hop": 0,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "10": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.5,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "20": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.5,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "50": null
+      },
+      "cross_paper_comparison": {
+        "5": {
+          "questions": 14,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.17857142857142858,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.17857142857142858,
+          "average_recovered_hops": 0.35714285714285715,
+          "average_recovered_available_hops": 0.35714285714285715,
+          "zero_hops": 9,
+          "one_hop": 5,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "10": {
+          "questions": 14,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.2857142857142857,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.2857142857142857,
+          "average_recovered_hops": 0.5714285714285714,
+          "average_recovered_available_hops": 0.5714285714285714,
+          "zero_hops": 6,
+          "one_hop": 8,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "20": {
+          "questions": 14,
+          "oracle_full_hop_availability": 0.14285714285714285,
+          "partial_hop_availability": 0.4642857142857143,
+          "oracle_available_hop_full_availability": 0.14285714285714285,
+          "available_hop_partial_availability": 0.4642857142857143,
+          "average_recovered_hops": 0.9285714285714286,
+          "average_recovered_available_hops": 0.9285714285714286,
+          "zero_hops": 3,
+          "one_hop": 9,
+          "all_hops": 2,
+          "all_available_hops": 2
+        },
+        "50": null
+      },
+      "cross_paper_synthesis": {
+        "5": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.5,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "10": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.5,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "20": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.5,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "50": null
+      },
+      "cross_section_synthesis": {
+        "5": {
+          "questions": 2,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.0,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.0,
+          "average_recovered_hops": 0.0,
+          "average_recovered_available_hops": 0.0,
+          "zero_hops": 2,
+          "one_hop": 0,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "10": {
+          "questions": 2,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.25,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.25,
+          "average_recovered_hops": 0.5,
+          "average_recovered_available_hops": 0.5,
+          "zero_hops": 1,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "20": {
+          "questions": 2,
+          "oracle_full_hop_availability": 0.5,
+          "partial_hop_availability": 0.75,
+          "oracle_available_hop_full_availability": 0.5,
+          "available_hop_partial_availability": 0.75,
+          "average_recovered_hops": 1.5,
+          "average_recovered_available_hops": 1.5,
+          "zero_hops": 0,
+          "one_hop": 1,
+          "all_hops": 1,
+          "all_available_hops": 1
+        },
+        "50": null
+      },
+      "design_and_outcome": {
+        "5": {
+          "questions": 2,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.0,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.0,
+          "average_recovered_hops": 0.0,
+          "average_recovered_available_hops": 0.0,
+          "zero_hops": 2,
+          "one_hop": 0,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "10": {
+          "questions": 2,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.25,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.25,
+          "average_recovered_hops": 0.5,
+          "average_recovered_available_hops": 0.5,
+          "zero_hops": 1,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "20": {
+          "questions": 2,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.5,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 2,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "50": null
+      },
+      "method_evolution": {
+        "5": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.0,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.0,
+          "average_recovered_hops": 0.0,
+          "average_recovered_available_hops": 0.0,
+          "zero_hops": 1,
+          "one_hop": 0,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "10": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.5,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "20": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.5,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 1,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "50": null
+      },
+      "partially_answerable": {
+        "5": {
+          "questions": 4,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 1.0,
+          "available_hop_partial_availability": 1.0,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 4,
+          "all_hops": 0,
+          "all_available_hops": 4
+        },
+        "10": {
+          "questions": 4,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 1.0,
+          "available_hop_partial_availability": 1.0,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 4,
+          "all_hops": 0,
+          "all_available_hops": 4
+        },
+        "20": {
+          "questions": 4,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.5,
+          "oracle_available_hop_full_availability": 1.0,
+          "available_hop_partial_availability": 1.0,
+          "average_recovered_hops": 1.0,
+          "average_recovered_available_hops": 1.0,
+          "zero_hops": 0,
+          "one_hop": 4,
+          "all_hops": 0,
+          "all_available_hops": 4
+        },
+        "50": null
+      },
+      "problem_and_evaluation": {
+        "5": {
+          "questions": 1,
+          "oracle_full_hop_availability": 0.0,
+          "partial_hop_availability": 0.0,
+          "oracle_available_hop_full_availability": 0.0,
+          "available_hop_partial_availability": 0.0,
+          "average_recovered_hops": 0.0,
+          "average_recovered_available_hops": 0.0,
+          "zero_hops": 1,
+          "one_hop": 0,
+          "all_hops": 0,
+          "all_available_hops": 0
+        },
+        "10": {
+          "questions": 1,
+          "oracle_full_hop_availability": 1.0,
+          "partial_hop_availability": 1.0,
+          "oracle_available_hop_full_availability": 1.0,
+          "available_hop_partial_availability": 1.0,
+          "average_recovered_hops": 2.0,
+          "average_recovered_available_hops": 2.0,
+          "zero_hops": 0,
+          "one_hop": 0,
+          "all_hops": 1,
+          "all_available_hops": 1
+        },
+        "20": {
+          "questions": 1,
+          "oracle_full_hop_availability": 1.0,
+          "partial_hop_availability": 1.0,
+          "oracle_available_hop_full_availability": 1.0,
+          "available_hop_partial_availability": 1.0,
+          "average_recovered_hops": 2.0,
+          "average_recovered_available_hops": 2.0,
+          "zero_hops": 0,
+          "one_hop": 0,
+          "all_hops": 1,
+          "all_available_hops": 1
+        },
+        "50": null
+      }
+    },
+    "full_hop_headroom_vs_final_top10": {
+      "5": -0.07692307692307693,
+      "10": -0.038461538461538464,
+      "20": 0.07692307692307693,
+      "50": null
+    },
+    "answerable_full_hop_headroom_vs_final_top10": {
+      "5": -0.09090909090909091,
+      "10": -0.045454545454545456,
+      "20": 0.09090909090909091,
+      "50": null
+    },
+    "duplicate_candidate_questions": 0,
+    "analysis_seconds": 0.021739832998719066
+  },
+  "questions": [
+    {
+      "question_id": "p10g_dpr_ance_negatives",
+      "question": "How does ANCE change negative selection compared with DPR's in-batch training setup?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "ance.pdf:p5:c4",
+        "dpr_karpukhin_2020.pdf:p6:c2",
+        "ance.pdf:p2:c2",
+        "dpr_karpukhin_2020.pdf:p5:c2",
+        "ance.pdf:p2:c1",
+        "dpr_karpukhin_2020.pdf:p5:c1",
+        "ance.pdf:p6:c3",
+        "beir.pdf:p7:c5",
+        "ance.pdf:p5:c5",
+        "mteb.pdf:p19:c1",
+        "ance.pdf:p4:c3",
+        "ance.pdf:p7:c1",
+        "ance.pdf:p7:c3",
+        "dpr_karpukhin_2020.pdf:p8:c4",
+        "ance.pdf:p13:c1",
+        "beir.pdf:p6:c2",
+        "dpr_karpukhin_2020.pdf:p13:c3",
+        "instructor.pdf:p12:c4",
+        "beir.pdf:p21:c2",
+        "e5.pdf:p8:c1"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Identify DPR's in-batch negative setup.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Identify ANCE's negative-selection mechanism.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 4.141699901083484e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "beir.pdf:p7:c5",
+          "beir.pdf:p21:c2",
+          "ance.pdf:p5:c5",
+          "ance.pdf:p5:c4",
+          "ance.pdf:p7:c1",
+          "ance.pdf:p2:c2",
+          "dpr_karpukhin_2020.pdf:p5:c2",
+          "ance.pdf:p6:c3",
+          "ance.pdf:p7:c3",
+          "ance.pdf:p4:c3"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [],
+          "total_hops": 2,
+          "recovered_hops": 0,
+          "full": false,
+          "partial": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "p10g_coil_colbert_interactions",
+      "question": "How do COIL and ColBERT differ in which token interactions contribute to relevance scoring?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "coil.pdf:p8:c3",
+        "coil.pdf:p8:c4",
+        "coil.pdf:p6:c4",
+        "coil.pdf:p8:c1",
+        "coil.pdf:p3:c2",
+        "coil.pdf:p6:c5",
+        "coil.pdf:p7:c3",
+        "coil.pdf:p9:c1",
+        "coil.pdf:p6:c2",
+        "coil.pdf:p4:c5",
+        "coil.pdf:p1:c1",
+        "coil.pdf:p5:c4",
+        "colbertv2.pdf:p2:c4",
+        "colbertv2.pdf:p15:c4",
+        "coil.pdf:p7:c4",
+        "colbertv2.pdf:p9:c6",
+        "coil.pdf:p4:c2",
+        "texttiling.pdf:p17:c2",
+        "colbert.pdf:p4:c1",
+        "colbert.pdf:p9:c4"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Establish which token pairs COIL scores.",
+          "evidence_available": true,
+          "first_candidate_rank": 11
+        },
+        {
+          "hop_index": 1,
+          "description": "Establish ColBERT's late-interaction mechanism.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 5.420800152933225e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "coil.pdf:p8:c1",
+          "coil.pdf:p6:c5",
+          "coil.pdf:p8:c4",
+          "coil.pdf:p5:c4",
+          "coil.pdf:p3:c2",
+          "coil.pdf:p9:c1",
+          "coil.pdf:p8:c3",
+          "coil.pdf:p6:c4",
+          "coil.pdf:p6:c2",
+          "colbertv2.pdf:p2:c4"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [],
+          "total_hops": 2,
+          "recovered_hops": 0,
+          "full": false,
+          "partial": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "p10g_hyde_query2doc",
+      "question": "How do HyDE and query2doc use generated pseudo-text differently before retrieval?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "query2doc.pdf:p4:c3",
+        "query2doc.pdf:p5:c5",
+        "query2doc.pdf:p2:c2",
+        "query2doc.pdf:p1:c4",
+        "hyde.pdf:p2:c3",
+        "query2doc.pdf:p1:c3",
+        "query2doc.pdf:p5:c4",
+        "query2doc.pdf:p8:c3",
+        "generative_rf.pdf:p1:c4",
+        "hyde.pdf:p2:c2",
+        "query2doc.pdf:p1:c1",
+        "hyde.pdf:p5:c3",
+        "hyde.pdf:p3:c4",
+        "query2doc.pdf:p8:c4",
+        "rag_lewis_2020.pdf:p2:c1",
+        "query2doc.pdf:p3:c3",
+        "rankgpt.pdf:p2:c5",
+        "query2doc.pdf:p2:c3",
+        "hyde.pdf:p4:c4",
+        "hyde.pdf:p2:c1"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Trace HyDE's generated document into retrieval.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Trace query2doc's generated document into retrieval.",
+          "evidence_available": true,
+          "first_candidate_rank": 11
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 0.00010429199755890295,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "query2doc.pdf:p4:c3",
+          "query2doc.pdf:p2:c2",
+          "query2doc.pdf:p5:c5",
+          "query2doc.pdf:p1:c4",
+          "query2doc.pdf:p1:c1",
+          "rankgpt.pdf:p2:c5",
+          "generative_rf.pdf:p1:c4",
+          "query2doc.pdf:p1:c3",
+          "query2doc.pdf:p8:c4",
+          "hyde.pdf:p3:c4"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_rag_replug_integration",
+      "question": "How does REPLUG's black-box integration differ from the original RAG model's retriever-generator design?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "replug.pdf:p2:c1",
+        "replug.pdf:p1:c1",
+        "replug.pdf:p3:c1",
+        "replug.pdf:p6:c1",
+        "replug.pdf:p9:c1",
+        "replug.pdf:p8:c4",
+        "replug.pdf:p4:c1",
+        "replug.pdf:p5:c1",
+        "corrective_rag.pdf:p9:c4",
+        "query_rewriting_rag.pdf:p3:c1",
+        "rag_lewis_2020.pdf:p7:c4",
+        "corrective_rag.pdf:p3:c3",
+        "replug.pdf:p6:c4",
+        "corrective_rag.pdf:p9:c5",
+        "replug.pdf:p1:c3",
+        "corrective_rag.pdf:p2:c3",
+        "replug.pdf:p5:c3",
+        "corrective_rag.pdf:p2:c1",
+        "replug.pdf:p5:c2",
+        "rag_lewis_2020.pdf:p8:c3"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Identify how original RAG combines and trains its components.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Identify how REPLUG uses a black-box language model.",
+          "evidence_available": true,
+          "first_candidate_rank": 2
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 4.358399746706709e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "replug.pdf:p2:c1",
+          "replug.pdf:p3:c1",
+          "replug.pdf:p4:c1",
+          "replug.pdf:p1:c1",
+          "replug.pdf:p9:c1",
+          "replug.pdf:p6:c1",
+          "replug.pdf:p5:c1",
+          "replug.pdf:p6:c4",
+          "replug.pdf:p5:c3",
+          "replug.pdf:p8:c4"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_beir_bright_focus",
+      "question": "How do the benchmark goals of BEIR and BRIGHT differ?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "bright.pdf:p3:c5",
+        "bright.pdf:p1:c2",
+        "bright.pdf:p25:c3",
+        "beir.pdf:p2:c2",
+        "bright.pdf:p1:c4",
+        "bright.pdf:p25:c2",
+        "bright.pdf:p2:c4",
+        "contriever.pdf:p18:c1",
+        "beir.pdf:p4:c4",
+        "rankgpt.pdf:p4:c5",
+        "beir.pdf:p5:c2",
+        "bright.pdf:p23:c1",
+        "instructor.pdf:p2:c3",
+        "beir.pdf:p7:c2",
+        "beir.pdf:p9:c4",
+        "bright.pdf:p9:c1",
+        "beir.pdf:p3:c5",
+        "bright.pdf:p3:c2",
+        "bright.pdf:p19:c2",
+        "beir.pdf:p17:c1"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Identify BEIR's benchmark goal.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Identify BRIGHT's benchmark goal.",
+          "evidence_available": true,
+          "first_candidate_rank": 2
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 3.866699989885092e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "bright.pdf:p3:c2",
+          "beir.pdf:p5:c2",
+          "bright.pdf:p1:c4",
+          "bright.pdf:p1:c2",
+          "bright.pdf:p2:c4",
+          "bright.pdf:p25:c3",
+          "beir.pdf:p9:c4",
+          "bright.pdf:p25:c2",
+          "beir.pdf:p4:c4",
+          "beir.pdf:p3:c5"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_dpr_colbert_architecture",
+      "question": "How do DPR and ColBERT differ in document representation and query-document scoring?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 3,
+      "available_hop_count": 3,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "deepimpact.pdf:p1:c6",
+        "colbert.pdf:p2:c5",
+        "dpr_karpukhin_2020.pdf:p12:c2",
+        "query2doc.pdf:p4:c3",
+        "coil.pdf:p3:c2",
+        "colbertv2.pdf:p7:c5",
+        "colbert.pdf:p5:c6",
+        "colbert.pdf:p9:c4",
+        "colbert.pdf:p3:c6",
+        "colbertv2.pdf:p5:c4",
+        "beir.pdf:p22:c2",
+        "rag_lewis_2020.pdf:p3:c3",
+        "colbert.pdf:p5:c7",
+        "colbert.pdf:p5:c3",
+        "colbert.pdf:p3:c1",
+        "dpr_karpukhin_2020.pdf:p8:c3",
+        "colbertv2.pdf:p7:c3",
+        "colbertv2.pdf:p9:c2",
+        "colbert.pdf:p2:c1",
+        "colbert.pdf:p9:c6"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover DPR's dual-encoder representation design.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover DPR's query-passage scoring operation.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 2,
+          "description": "Recover ColBERT's representation and scoring design.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 3,
+          "available_hop_count": 3,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 3,
+          "available_hop_count": 3,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 3,
+          "available_hop_count": 3,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 3,
+          "available_hop_count": 3,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 2.5957997422665358e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "deepimpact.pdf:p1:c6",
+          "colbert.pdf:p2:c5",
+          "colbertv2.pdf:p5:c4",
+          "colbert.pdf:p5:c6",
+          "coil.pdf:p3:c2",
+          "colbert.pdf:p3:c6",
+          "colbert.pdf:p9:c4",
+          "colbert.pdf:p2:c1",
+          "colbert.pdf:p5:c3",
+          "query2doc.pdf:p4:c3"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [],
+          "total_hops": 3,
+          "recovered_hops": 0,
+          "full": false,
+          "partial": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "p10g_splade_deepimpact_sparse",
+      "question": "How do SPLADE and DeepImpact learn sparse first-stage retrieval representations differently?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "splade.pdf:p4:c5",
+        "splade.pdf:p1:c1",
+        "splade.pdf:p2:c4",
+        "splade.pdf:p3:c7",
+        "splade.pdf:p1:c6",
+        "colbertv2.pdf:p2:c5",
+        "splade.pdf:p4:c4",
+        "splade.pdf:p2:c7",
+        "deepimpact.pdf:p3:c4",
+        "splade.pdf:p1:c5",
+        "splade.pdf:p1:c2",
+        "deepimpact.pdf:p4:c5",
+        "cocondenser.pdf:p6:c3",
+        "deepimpact.pdf:p2:c3",
+        "contriever.pdf:p7:c2",
+        "deepimpact.pdf:p4:c3",
+        "splade.pdf:p4:c1",
+        "deepimpact.pdf:p4:c4",
+        "ance.pdf:p2:c4",
+        "colbertv2.pdf:p11:c4"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Identify SPLADE's sparse representation controls.",
+          "evidence_available": true,
+          "first_candidate_rank": 2
+        },
+        {
+          "hop_index": 1,
+          "description": "Identify DeepImpact's document-term representation.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 5.454200436361134e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "splade.pdf:p4:c5",
+          "splade.pdf:p1:c1",
+          "splade.pdf:p2:c4",
+          "deepimpact.pdf:p2:c3",
+          "splade.pdf:p1:c2",
+          "deepimpact.pdf:p3:c4",
+          "splade.pdf:p3:c7",
+          "splade.pdf:p4:c4",
+          "colbertv2.pdf:p2:c5",
+          "splade.pdf:p1:c6"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_bert_monot5_reranking",
+      "question": "What outcome was reported for the BERT passage reranker, and how does monoT5 formulate reranking?",
+      "answerability": "answerable",
+      "category": "design_and_outcome",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "monot5.pdf:p3:c4",
+        "hyrr.pdf:p1:c4",
+        "monot5.pdf:p8:c2",
+        "rankgpt.pdf:p17:c3",
+        "rocketqav2.pdf:p10:c5",
+        "hyrr.pdf:p5:c3",
+        "bert_reranker.pdf:p1:c4",
+        "trec_dl.pdf:p9:c2",
+        "bert_reranker.pdf:p1:c1",
+        "hyrr.pdf:p1:c1",
+        "rocketqav2.pdf:p9:c5",
+        "hyrr.pdf:p1:c5",
+        "bert_reranker.pdf:p4:c1",
+        "ance.pdf:p6:c3",
+        "colbert.pdf:p10:c6",
+        "bert_reranker.pdf:p1:c3",
+        "trec_dl.pdf:p9:c1",
+        "colbert.pdf:p8:c2",
+        "trec_dl.pdf:p8:c2",
+        "rankt5.pdf:p9:c4"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover the BERT reranker's reported outcome.",
+          "evidence_available": true,
+          "first_candidate_rank": 9
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover monoT5's sequence-to-sequence ranking formulation.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 6.866599869681522e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "monot5.pdf:p3:c4",
+          "rankgpt.pdf:p17:c3",
+          "rankt5.pdf:p9:c4",
+          "rocketqav2.pdf:p10:c5",
+          "bert_reranker.pdf:p1:c4",
+          "bert_reranker.pdf:p1:c1",
+          "hyrr.pdf:p1:c5",
+          "ance.pdf:p6:c3",
+          "bert_reranker.pdf:p4:c1",
+          "hyrr.pdf:p1:c1"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_sbert_simcse_representation",
+      "question": "What distinct mechanisms make SBERT efficient for similarity search and make unsupervised SimCSE learn stable sentence representations?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "sbert.pdf:p1:c5",
+        "sbert.pdf:p2:c1",
+        "sbert.pdf:p1:c1",
+        "simcse.pdf:p9:c4",
+        "sbert.pdf:p4:c3",
+        "simcse.pdf:p6:c3",
+        "simcse.pdf:p9:c2",
+        "simcse.pdf:p16:c4",
+        "simcse.pdf:p16:c3",
+        "contriever.pdf:p3:c5",
+        "simcse.pdf:p16:c5",
+        "sbert.pdf:p2:c3",
+        "sbert.pdf:p5:c4",
+        "sbert.pdf:p6:c5",
+        "e5.pdf:p1:c3",
+        "coil.pdf:p10:c5",
+        "simcse.pdf:p8:c4",
+        "sbert.pdf:p4:c2",
+        "simcse.pdf:p9:c3",
+        "contriever.pdf:p3:c3"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover SBERT's efficiency evidence.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover SimCSE's unsupervised training signal.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 7.3208000685554e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "simcse.pdf:p16:c5",
+          "simcse.pdf:p8:c4",
+          "sbert.pdf:p1:c5",
+          "simcse.pdf:p16:c4",
+          "simcse.pdf:p6:c3",
+          "simcse.pdf:p16:c3",
+          "sbert.pdf:p5:c4",
+          "e5.pdf:p1:c3",
+          "sbert.pdf:p4:c3",
+          "simcse.pdf:p9:c4"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [],
+          "total_hops": 2,
+          "recovered_hops": 0,
+          "full": false,
+          "partial": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "p10g_lostmiddle_ruler_longcontext",
+      "question": "What weakness in long-context use did Lost in the Middle expose, and how does RULER extend evaluation beyond simple retrieval?",
+      "answerability": "answerable",
+      "category": "problem_and_evaluation",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "ruler.pdf:p10:c2",
+        "ruler.pdf:p10:c1",
+        "ruler.pdf:p1:c3",
+        "ruler.pdf:p1:c2",
+        "ruler.pdf:p2:c5",
+        "ruler.pdf:p9:c3",
+        "lost_in_middle.pdf:p1:c1",
+        "ruler.pdf:p10:c4",
+        "ruler.pdf:p1:c1",
+        "ruler.pdf:p10:c3",
+        "ruler.pdf:p2:c2",
+        "trec_dl.pdf:p9:c1",
+        "trec_dl.pdf:p8:c2",
+        "ruler.pdf:p6:c4",
+        "ruler.pdf:p3:c4",
+        "ruler.pdf:p18:c1",
+        "ruler.pdf:p3:c5",
+        "ruler.pdf:p16:c1",
+        "lost_in_middle.pdf:p3:c3",
+        "ruler.pdf:p2:c4"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover the positional long-context weakness.",
+          "evidence_available": true,
+          "first_candidate_rank": 7
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover RULER's beyond-retrieval task types.",
+          "evidence_available": true,
+          "first_candidate_rank": 9
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0,
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            0,
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 2,
+          "recovered_available_hops": 2,
+          "full": true,
+          "partial": 1.0,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0,
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            0,
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 2,
+          "recovered_available_hops": 2,
+          "full": true,
+          "partial": 1.0,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 0.00013479199697030708,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "ruler.pdf:p10:c2",
+          "ruler.pdf:p10:c1",
+          "lost_in_middle.pdf:p1:c1",
+          "ruler.pdf:p10:c3",
+          "ruler.pdf:p1:c2",
+          "ruler.pdf:p1:c3",
+          "ruler.pdf:p3:c5",
+          "ruler.pdf:p2:c5",
+          "ruler.pdf:p1:c1",
+          "ruler.pdf:p9:c3"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0,
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 2,
+          "full": true,
+          "partial": 1.0
+        }
+      }
+    },
+    {
+      "question_id": "p10g_selfrag_crag_control",
+      "question": "What problem motivates Self-RAG’s adaptive retrieval, and how does CRAG respond to poor retrieved evidence?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "corrective_rag.pdf:p2:c3",
+        "corrective_rag.pdf:p9:c5",
+        "corrective_rag.pdf:p10:c4",
+        "corrective_rag.pdf:p9:c4",
+        "corrective_rag.pdf:p2:c1",
+        "corrective_rag.pdf:p10:c1",
+        "corrective_rag.pdf:p9:c3",
+        "corrective_rag.pdf:p3:c3",
+        "self_rag.pdf:p1:c1",
+        "corrective_rag.pdf:p8:c1",
+        "self_rag.pdf:p17:c1",
+        "self_rag.pdf:p3:c2",
+        "self_rag.pdf:p10:c2",
+        "corrective_rag.pdf:p1:c2",
+        "rag_lewis_2020.pdf:p9:c4",
+        "corrective_rag.pdf:p1:c1",
+        "multihop_rag.pdf:p5:c5",
+        "corrective_rag.pdf:p2:c4",
+        "self_rag.pdf:p27:c1",
+        "corrective_rag.pdf:p6:c6"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover Self-RAG's motivation for adaptive retrieval.",
+          "evidence_available": true,
+          "first_candidate_rank": 9
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover CRAG's corrective control mechanism.",
+          "evidence_available": true,
+          "first_candidate_rank": 16
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0,
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            0,
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 2,
+          "recovered_available_hops": 2,
+          "full": true,
+          "partial": 1.0,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 9.908300125971437e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "corrective_rag.pdf:p9:c5",
+          "corrective_rag.pdf:p2:c1",
+          "corrective_rag.pdf:p10:c4",
+          "corrective_rag.pdf:p2:c3",
+          "corrective_rag.pdf:p2:c4",
+          "corrective_rag.pdf:p9:c4",
+          "corrective_rag.pdf:p1:c2",
+          "self_rag.pdf:p10:c2",
+          "self_rag.pdf:p1:c1",
+          "corrective_rag.pdf:p10:c1"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_raptor_graphrag_structure",
+      "question": "What intermediate structures do RAPTOR and GraphRAG build, and how is each structure summarized?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "raptor.pdf:p3:c3",
+        "raptor.pdf:p3:c4",
+        "raptor.pdf:p8:c4",
+        "raptor.pdf:p3:c5",
+        "raptor.pdf:p9:c4",
+        "raptor.pdf:p9:c3",
+        "raptor.pdf:p16:c2",
+        "raptor.pdf:p16:c1",
+        "graphrag.pdf:p1:c2",
+        "raptor.pdf:p18:c3",
+        "raptor.pdf:p21:c4",
+        "raptor.pdf:p8:c5",
+        "trec_dl.pdf:p9:c2",
+        "raptor.pdf:p4:c4",
+        "bright.pdf:p40:c1",
+        "raptor.pdf:p2:c1",
+        "graphrag.pdf:p10:c4",
+        "raptor.pdf:p1:c5",
+        "trec_dl.pdf:p8:c2",
+        "raptor.pdf:p4:c5"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover RAPTOR's recursive tree construction.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover GraphRAG's graph and community-summary construction.",
+          "evidence_available": true,
+          "first_candidate_rank": 9
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 5.708300159312785e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "raptor.pdf:p3:c3",
+          "raptor.pdf:p3:c4",
+          "raptor.pdf:p9:c4",
+          "raptor.pdf:p3:c5",
+          "raptor.pdf:p1:c5",
+          "graphrag.pdf:p1:c2",
+          "raptor.pdf:p9:c3",
+          "raptor.pdf:p8:c5",
+          "raptor.pdf:p16:c2",
+          "raptor.pdf:p16:c1"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_hnsw_faiss_ann",
+      "question": "Which design choices characterize HNSW's hierarchy and FAISS's GPU k-selection performance?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "faiss.pdf:p4:c2",
+        "faiss.pdf:p8:c1",
+        "faiss.pdf:p1:c1",
+        "faiss.pdf:p3:c1",
+        "faiss.pdf:p8:c6",
+        "faiss.pdf:p2:c2",
+        "faiss.pdf:p8:c4",
+        "faiss.pdf:p9:c1",
+        "faiss.pdf:p2:c3",
+        "faiss.pdf:p8:c5",
+        "faiss.pdf:p8:c3",
+        "faiss.pdf:p10:c4",
+        "hnsw.pdf:p10:c4",
+        "faiss.pdf:p2:c1",
+        "hnsw.pdf:p1:c6",
+        "faiss.pdf:p8:c2",
+        "faiss.pdf:p3:c6",
+        "hnsw.pdf:p4:c5",
+        "sbert.pdf:p5:c4",
+        "hnsw.pdf:p1:c1"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover HNSW's layer-assignment design.",
+          "evidence_available": true,
+          "first_candidate_rank": 20
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover FAISS's GPU k-selection performance characteristic.",
+          "evidence_available": true,
+          "first_candidate_rank": 3
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0,
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            0,
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 2,
+          "recovered_available_hops": 2,
+          "full": true,
+          "partial": 1.0,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 0.000113290996523574,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "faiss.pdf:p8:c1",
+          "faiss.pdf:p1:c1",
+          "hnsw.pdf:p1:c6",
+          "hnsw.pdf:p10:c4",
+          "faiss.pdf:p4:c2",
+          "faiss.pdf:p8:c6",
+          "faiss.pdf:p2:c2",
+          "faiss.pdf:p8:c2",
+          "hnsw.pdf:p1:c1",
+          "faiss.pdf:p9:c1"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0,
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 2,
+          "full": true,
+          "partial": 1.0
+        }
+      }
+    },
+    {
+      "question_id": "p10g_realm_rag_memory",
+      "question": "What retrieval learning signal does REALM use, and what parametric versus non-parametric memories does the original RAG model combine?",
+      "answerability": "answerable",
+      "category": "cross_paper_synthesis",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "rag_lewis_2020.pdf:p9:c5",
+        "rag_lewis_2020.pdf:p1:c3",
+        "rag_lewis_2020.pdf:p1:c2",
+        "rag_lewis_2020.pdf:p9:c4",
+        "realm.pdf:p2:c1",
+        "rag_lewis_2020.pdf:p2:c4",
+        "rag_lewis_2020.pdf:p1:c1",
+        "rag_lewis_2020.pdf:p2:c2",
+        "rag_lewis_2020.pdf:p19:c2",
+        "realm.pdf:p5:c1",
+        "rag_lewis_2020.pdf:p6:c5",
+        "realm.pdf:p12:c1",
+        "realm.pdf:p3:c1",
+        "self_rag.pdf:p20:c4",
+        "rag_lewis_2020.pdf:p19:c1",
+        "atlas.pdf:p1:c3",
+        "lost_in_middle.pdf:p12:c2",
+        "realm.pdf:p9:c1",
+        "rag_lewis_2020.pdf:p2:c3",
+        "query_rewriting_rag.pdf:p11:c1"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover REALM's unsupervised retriever learning signal.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover RAG's two memory types.",
+          "evidence_available": true,
+          "first_candidate_rank": 3
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 7.970899605425075e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "rag_lewis_2020.pdf:p1:c2",
+          "rag_lewis_2020.pdf:p2:c2",
+          "rag_lewis_2020.pdf:p19:c2",
+          "rag_lewis_2020.pdf:p1:c3",
+          "rag_lewis_2020.pdf:p9:c4",
+          "rag_lewis_2020.pdf:p6:c5",
+          "rag_lewis_2020.pdf:p2:c4",
+          "realm.pdf:p2:c1",
+          "rag_lewis_2020.pdf:p9:c5",
+          "rag_lewis_2020.pdf:p2:c3"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_latechunk_texttiling",
+      "question": "How do late chunking and TextTiling differ in when and how they choose text boundaries?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "late_chunking.pdf:p7:c3",
+        "late_chunking.pdf:p10:c3",
+        "late_chunking.pdf:p4:c2",
+        "late_chunking.pdf:p2:c4",
+        "late_chunking.pdf:p4:c1",
+        "late_chunking.pdf:p8:c1",
+        "late_chunking.pdf:p4:c3",
+        "late_chunking.pdf:p7:c5",
+        "texttiling.pdf:p19:c1",
+        "late_chunking.pdf:p7:c1",
+        "late_chunking.pdf:p9:c2",
+        "late_chunking.pdf:p3:c3",
+        "late_chunking.pdf:p1:c1",
+        "texttiling.pdf:p21:c1",
+        "late_chunking.pdf:p1:c4",
+        "texttiling.pdf:p26:c2",
+        "late_chunking.pdf:p9:c1",
+        "graphrag.pdf:p4:c4",
+        "late_chunking.pdf:p7:c4",
+        "texttiling.pdf:p11:c3"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover late chunking's operation order.",
+          "evidence_available": true,
+          "first_candidate_rank": 13
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover TextTiling's boundary cues.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 5.9791003877762705e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "late_chunking.pdf:p4:c3",
+          "late_chunking.pdf:p7:c5",
+          "late_chunking.pdf:p10:c3",
+          "late_chunking.pdf:p2:c4",
+          "late_chunking.pdf:p7:c1",
+          "late_chunking.pdf:p4:c2",
+          "late_chunking.pdf:p7:c3",
+          "late_chunking.pdf:p1:c4",
+          "late_chunking.pdf:p1:c1",
+          "late_chunking.pdf:p8:c1"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_beir_mteb_scope",
+      "question": "What does BEIR vary in retrieval evaluation, and what caution does MTEB provide about choosing one embedding method?",
+      "answerability": "answerable",
+      "category": "benchmark_synthesis",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "mteb.pdf:p2:c3",
+        "instructor.pdf:p13:c1",
+        "mteb.pdf:p1:c4",
+        "bge.pdf:p3:c5",
+        "mteb.pdf:p2:c2",
+        "bge.pdf:p2:c2",
+        "bge.pdf:p2:c3",
+        "e5.pdf:p2:c4",
+        "mteb.pdf:p1:c1",
+        "contriever.pdf:p8:c4",
+        "query2doc.pdf:p10:c2",
+        "late_chunking.pdf:p6:c4",
+        "graphrag.pdf:p25:c3",
+        "gtr.pdf:p2:c3",
+        "mteb.pdf:p2:c5",
+        "beir.pdf:p2:c3",
+        "mteb.pdf:p17:c4",
+        "m3_embedding.pdf:p2:c2",
+        "e5.pdf:p5:c3",
+        "instructor.pdf:p8:c3"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover BEIR's system and dataset breadth.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover MTEB's cross-task conclusion.",
+          "evidence_available": true,
+          "first_candidate_rank": 9
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 8.42079971334897e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "bge.pdf:p2:c3",
+          "mteb.pdf:p2:c3",
+          "bge.pdf:p3:c5",
+          "mteb.pdf:p2:c2",
+          "instructor.pdf:p13:c1",
+          "e5.pdf:p2:c4",
+          "mteb.pdf:p1:c4",
+          "instructor.pdf:p8:c3",
+          "mteb.pdf:p1:c1",
+          "late_chunking.pdf:p6:c4"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_gtr_sgpt_scaling",
+      "question": "How did GTR and SGPT scale sentence or retrieval encoders, and what constraint or result accompanied that scaling?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "sgpt.pdf:p1:c1",
+        "sgpt.pdf:p2:c2",
+        "gtr.pdf:p11:c4",
+        "gtr.pdf:p2:c2",
+        "gtr.pdf:p5:c3",
+        "bge.pdf:p3:c3",
+        "gtr.pdf:p1:c3",
+        "gtr.pdf:p6:c2",
+        "sgpt.pdf:p2:c1",
+        "mteb.pdf:p20:c5",
+        "gtr.pdf:p7:c2",
+        "instructor.pdf:p3:c2",
+        "coil.pdf:p10:c5",
+        "gtr.pdf:p8:c4",
+        "gtr.pdf:p8:c5",
+        "trec_dl.pdf:p9:c1",
+        "mteb.pdf:p6:c4",
+        "sgpt.pdf:p9:c4",
+        "sgpt.pdf:p8:c5",
+        "gtr.pdf:p9:c1"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover GTR's scaling constraint.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover SGPT's scale and BEIR result.",
+          "evidence_available": true,
+          "first_candidate_rank": 1
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 7.837500015739352e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "gtr.pdf:p6:c2",
+          "gtr.pdf:p2:c2",
+          "mteb.pdf:p6:c4",
+          "sgpt.pdf:p2:c2",
+          "gtr.pdf:p8:c4",
+          "gtr.pdf:p9:c1",
+          "gtr.pdf:p8:c5",
+          "sgpt.pdf:p1:c1",
+          "sgpt.pdf:p2:c1",
+          "instructor.pdf:p3:c2"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_colbert_versions",
+      "question": "Which core interaction design does ColBERT retain, and what does ColBERTv2 add to reduce its storage cost?",
+      "answerability": "answerable",
+      "category": "method_evolution",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "colbertv2.pdf:p1:c5",
+        "colbertv2.pdf:p9:c4",
+        "colbertv2.pdf:p10:c3",
+        "colbert.pdf:p2:c7",
+        "colbert.pdf:p6:c2",
+        "colbert.pdf:p4:c1",
+        "colbertv2.pdf:p4:c4",
+        "colbert.pdf:p9:c6",
+        "colbertv2.pdf:p1:c1",
+        "colbertv2.pdf:p9:c5",
+        "colbertv2.pdf:p1:c2",
+        "colbert.pdf:p9:c2",
+        "colbertv2.pdf:p9:c6",
+        "colbert.pdf:p2:c5",
+        "colbert.pdf:p9:c4",
+        "colbert.pdf:p5:c5",
+        "colbertv2.pdf:p7:c5",
+        "colbertv2.pdf:p3:c1",
+        "colbert.pdf:p3:c6",
+        "colbertv2.pdf:p3:c2"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover original ColBERT's interaction design.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover ColBERTv2's storage-reduction mechanism.",
+          "evidence_available": true,
+          "first_candidate_rank": 9
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 6.966599903535098e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "colbertv2.pdf:p10:c3",
+          "colbertv2.pdf:p9:c4",
+          "colbertv2.pdf:p9:c5",
+          "colbertv2.pdf:p1:c2",
+          "colbertv2.pdf:p1:c5",
+          "colbertv2.pdf:p4:c4",
+          "colbertv2.pdf:p3:c2",
+          "colbertv2.pdf:p9:c6",
+          "colbert.pdf:p9:c2",
+          "colbert.pdf:p3:c6"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [],
+          "total_hops": 2,
+          "recovered_hops": 0,
+          "full": false,
+          "partial": 0.0
+        }
+      }
+    },
+    {
+      "question_id": "p10g_rewrite_query2doc",
+      "question": "How are generated query transformations used and trained differently in Rewrite-Retrieve-Read and query2doc?",
+      "answerability": "answerable",
+      "category": "cross_paper_comparison",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "query_rewriting_rag.pdf:p9:c1",
+        "query_rewriting_rag.pdf:p2:c3",
+        "query_rewriting_rag.pdf:p1:c1",
+        "query_rewriting_rag.pdf:p4:c1",
+        "query_rewriting_rag.pdf:p3:c1",
+        "query_rewriting_rag.pdf:p2:c4",
+        "query_rewriting_rag.pdf:p4:c3",
+        "query2doc.pdf:p1:c1",
+        "bright.pdf:p20:c4",
+        "query2doc.pdf:p1:c4",
+        "query_rewriting_rag.pdf:p7:c1",
+        "query_rewriting_rag.pdf:p8:c5",
+        "query_rewriting_rag.pdf:p2:c1",
+        "query_rewriting_rag.pdf:p8:c1",
+        "query2doc.pdf:p4:c3",
+        "contriever.pdf:p4:c2",
+        "query_rewriting_rag.pdf:p6:c4",
+        "query2doc.pdf:p8:c4",
+        "query_rewriting_rag.pdf:p9:c2",
+        "query2doc.pdf:p2:c2"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover Rewrite-Retrieve-Read's training alignment.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover query2doc's query-expansion use.",
+          "evidence_available": true,
+          "first_candidate_rank": 8
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 7.662500138394535e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "query2doc.pdf:p2:c2",
+          "query2doc.pdf:p1:c1",
+          "query_rewriting_rag.pdf:p9:c1",
+          "query_rewriting_rag.pdf:p4:c1",
+          "query2doc.pdf:p1:c4",
+          "query_rewriting_rag.pdf:p2:c4",
+          "query_rewriting_rag.pdf:p2:c3",
+          "query2doc.pdf:p4:c3",
+          "query_rewriting_rag.pdf:p6:c4",
+          "query_rewriting_rag.pdf:p2:c1"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_fid_replug_evidence_use",
+      "question": "What does FiD report about increasing the number of retrieved passages, and how does REPLUG integrate retrieved documents into a frozen model?",
+      "answerability": "answerable",
+      "category": "design_and_outcome",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "lost_in_middle.pdf:p10:c1",
+        "replug.pdf:p5:c3",
+        "atlas.pdf:p16:c2",
+        "retro.pdf:p10:c4",
+        "replug.pdf:p8:c4",
+        "fid.pdf:p1:c4",
+        "replug.pdf:p7:c5",
+        "replug.pdf:p5:c1",
+        "replug.pdf:p7:c4",
+        "atlas.pdf:p10:c3",
+        "replug.pdf:p7:c3",
+        "corrective_rag.pdf:p2:c1",
+        "replug.pdf:p1:c1",
+        "lost_in_middle.pdf:p9:c6",
+        "atlas.pdf:p10:c2",
+        "replug.pdf:p4:c1",
+        "ance.pdf:p2:c3",
+        "atlas.pdf:p16:c3",
+        "atlas.pdf:p17:c2",
+        "fid.pdf:p5:c1"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover FiD's passage-scaling observation.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover REPLUG's frozen-model integration.",
+          "evidence_available": true,
+          "first_candidate_rank": 13
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 7.120900409063324e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "replug.pdf:p5:c3",
+          "replug.pdf:p5:c1",
+          "replug.pdf:p1:c1",
+          "fid.pdf:p1:c4",
+          "replug.pdf:p4:c1",
+          "replug.pdf:p7:c3",
+          "fid.pdf:p5:c1",
+          "replug.pdf:p8:c4",
+          "atlas.pdf:p16:c3",
+          "atlas.pdf:p16:c2"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_dpr_two_stage_fact",
+      "question": "Within DPR, how are questions and passages represented, and how are those representations converted into a retrieval score?",
+      "answerability": "answerable",
+      "category": "cross_section_synthesis",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "fid.pdf:p3:c2",
+        "query_rewriting_rag.pdf:p8:c1",
+        "dpr_karpukhin_2020.pdf:p8:c2",
+        "dpr_karpukhin_2020.pdf:p2:c6",
+        "dpr_karpukhin_2020.pdf:p2:c5",
+        "raptor.pdf:p18:c3",
+        "colbertv2.pdf:p4:c1",
+        "multihop_rag.pdf:p3:c1",
+        "ance.pdf:p2:c4",
+        "deepimpact.pdf:p3:c1",
+        "raptor.pdf:p6:c3",
+        "dpr_karpukhin_2020.pdf:p8:c4",
+        "ance.pdf:p12:c3",
+        "dpr_karpukhin_2020.pdf:p4:c5",
+        "dpr_karpukhin_2020.pdf:p5:c2",
+        "monot5.pdf:p2:c3",
+        "dpr_karpukhin_2020.pdf:p3:c1",
+        "contriever.pdf:p2:c5",
+        "texttiling.pdf:p11:c3",
+        "atlas.pdf:p7:c3"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover the dual-encoder representation design.",
+          "evidence_available": true,
+          "first_candidate_rank": null
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover the scoring operation.",
+          "evidence_available": true,
+          "first_candidate_rank": 17
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 5.170800432097167e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "fid.pdf:p3:c2",
+          "dpr_karpukhin_2020.pdf:p2:c6",
+          "dpr_karpukhin_2020.pdf:p3:c1",
+          "dpr_karpukhin_2020.pdf:p2:c5",
+          "raptor.pdf:p18:c3",
+          "ance.pdf:p12:c3",
+          "dpr_karpukhin_2020.pdf:p5:c2",
+          "atlas.pdf:p7:c3",
+          "ance.pdf:p2:c4",
+          "dpr_karpukhin_2020.pdf:p8:c2"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_raptor_build_use",
+      "question": "How is the RAPTOR tree built, and how is its hierarchy used at inference time?",
+      "answerability": "answerable",
+      "category": "cross_section_synthesis",
+      "required_hop_count": 2,
+      "available_hop_count": 2,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "raptor.pdf:p3:c5",
+        "raptor.pdf:p9:c2",
+        "raptor.pdf:p3:c4",
+        "raptor.pdf:p16:c2",
+        "raptor.pdf:p4:c5",
+        "raptor.pdf:p9:c3",
+        "raptor.pdf:p9:c4",
+        "raptor.pdf:p2:c1",
+        "raptor.pdf:p4:c4",
+        "raptor.pdf:p8:c4",
+        "raptor.pdf:p22:c1",
+        "raptor.pdf:p15:c3",
+        "raptor.pdf:p8:c5",
+        "raptor.pdf:p1:c1",
+        "raptor.pdf:p16:c1",
+        "raptor.pdf:p5:c2",
+        "raptor.pdf:p19:c1",
+        "raptor.pdf:p18:c3",
+        "bright.pdf:p32:c3",
+        "raptor.pdf:p3:c3"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover bottom-up tree construction.",
+          "evidence_available": true,
+          "first_candidate_rank": 8
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover inference-time use of abstraction levels.",
+          "evidence_available": true,
+          "first_candidate_rank": 14
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": false,
+          "partial": 0.0,
+          "available_full": false,
+          "available_partial": 0.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": false,
+          "available_partial": 0.5
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0,
+            1
+          ],
+          "recovered_available_hop_indexes": [
+            0,
+            1
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 2,
+          "recovered_available_hops": 2,
+          "full": true,
+          "partial": 1.0,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 2,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 6.537499575642869e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "raptor.pdf:p9:c4",
+          "raptor.pdf:p3:c4",
+          "raptor.pdf:p3:c5",
+          "raptor.pdf:p16:c2",
+          "raptor.pdf:p16:c1",
+          "raptor.pdf:p1:c1",
+          "raptor.pdf:p3:c3",
+          "raptor.pdf:p9:c2",
+          "raptor.pdf:p4:c5",
+          "raptor.pdf:p15:c3"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            1
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_partial_colbert_plaid",
+      "question": "How do ColBERT's late interaction and PLAID's retrieval engine divide document encoding and efficient search responsibilities?",
+      "answerability": "partially_answerable",
+      "category": "partially_answerable",
+      "required_hop_count": 2,
+      "available_hop_count": 1,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "colbert.pdf:p1:c2",
+        "colbert.pdf:p9:c6",
+        "colbert.pdf:p1:c1",
+        "colbert.pdf:p2:c5",
+        "colbert.pdf:p6:c2",
+        "colbert.pdf:p2:c7",
+        "colbertv2.pdf:p1:c1",
+        "colbert.pdf:p9:c4",
+        "colbert.pdf:p3:c6",
+        "colbert.pdf:p2:c1",
+        "colbert.pdf:p5:c3",
+        "deepimpact.pdf:p3:c5",
+        "colbert.pdf:p7:c6",
+        "colbertv2.pdf:p3:c5",
+        "colbert.pdf:p5:c6",
+        "colbert.pdf:p5:c1",
+        "colbert.pdf:p9:c3",
+        "late_chunking.pdf:p11:c3",
+        "colbertv2.pdf:p1:c2",
+        "deepimpact.pdf:p5:c2"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover ColBERT's late-interaction architecture.",
+          "evidence_available": true,
+          "first_candidate_rank": 3
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover PLAID's candidate-generation and centroid-interaction design.",
+          "evidence_available": false,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 8.470800094073638e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "colbert.pdf:p1:c2",
+          "colbertv2.pdf:p1:c1",
+          "colbert.pdf:p5:c6",
+          "colbert.pdf:p7:c6",
+          "colbert.pdf:p1:c1",
+          "colbert.pdf:p3:c6",
+          "colbertv2.pdf:p3:c5",
+          "colbertv2.pdf:p1:c2",
+          "colbert.pdf:p2:c7",
+          "colbert.pdf:p2:c5"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_partial_splade_unicoil",
+      "question": "How do SPLADE and uniCOIL assign learned term weights for sparse retrieval?",
+      "answerability": "partially_answerable",
+      "category": "partially_answerable",
+      "required_hop_count": 2,
+      "available_hop_count": 1,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "splade.pdf:p1:c1",
+        "splade.pdf:p4:c5",
+        "splade.pdf:p1:c6",
+        "splade.pdf:p1:c2",
+        "splade.pdf:p1:c5",
+        "beir.pdf:p3:c2",
+        "splade.pdf:p2:c4",
+        "splade.pdf:p2:c6",
+        "query2doc.pdf:p5:c3",
+        "colbertv2.pdf:p2:c5",
+        "beir.pdf:p6:c1",
+        "splade.pdf:p2:c1",
+        "retro.pdf:p15:c2",
+        "splade.pdf:p3:c7",
+        "generative_rf.pdf:p5:c5",
+        "splade.pdf:p4:c1",
+        "trec_dl.pdf:p10:c4",
+        "m3_embedding.pdf:p16:c2",
+        "contriever.pdf:p2:c4",
+        "generative_rf.pdf:p2:c1"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover SPLADE's sparse term-weight controls.",
+          "evidence_available": true,
+          "first_candidate_rank": 1
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover uniCOIL's contextualized single-vector-per-term weighting mechanism.",
+          "evidence_available": false,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 5.5208001867868006e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "splade.pdf:p4:c5",
+          "query2doc.pdf:p5:c3",
+          "beir.pdf:p6:c1",
+          "beir.pdf:p3:c2",
+          "splade.pdf:p1:c6",
+          "splade.pdf:p1:c1",
+          "splade.pdf:p2:c4",
+          "splade.pdf:p1:c2",
+          "colbertv2.pdf:p2:c5",
+          "splade.pdf:p3:c7"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_partial_hnsw_diskann",
+      "question": "How do HNSW and DiskANN organize approximate nearest-neighbor search under different memory constraints?",
+      "answerability": "partially_answerable",
+      "category": "partially_answerable",
+      "required_hop_count": 2,
+      "available_hop_count": 1,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "hnsw.pdf:p12:c2",
+        "splade.pdf:p5:c6",
+        "hnsw.pdf:p1:c1",
+        "hnsw.pdf:p12:c4",
+        "hnsw.pdf:p1:c3",
+        "hnsw.pdf:p12:c5",
+        "hnsw.pdf:p5:c1",
+        "hnsw.pdf:p2:c1",
+        "hnsw.pdf:p4:c1",
+        "hnsw.pdf:p11:c7",
+        "hnsw.pdf:p4:c5",
+        "hnsw.pdf:p1:c5",
+        "faiss.pdf:p9:c4",
+        "hnsw.pdf:p12:c3",
+        "faiss.pdf:p6:c3",
+        "faiss.pdf:p7:c4",
+        "deepimpact.pdf:p1:c6",
+        "faiss.pdf:p6:c4",
+        "atlas.pdf:p8:c1",
+        "colbertv2.pdf:p5:c3"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover HNSW's probabilistic hierarchy.",
+          "evidence_available": true,
+          "first_candidate_rank": 3
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover DiskANN's disk-resident graph and memory trade-offs.",
+          "evidence_available": false,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 4.154100315645337e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "hnsw.pdf:p1:c1",
+          "colbertv2.pdf:p5:c3",
+          "hnsw.pdf:p1:c5",
+          "splade.pdf:p5:c6",
+          "hnsw.pdf:p12:c2",
+          "deepimpact.pdf:p1:c6",
+          "faiss.pdf:p6:c4",
+          "hnsw.pdf:p4:c1",
+          "atlas.pdf:p8:c1",
+          "hnsw.pdf:p5:c1"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    },
+    {
+      "question_id": "p10g_partial_beir_miracl",
+      "question": "How do BEIR and MIRACL differ in language coverage and zero-shot retrieval evaluation?",
+      "answerability": "partially_answerable",
+      "category": "partially_answerable",
+      "required_hop_count": 2,
+      "available_hop_count": 1,
+      "candidate_count": 20,
+      "candidate_chunk_ids": [
+        "beir.pdf:p2:c6",
+        "gtr.pdf:p3:c2",
+        "beir.pdf:p9:c4",
+        "beir.pdf:p1:c1",
+        "hyrr.pdf:p4:c1",
+        "instructor.pdf:p11:c5",
+        "beir.pdf:p2:c5",
+        "m3_embedding.pdf:p7:c4",
+        "beir.pdf:p9:c5",
+        "rankgpt.pdf:p1:c3",
+        "hyde.pdf:p10:c1",
+        "bright.pdf:p14:c5",
+        "m3_embedding.pdf:p7:c3",
+        "gtr.pdf:p3:c1",
+        "rankt5.pdf:p10:c5",
+        "m3_embedding.pdf:p6:c2",
+        "m3_embedding.pdf:p7:c5",
+        "contriever.pdf:p11:c1",
+        "beir.pdf:p17:c1",
+        "colbertv2.pdf:p3:c4"
+      ],
+      "candidate_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hop_availability": [
+        {
+          "hop_index": 0,
+          "description": "Recover BEIR's heterogeneous zero-shot evaluation motivation.",
+          "evidence_available": true,
+          "first_candidate_rank": 4
+        },
+        {
+          "hop_index": 1,
+          "description": "Recover MIRACL's multilingual language and task coverage.",
+          "evidence_available": false,
+          "first_candidate_rank": null
+        }
+      ],
+      "depths": {
+        "5": {
+          "depth": 5,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "10": {
+          "depth": 10,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "20": {
+          "depth": 20,
+          "depth_available": true,
+          "recovered_hop_indexes": [
+            0
+          ],
+          "recovered_available_hop_indexes": [
+            0
+          ],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 1,
+          "recovered_available_hops": 1,
+          "full": false,
+          "partial": 0.5,
+          "available_full": true,
+          "available_partial": 1.0
+        },
+        "50": {
+          "depth": 50,
+          "depth_available": false,
+          "recovered_hop_indexes": [],
+          "recovered_available_hop_indexes": [],
+          "required_hop_count": 2,
+          "available_hop_count": 1,
+          "recovered_hops": 0,
+          "recovered_available_hops": 0,
+          "full": null,
+          "partial": null,
+          "available_full": null,
+          "available_partial": null
+        }
+      },
+      "duplicate_chunk_ids": [],
+      "warnings": [
+        "unavailable_candidate_depths:50"
+      ],
+      "evaluation_seconds": 5.116700049256906e-05,
+      "final_baseline_top10": {
+        "chunk_ids": [
+          "gtr.pdf:p3:c2",
+          "beir.pdf:p2:c6",
+          "beir.pdf:p1:c1",
+          "beir.pdf:p9:c4",
+          "beir.pdf:p9:c5",
+          "m3_embedding.pdf:p7:c5",
+          "beir.pdf:p2:c5",
+          "m3_embedding.pdf:p7:c4",
+          "bright.pdf:p14:c5",
+          "rankgpt.pdf:p1:c3"
+        ],
+        "hop_coverage": {
+          "retrieved_hop_indexes": [
+            0
+          ],
+          "total_hops": 2,
+          "recovered_hops": 1,
+          "full": false,
+          "partial": 0.5
+        }
+      }
+    }
+  ]
+}
