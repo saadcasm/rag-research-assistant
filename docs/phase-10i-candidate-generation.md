@@ -150,11 +150,13 @@ larger observed effect is that relevant passages already exist at ranks 21–100
 Phase 10I retrieves each dense and BM25 branch to 100, fuses those complete lists,
 and evaluates prefixes of the resulting RRF ranking. Phase 10H reused Phase 10G's
 production-style pool, where each branch was retrieved only to 20 before fusion.
-Consequently, Phase 10I hybrid@20 (`38.46%` available-hop full-question coverage)
-is not a reproduction of Phase 10H oracle@20 (`15.38%` required-hop coverage).
-Deep candidates that occur in both branches can move into the Phase 10I top 20.
-This is useful evidence that branch input depth affects fusion, but it must not be
-described as a production improvement.
+Consequently, Phase 10I answerable-only hybrid@20 (`27.27%`) is not a
+reproduction of Phase 10H answerable-only oracle@20 (`18.18%`). Deep candidates
+that occur in both branches can move into the Phase 10I top 20. This is useful
+evidence that branch input depth affects fusion, but it must not be described as a
+production improvement. The all-question Phase 10I rate additionally uses
+available-hop scoring for the four partially answerable questions, so it should not
+be compared directly with Phase 10H's required-hop all-question rate.
 
 ### Phase 10I-2 direction
 
